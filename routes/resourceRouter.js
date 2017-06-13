@@ -6,16 +6,16 @@ const jsonParser = bodyParser.json();
 
 const {StudyResources} = require('../models');
 
-router.get('/resources', (req, res) => {
+router.get('/', (req, res) => {
     const filters = {};
     const queryableFields = ['course', 'professor', 'username'];
 
-    qeuryableFields.forEach(field => {
+    queryableFields.forEach(field => {
         if (req.query[field]) {
               filters[field] = req.query[field];
         }
     })
-
+    console.log(filters)
     StudyResources
         .find(filters)
         .exec()
@@ -27,7 +27,7 @@ router.get('/resources', (req, res) => {
 })
 
 
-router.post('/resources', (req, res) => {
+router.post('/', (req, res) => {
     const requiredFields = ['content', 'course', 'title', 'type']
 
     const missingFields = requiredFields.filter(field => {

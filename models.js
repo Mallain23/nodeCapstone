@@ -4,7 +4,7 @@ const studyResourceSchema = mongoose.Schema({
 
       title: {type: String, required: true},
       type: {type: String, required: true},
-      username: {type: String, required: true},
+      username:  String,
       course: {type: String, required: true},
       professor: String,
       content: {type: String, required: true},
