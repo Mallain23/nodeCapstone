@@ -1,6 +1,7 @@
 const chai = require('chai');
 const chaiHTTP = require('chai-http');
 const faker = require('faker');
+const mongoose = require('mongoose');
 
 const {app, runServer, closeServer} = require('../server');
 
@@ -19,10 +20,10 @@ const seedData = () => {
         seedData.push(generateStudyResourceData())
     }
 
-    return StudyResources.insertmany(seedData);
+    return StudyResources.insertMany(seedData);
 }
 
-const generateStudyResourceData () => {
+const generateStudyResourceData = () => {
     return {
 
         title: faker.lorem.sentence(),
@@ -31,7 +32,7 @@ const generateStudyResourceData () => {
         course: faker.lorem.sentence(),
         professor: faker.lorem.sentence(),
         content: faker.lorem.sentence(),
-        popularity: math.rabdom(),
+        popularity: 5,
         publishedOn: new Date()
 
     }
@@ -58,14 +59,138 @@ describe('Studyguide Resource API', function() {
     })
 
     after(function() {
-          return closeServer();
-      });
+        return closeServer();
+    });
 
-    it('reuqest to root server should return 200 status code', function() {
-        return chai.request(app)
-        .get('/')
-          .then(function(res) {
-            res.should.have.status(200);
+    describe('GET Endpoint', function() {
+
+        it('should return resources with the correct fields', function() {
+
+            return chai.request(app)
+            .get('/resources')
+            .then(function(res) {
+                res.should.have.status(200)
+                res.should.be.json
+                res.body.should.be.a('array')
+                res.body.should.have.length.of.at.least(1)
+
+                res.body.forEach(resource => {
+                    resource.should.be.a('object')
+                    resource.should.include.keys('title', 'content', 'course', 'username', 'id', 'type')
+                })
+                resResource = res.body[0]
+
+                return StudyResources.findById(resResource.id).exec()
+            })
+            .then(function(resource) {
+                resResource.title.should.equal(resource.title)
+                resResource.course.should.equal(resource.course)
+                resResource.content.should.equal(resource.content)
+                resResource.username.should.equal(resource.username)
+                resResource.type.should.equal(resource.type)
+            })
+       })
+
+       it('should filter resources by the user filters', function() {
+
+          let courseFilter
+
+          StudyResources
+          .findOne()
+          .exec()
+          .then(function(resource) {
+              courseFilter = resource.course
+              return chai.request(app)
+              .get(`/resources/?course=${courseFilter}`)
           })
+
+          .then(function(res) {
+              res.body.forEach(resource => {
+                  resource.course.should.equal(courseFilter)
+              })
+          })
+      })
+  })
+
+    describe('POST Endpoint', function() {
+
+        it('should add a new resource on POST', function() {
+
+            const newResource = {
+              title: "sample new title",
+              content: "sample new content",
+              course: "contracts",
+              type: "study guide"
+            }
+
+            return chai.request(app)
+            .post('/resources')
+            .send(newResource)
+            .then(function(res) {
+
+                res.should.have.status(201)
+                res.should.be.json
+                res.body.should.be.a('object')
+                res.body.should.include.keys('title', 'content', 'course', 'type', 'id')
+                res.body.title.should.equal(newResource.title)
+                res.body.content.should.equal(newResource.content)
+                res.body.course.should.equal(newResource.course)
+                res.body.type.should.equal(newResource.type)
+                res.body.id.should.not.be.null
+
+                return StudyResources.findById(res.body.id).exec()
+            })
+            .then(function(resource) {
+
+                resource.title.should.equal(newResource.title)
+                resource.content.should.equal(newResource.content)
+                resource.type.should.equal(newResource.type)
+                resource.course.should.equal(newResource.course)
+            })
         })
     })
+
+    describe('PUT Endpoint', function() {
+
+        it('should update a resource with correct fields', function() {
+
+            const updatedResource = {
+              title: 'new title',
+              content: 'new content',
+              course: 'new course',
+              type: 'new type'
+            }
+
+            return StudyResources
+            .findOne()
+            .exec()
+            .then(function(resource) {
+                updatedResource.id = resource.id
+                return chai.request(app)
+                .put(`/resources/${resource.id}`)
+                .send(updatedResource)
+            })
+
+            .then(function(res) {
+
+                res.should.have.status(204)
+                return StudyResources.findById(updatedResource.id).exec()
+            })
+
+            .then(function(resource) {
+                console.log("2", resource)
+                resource.title.should.equal(updatedResource.title)
+                resource.content.should.equal(updatedResource.content)
+                resource.type.should.equal(updatedResource.type)
+                resource.course.should.equal(updatedResource.course)
+            })
+        })
+    })
+        it('reuqest to root server should return 200 status code', function() {
+            return chai.request(app)
+            .get('/')
+              .then(function(res) {
+                res.should.have.status(200);
+              })
+          })
+})

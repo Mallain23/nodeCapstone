@@ -17,6 +17,7 @@ studyResourceSchema.methods.apiRpr = function () {
     return {
       id: this.id,
       title: this.title,
+      type: this.type,
       content: this.content,
       course: this.course,
       username: this.username

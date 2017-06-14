@@ -65,10 +65,10 @@ router.put('/:id', (req, res) => {
         res.status(400).json({message: message})
     }
 
-    const toUpdate {};
+    const toUpdate = {};
     const updateableFields = ['title', 'content', 'course', 'type', 'professor'];
 
-    updateableFields.forEach(fields => {
+    updateableFields.forEach(field => {
         if (field in req.body) {
             toUpdate[field] = req.body[field]
         }
@@ -78,14 +78,14 @@ router.put('/:id', (req, res) => {
     .exec()
     .then(resource => res.status(204).end())
     .catch(err => res.status(500).json({message: 'Internal Server Error'}))
-    })
 })
+
 
 router.delete('/:id', (req, res) => {
     StudyResources
     .findByIdAndRemove(req.params.id)
     .exec()
-    .then(() => res.status(204).end())
+    .then((resource) => res.status(204).json(resource.apiRpr))
     .catch(err => res.status(500).json({message: 'Internal Server Error'}))
 })
 
