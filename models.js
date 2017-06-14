@@ -1,3 +1,5 @@
+
+const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
 
 const studyResourceSchema = mongoose.Schema({
@@ -24,6 +26,39 @@ studyResourceSchema.methods.apiRpr = function () {
     }
 }
 
-const StudyResources = mongoose.model('StudyResources', studyResourceSchema);
+const UserSchema = mongoose.Schema({
 
-module.exports = {StudyResources};
+  username: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  password: {
+    type: String,
+    required: true
+  },
+  firstName: {type: String, default: ""},
+  lastName: {type: String, default: ""}
+
+});
+
+UserSchema.methods.apiRpr = () => {
+    return {
+        username: this.username || '',
+        firstName: this.firstName || '',
+        lastName: this.lastName || ''
+    };
+}
+
+UserSchema.methods.validatePassword = (password) => {
+    return bcrypt.compare(password, this.password);
+}
+
+UserSchema.statics.hashPassword = (password) => {
+    return bcrypt.hash(password, 10);
+}
+
+const StudyResources = mongoose.model('StudyResources', studyResourceSchema);
+const Users = mongoose.model('Users', UserSchema)
+
+module.exports = {StudyResources, Users};
