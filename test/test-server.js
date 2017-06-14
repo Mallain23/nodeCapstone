@@ -186,11 +186,42 @@ describe('Studyguide Resource API', function() {
             })
         })
     })
+
+    describe('Delete Endpoint', function() {
+
+        it('should delete a resource', function() {
+
+            let resourceId
+
+            return StudyResources
+            .findOne()
+            .exec()
+            then(function(resource) {
+                resourceId = resource.id
+                return chai.request(app)
+                .delete(`resource/${resourceId}`)
+            })
+
+            .then(function(res) {
+                res.should.have.status(204)
+                return StudyResources.findById(resourceId).exec()
+            })
+
+            .then(function(resource) {
+                resource.should.not.exist;
+            })
+        })
+    })
+
+    describe('Root server endpoint', function() {
+
         it('reuqest to root server should return 200 status code', function() {
+
             return chai.request(app)
             .get('/')
-              .then(function(res) {
+            .then(function(res) {
                 res.should.have.status(200);
-              })
-          })
+            })
+        })
+    })
 })
