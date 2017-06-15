@@ -38,11 +38,29 @@ const UserSchema = mongoose.Schema({
     required: true
   },
   firstName: {type: String, default: ""},
-  lastName: {type: String, default: ""}
+  lastName: {type: String, default: ""},
+  currentClasses: [{
+                courseName: String,
+                resources: [{
+                        title: String,
+                        id: String,
+                        course: String
+                }]
+  }],
+  savedResources: [{
+                      title:  String,
+                      id: String,
+                      course: String
+                    }],
+  uploadedResources: [{
+                        title:  String,
+                        id: String,
+                        course: String
+                    }]
 
 });
 
-UserSchema.methods.apiRpr = () => {
+UserSchema.methods.apiRpr = function() {
     return {
         username: this.username || '',
         firstName: this.firstName || '',
@@ -50,11 +68,17 @@ UserSchema.methods.apiRpr = () => {
     };
 }
 
-UserSchema.methods.validatePassword = (password) => {
+UserSchema.methods.classRpr = function() {
+  return {
+    currentClasses: this.currentClasses || ''
+  }
+};
+
+UserSchema.methods.validatePassword = function(password) {
     return bcrypt.compare(password, this.password);
 }
 
-UserSchema.statics.hashPassword = (password) => {
+UserSchema.statics.hashPassword = password => {
     return bcrypt.hash(password, 10);
 }
 

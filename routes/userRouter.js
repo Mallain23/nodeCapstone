@@ -12,7 +12,7 @@ const {Users} = require('../models');
 const basicStrategy = new BasicStrategy((username, password, callback) => {
 
     let user
-
+    console.log(username, password)
     Users
     .findOne({username: username})
     .exec()
@@ -32,7 +32,6 @@ const basicStrategy = new BasicStrategy((username, password, callback) => {
 
             return callback(null, false)
         }
-
         return callback(null, user);
     })
     .catch(err => callback(err))
@@ -43,7 +42,6 @@ router.use(passport.initialize());
 
 
 router.post('/', (req, res) => {
-
     if (!req.body) {
 
         return res.status(400).json({message: 'no request body'})
@@ -106,8 +104,7 @@ router.post('/', (req, res) => {
                 })
         })
         .then(user => {
-
-          return res.status(201).json(user.apiRpr)
+          return res.status(201).json(user.apiRpr())
         })
         .catch(err => {
           console.error(err)
@@ -118,7 +115,7 @@ router.post('/', (req, res) => {
 
 router.get('/welcome',
   passport.authenticate('basic', {session: false}),
-  (req, res) => res.json({user: req.user.apiRepr()})
+  (req, res) => res.json({user: req.user.apiRpr()})
 );
 
 

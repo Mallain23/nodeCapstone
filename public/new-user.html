@@ -6,16 +6,23 @@
     <link rel="stylesheet" href="main.css" media="screen" title="no title" charset="utf-8">
   </head>
   <body>
-    <nav><button class='home'>Home</button><button class='go-to-login-page'>Login</button><a href='new-user.html'><button class='go-to-new-user-page'>Create New User</button></a></nav>
-    <form class='create-new-user-form' action='/Users' method='post'>
+    <nav>
+        <a href='index.html'><button class='home'>Home</button></a>
+        <a href='login.html'><button class='go-to-login-page'>Login</button></a>
+        <a href='new-user.html'><button class='go-to-new-user-page'>Create New User</button></a>
+    </nav>
+    
+    <form class='create-new-user-form'>
         <label for="first-name">First Name</label>
-            <input placeholder='Enter First Name' type="text" name='first-name' id='first-name'/>
+        <input placeholder='Enter First Name' type="text" name='first-name' id='first-name'/>
         <label for="last-name">Last Name</label>
-            <input type="text" name='last-name' id='last-name' placeholder='Enter Last Name'/>
+        <input type="text" name='last-name' id='last-name' placeholder='Enter Last Name'/>
         <label for="username">Username</label>
-                <input type="text" name='username' id='username' placeholder='Enter New Username'/>
+        <input type="text" name='username' id='username' required placeholder='Enter New Username'/>
         <label for="password">Password</label>
-                <input type="text" name='password' id='password' placeholder='Enter New Password'/>
+        <input type="password" name='password' id='password' required placeholder='Enter New Password'/>
+    </form>
+    <button class='create-new-user-button' type='submit'> Submit! </button>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
         <script src="app.js"></script>

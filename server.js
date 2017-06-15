@@ -9,6 +9,7 @@ const morgan = require('morgan')
 const {PORT, DATABASE_URL} = require('./config');
 const {router: resourceRouter} = require('./routes/resourceRouter')
 const {router: userRouter} = require('./routes/userRouter')
+const {router: userDataRouter} = require('./routes/userDataRouter')
 
 const app = express();
 
@@ -29,6 +30,8 @@ app.use((req, res, next) => {
 app.use('/resources', resourceRouter)
 
 app.use('/users', userRouter)
+
+app.use('/users/welcome', userDataRouter)
 
 let server;
 
