@@ -44,14 +44,13 @@ const UserSchema = mongoose.Schema({
                 resources: [{
                         title: String,
                         id: String,
-                        course: String
                 }]
   }],
-  savedResources: [{
-                      title:  String,
-                      id: String,
-                      course: String
-                    }],
+  // savedResources: [{
+  //                     title:  String,
+  //                     id: String,
+  //                     course: String
+  //                   }],
   uploadedResources: [{
                         title:  String,
                         id: String,
@@ -64,14 +63,11 @@ UserSchema.methods.apiRpr = function() {
     return {
         username: this.username || '',
         firstName: this.firstName || '',
-        lastName: this.lastName || ''
+        lastName: this.lastName || '',
+        currentClasses: this.currentClasses || '',
+        savedResources: this.savedResources || '',
+        uploadedResources: this.uploadedResources || ''
     };
-}
-
-UserSchema.methods.classRpr = function() {
-  return {
-    currentClasses: this.currentClasses || ''
-  }
 };
 
 UserSchema.methods.validatePassword = function(password) {

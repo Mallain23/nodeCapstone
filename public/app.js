@@ -1,9 +1,9 @@
 //contains URLS for API calls
 const Urls = {
 
-  USER_DATABASE_URL: '/users',
+  CREATE_USER_URL: '/users',
   WELCOME_SCREEN_URL:'/users/welcome',
-  GET_CLASSES_URL: '/users/welcome/my-classes'
+ USER_DATA_URL: '/user-data'
 };
 
 const classReferences = {
@@ -11,13 +11,23 @@ const classReferences = {
   current_classes_page: '.current-classes-page',
   prior_classes_page: '.prior-classes-page',
   my_saved_resources_page: '.my-saved-resources-page',
-  my_uploaded_resources_page: '.my-uploaded-resources-page'
+  my_uploaded_resources_page: '.my-uploaded-resources-page',
+  add_a_course_container: '.add-a-course-container',
+  create_new_resource_window: '.create-new-resource-window'
 }
 
 const state = {
-  username: null,
-  firstName: null,
-  lastName: null,
+    currentCourses: [],
+    username: "mest"
+};
+
+const resetState = () => {
+    state.username = null,
+    state.firstName = null,
+    state.lastName = null,
+    state.currentClasses = null,
+    state.savedResources = null,
+    state.uploadedResources = null
 }
 //adds hide class to elements in array of 1st param, removes hide class for elements in array of second param
 const addAndRemoveHideClass = (addArray, removeArray) => {
@@ -32,11 +42,16 @@ const addAndRemoveHideClass = (addArray, removeArray) => {
 
 };
 
+const handlePopup = (showPop, hidePop) => {
+  $(showPop).fadeIn('slow');
+  $(hidePop).fadeOut('slow');
+
+}
 
 const makeRequestToCreateNewUser = (username, password, firstName, lastName, callback) => {
 
       let settings = {
-        url: Urls.USER_DATABASE_URL,
+        url: Urls.CREATE_USER_URL,
         contentType: 'application/json',
         method: 'POST',
         data: JSON.stringify({
@@ -51,48 +66,78 @@ const makeRequestToCreateNewUser = (username, password, firstName, lastName, cal
     $.ajax(settings)
   }
 
-const makeRequestToValidateUser = (username, password, callback) => {
+//this checks to see if user is valid, if user is valid it has callback function
+//which gives us user data for us to display
+const makeRequestToLogin = (username, password, callback) => {
 
   let settings = {
     url: Urls.WELCOME_SCREEN_URL,
     contentType: 'application/json',
     headers: {
-        username: username,
-        password: password
+      authorization: "Basic " + btoa(username + ':' + password)
     },
     method: 'GET',
-      success: callback
+    success: callback
   }
 
 $.ajax(settings)
 }
 
-const makeRequesttoGetUserData = ({user: {username, firstName, lastName}}, callback) => {
-  console.log(username)
-  state.username = username;
-  state.firstName = firstName;
-  state.lastName = lastName;
+const makeRequestToAddNewClass = (course, callback) => {
 
   let settings = {
-    url: `${Urls.GET_CLASSES_URL}`,
+    url: Urls.USER_DATA_URL,
     contentType: 'application/json',
-    method: 'POST',
+    method: 'PUT',
     data: JSON.stringify({
-      username: username
-    }),
-    success: displayClasses
+          currentClasses: {courseName: course, resources: []},
+          username: 'Test2'
+      }),
+      success: callback
   }
 
-  $.ajax(settings)
+$.ajax(settings)
+
+}
+
+const makeRequestToRemoveClass = (course, callback) => {
+  let settings = {
+    url: Urls.USER_DATA_URL,
+    contentType: 'application/json',
+    method: 'DELETE',
+    data: JSON.stringify({
+          currentClasses: {courseName: course},
+          username: 'Test2'
+      }),
+      success: callback
   }
+
+$.ajax(settings)
+
+}
 
 
 const displayClasses = (data) => {
+    console.log(data)
+     Object.assign(state, data)
+    //state.currentCourses = currentClasses
+      console.log(state)
+    if (state.currentClasses.length < 1) {
+        message = "You have not added any classes yet, click add new class to add a class!"
+        $('.current-classes-container').html(message)
+        return
+    }
+    let formattedHtml = state.currentClasses.map(course => {
+      return `<div class="${course.courseName}-container course-styles"><div class="name-of-course">Course Name: ${course.courseName}</div> <div class="number-of-resources">Number of Resources: ${course.resources.length}</div><button class="${course.courseName}-view-button">View Resources</button><button type='submit' value="${course.courseName}" class='remove-class-button'>Remove Course</button></div>`
+    })
+    $('.current-classes-container').html(formattedHtml)
+    return
 
-console.log(data)
 
 
 }
+
+
 //const getStudyGuideData
 
 //this function watches for user to click create new user, it then takes values supplied and passes it
@@ -117,33 +162,69 @@ const watchForCreateNewUserClick = () => {
 const watchForLoginClick = () => {
     $('.login-button').on('click', event => {
       event.preventDefault()
+      resetState();
 
       let username = $('#login-username').val()
       let password = $('#login-password').val()
-      console.log(username)
-      makeRequestToValidateUser(username, password, makeRequesttoGetUserData)
+
+      makeRequestToLogin(username, password, displayClasses)
     })
 }
 
-const watchForGoToCurrentClassesClick = () => {
-    $('.go-to-my-current-classes-button').on('click', event => {
-    event.preventDefault();
 
 
+const watchForShowAddNewClassFormClick = () => {
+    $('.add-a-course-button').on('click', event => {
+      event.preventDefault()
 
-    let user = state.username;
-    getCurrentClassesForUser(user, displayClasses)
+      handlePopup(classReferences.add_a_course_container, '')
 
+    })
+}
+
+const watchForCancelClick = () => {
+    $('.add-course-cancel').on('click', event => {
+        event.preventDefault()
+        handlePopup('', classReferences.add_a_course_container)
     })
 }
 
 const watchForAddNewClassClick = () => {
+    $('.add-course-submit').on('click', event => {
+          event.preventDefault();
 
+          let courseName = $('#course-name').val()
+          $('#course-name').val('')
+
+          handlePopup('', classReferences.add_a_course_container)
+          makeRequestToAddNewClass(courseName, displayClasses)
+    })
+}
+
+const watchForDeleteClassClick = () => {
+    $('.current-classes-container').on('click', ".remove-class-button", event => {
+          event.preventDefault()
+
+          let courseName = $(event.target).val();
+          makeRequestToRemoveClass(courseName, displayClasses)
+    })
+}
+
+const watchForCreateNewResourceClick = () => {
+    $('.create-new-resource-button').on('click', event => {
+        event.preventDefault();
+        handlePopup(classReferences.create_new_resource_window, '')
+    })
 }
 const init = () => {
     watchForCreateNewUserClick();
     watchForLoginClick();
-    watchForGoToCurrentClassesClick();
+    watchForShowAddNewClassFormClick();
+    watchForCancelClick();
+    watchForAddNewClassClick();
+    watchForDeleteClassClick();
+    watchForCreateNewResourceClick()
+
 }
 
 $(init);

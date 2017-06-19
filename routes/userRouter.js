@@ -1,4 +1,5 @@
 const {BasicStrategy} = require('passport-http');
+
 const passport = require('passport');
 const express = require('express');
 
@@ -37,8 +38,14 @@ const basicStrategy = new BasicStrategy((username, password, callback) => {
     .catch(err => callback(err))
 })
 
+
+
+
+
 passport.use(basicStrategy)
 router.use(passport.initialize());
+
+
 
 
 router.post('/', (req, res) => {
@@ -100,7 +107,9 @@ router.post('/', (req, res) => {
                     username: username,
                     password: hash,
                     firstName: firstName,
-                    lastName: lastName
+                    lastName: lastName,
+                    currentClasses: [],
+                    uploadedResources: [],
                 })
         })
         .then(user => {
@@ -113,10 +122,12 @@ router.post('/', (req, res) => {
 })
 
 
+
 router.get('/welcome',
-  passport.authenticate('basic', {session: false}),
-  (req, res) => res.json({user: req.user.apiRpr()})
-);
+    passport.authenticate('basic', {session: false}), (req, res) => {
+        res.json({user: req.user.apiRpr()})
+});
+
 
 
 module.exports = {router};

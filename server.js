@@ -3,13 +3,16 @@ const express = require('express');
 const mongoose = require('mongoose');
 
 const bodyParser = require('body-parser')
+const cookieParser = require('cookie-parser')
 const morgan = require('morgan')
+
 
 
 const {PORT, DATABASE_URL} = require('./config');
 const {router: resourceRouter} = require('./routes/resourceRouter')
 const {router: userRouter} = require('./routes/userRouter')
 const {router: userDataRouter} = require('./routes/userDataRouter')
+
 
 const app = express();
 
@@ -27,11 +30,15 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use('/resources', resourceRouter)
 
 app.use('/users', userRouter)
 
-app.use('/users/welcome', userDataRouter)
+app.use('/resources', resourceRouter)
+
+app.use('/user-data', userDataRouter)
+
+
+
 
 let server;
 
