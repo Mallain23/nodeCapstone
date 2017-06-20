@@ -37,7 +37,7 @@
               <button class='home-button'>Home</button>
               <button class="search-for-resource-button">Find Resources</button>
               <button class="create-new-resource-button">Create New Resource</button>
-              <button class="edit-existing-resource-button">Edit Resources</button>
+              <button class="edit-existing-resource-button">View/Edit Resources</button>
               <button class="delete-exisitng-resource-button">Delete Resources</button>
               <button class='log-out-button'>Logout</button>
           </nav>
@@ -49,17 +49,49 @@
                   <div class="add-a-course-container hide">
                       <form class="add-a-course-form">
                               <h3>Add a Course to your Dashboard</h3>
-                              <label for="course-name" class="ui-hidden-accessible">Name of course:</label>
-                              <input type="text" name="user" id="course-name" placeholder="Course Name">
+                              <label for="course-name">Choose which course you would like to add</label>
+                              <select name="type" id="course-name" required>
+                                  <option value="Administrative Law">Administrative Law</option>
+                                  <option value="Antitrust Law">Antitrust Law</option>
+                                  <option value="Bankruptcy Law">Bankruptcy Law</option>
+                                  <option value="Banking Law">Banking Law</option>
+                                  <option value="Business Law">Business Law</option>
+                                  <option value="Civil Procedure">Civil Procedure</option>
+                                  <option value="Constitutional Law">Constitutional Law</option>
+                                  <option value="Contracts">Contracts</option>
+                                  <option value="Complex Litigation">Complex Litigation</option>
+                                  <option value="Copyright Law">Copyright Law</option>
+                                  <option value="Criminal Procedure">Criminal Procedure</option>
+                                  <option value="Employment Law">Employment Law</option>
+                                  <option value="Energy Law">Energy Law</option>
+                                  <option value="Entertainment Law">Entertainment Law</option>
+                                  <option value="Environmental Law">Environmental Law</option>
+                                  <option value="Evidence">Evidence</option>
+                                  <option value="Family Law">Family Law</option>
+                                  <option value="Law and Finance">Law and Finance</option>
+                                  <option value="Health Law">Health Law</option>
+                                  <option value="Intellectual Property Law">Intellectual Property Law</option>
+                                  <option value="International Law">International Law</option>
+                                  <option value="Law and Econonmics">Law and Economics</option>
+                                  <option value="Legal Methods">Legal Methods</option>
+                                  <option value="Legal Writing">Legal Writing Class</option>
+                                  <option value="Property Law">Property Law</option>
+                                  <option value="Securities Law">Securities Law</option>
+                                  <option value="Tax Law">Tax Law</option>
+                                  <option value="Torts">Torts</option>
+                                  <option value="Transactional Law">Transactional Law</option>
+                                  <option value="Trusts and Estates Law">Trusts and Estates Law</option>
+                                  <option value="Wills Law"Wills Law</option>
+                                  <option value="Other">Other</option>
+                              </select>
                       </form>
                       <button type="submit" class="add-course-submit">Add Course</button>
                       <button type="submit" class="add-course-cancel">Cancel</button>
+                      <div class="message-box"></div>
                     </div>
 
 
               <div class="current-classes-container">
-                <div class="test-class class-styles"><span class="name-of-class">Class Name: Test Class<span class="number-of-resources">Number of Resources: 4</span></div>
-                <div class="test-class class-styles"><span class="name-of-class">Class Name: Test Class<span class="number-of-resources">Number of Resources: 4</span></div>
               </div>
           </div>
 
@@ -68,42 +100,56 @@
               <h3>Add a new resource to the database</h3>
               <form class='new-resource-form'>
                   <label for="new-resource-title" class="ui-hidden-accessible">New Resource Title</label>
-                  <input type="text" name="title" id="new-resource-title" placeholder="Enter a title for your resource">
+                  <input type="text" name="title" id="new-resource-title" required placeholder="Enter a title for your resource">
                   <label class="type-of-resource-label" for="type-of-resource">Choose the type of resource you are creating</label>
                   <select name="type" id="type-of-resource" required>
-                      <option value="0">Outline</option>
-                      <option value="1">Exam practice questions and answers</option>
-                      <option value="2">Notes and helpful advice for class</option>
-                      <option value="3">Other</option>
+                      <option value="Outline">Outline</option>
+                      <option value="Exam Questions/Answers">Exam practice questions and answers</option>
+                      <option value="Notes/Advice">Notes and helpful advice for class</option>
+                      <option value="Other">Other</option>
                   </select>
+                  <label for="resource-class">Choose which class your resource is for!</label>
                   <select name="type" id="resource-course" required>
                       <option value="Administrative Law">Administrative Law</option>
                       <option value="Antitrust Law">Antitrust Law</option>
                       <option value="Bankruptcy Law">Bankruptcy Law</option>
-                       <option value="Business Law">Business Law</option>
-                        <option value="Civil Procedure">Civil Procedure</option>
-                        <option value="Constitutional Law">Constitutional Law</option>
-                        <option value="Contracts">Contracts</option>
-                        <option value="Copyright Law">Copyright Law</option>
-                        <option value="Criminal Procedure">Criminal Procedure</option>
-                        <option value="Environmental Law">Environmental Law</option>
-                        <option value=">Evidence">Evidence</option>
-                        <option value="Health Law">Health Law</option>
-                        <option value="Intellectual Property Law<">Intellectual Property Law</option>
-                        <option value="International Law">International Law</option>
-                        <option value="Legal Methods">Legal Methods</option>
-                        <option value="3">Legal Writing Class</option>
-                        <option value="Property Law<">Property Law</option>
-                        <option value="Tax Law">Tax Law</option>
-                          <option value="Torts">Torts</option>
-                          <option value="Other">Other</option>
+                      <option value="Banking Law">Banking Law</option>
+                      <option value="Business Law">Business Law</option>
+                      <option value="Civil Procedure">Civil Procedure</option>
+                      <option value="Constitutional Law">Constitutional Law</option>
+                      <option value="Contracts">Contracts</option>
+                      <option value="Complex Litigation">Complex Litigation</option>
+                      <option value="Copyright Law">Copyright Law</option>
+                      <option value="Criminal Procedure">Criminal Procedure</option>
+                      <option value="Employment Law">Employment Law</option>
+                      <option value="Energy Law">Energy Law</option>
+                      <option value="Entertainment Law">Entertainment Law</option>
+                      <option value="Environmental Law">Environmental Law</option>
+                      <option value="Evidence">Evidence</option>
+                      <option value="Family Law">Family Law</option>
+                      <option value="Law and Finance">Law and Finance</option>
+                      <option value="Health Law">Health Law</option>
+                      <option value="Intellectual Property Law">Intellectual Property Law</option>
+                      <option value="International Law">International Law</option>
+                      <option value="Law and Econonmics">Law and Economics</option>
+                      <option value="Legal Methods">Legal Methods</option>
+                      <option value="Legal Writing">Legal Writing Class</option>
+                      <option value="Property Law">Property Law</option>
+                      <option value="Securities Law">Securities Law</option>
+                      <option value="Tax Law">Tax Law</option>
+                      <option value="Torts">Torts</option>
+                      <option value="Transactional Law">Transactional Law</option>
+                      <option value="Trusts and Estates Law">Trusts and Estates Law</option>
+                      <option value="Wills Law"Wills Law</option>
+                      <option value="Other">Other</option>
                   </select>
-                  <input type="text" name="content" id="new-resource-content" placeholder="Enter the content of your new resource">
-  </form>
-  <button type="submit" class="add-course-submit">Add Course</button>
-  <button type="submit" class="add-course-cancel">Cancel</button>
-</div>
+                  <label for="resource-content">Content</label>
+                  <input type="text" name="content" id="new-resource-content" required placeholder="Enter the content of your new resource">
+            </form>
+            <button type="submit" class="add-resource-submit">Add Resource!</button>
+            <button type="submit" class="add-resource-cancel">Cancel</button>
         </div>
+
         <div class="my-saved-reources-page hide">
             <div class='saved-resources-header'>Username's saved resources</div>
             <div class="saved-resources-container">

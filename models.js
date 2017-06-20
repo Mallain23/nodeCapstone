@@ -8,7 +8,6 @@ const studyResourceSchema = mongoose.Schema({
       type: {type: String, required: true},
       username:  String,
       course: {type: String, required: true},
-      professor: String,
       content: {type: String, required: true},
       popularity: Number,
       publishedOn: Date
@@ -22,6 +21,7 @@ studyResourceSchema.methods.apiRpr = function () {
       type: this.type,
       content: this.content,
       course: this.course,
+      publishedOn: this.publishedOn,
       username: this.username
     }
 }

@@ -21,7 +21,7 @@ router.put('/', (req, res) => {
 
   toUpdate.currentClasses =  req.body.currentClasses
   console.log(toUpdate)
-    console.log(toUpdate.currentClasses)
+
 
   return Users
   .findOne({username: username})

@@ -28,8 +28,9 @@ router.get('/', (req, res) => {
 
 
 router.post('/', (req, res) => {
+    const todaysDate = new Date().toLocaleString();
     const requiredFields = ['content', 'course', 'title', 'type']
-
+    console.log("22", req.body)
     const missingFields = requiredFields.filter(field => {
         return !field in req.body
     })
@@ -47,7 +48,8 @@ router.post('/', (req, res) => {
           type: req.body.type,
           content:req.body.content,
           course: req.body.course,
-          professor: req.body.professor,
+          publishedOn: todaysDate,
+          username: req.body.username
         })
         .then(Resource =>  res.status(201).json(Resource.apiRpr()))
         .catch(err => {
