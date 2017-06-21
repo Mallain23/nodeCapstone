@@ -12,12 +12,14 @@ const {PORT, DATABASE_URL} = require('./config');
 const {router: resourceRouter} = require('./routes/resourceRouter')
 const {router: userRouter} = require('./routes/userRouter')
 const {router: userDataRouter} = require('./routes/userDataRouter')
+var path = require('path');
 
 
 const app = express();
 
 mongoose.Promise = global.Promise;
 
+app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(morgan('common'));
 
@@ -36,6 +38,18 @@ app.use('/users', userRouter)
 app.use('/resources', resourceRouter)
 
 app.use('/user-data', userDataRouter)
+
+var path = require('path');
+
+app.get('/', (req, res) => {
+  res.sendFile(__dirname + '/public/index.html')
+})
+
+app.get('/homepage/:username', function(req, res) {
+    console.log(req.params)
+    res.sendFile(path.join(__dirname + '/public/home.html'));
+});
+
 
 
 

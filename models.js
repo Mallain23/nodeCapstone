@@ -46,15 +46,14 @@ const UserSchema = mongoose.Schema({
                         id: String,
                 }]
   }],
-  // savedResources: [{
-  //                     title:  String,
-  //                     id: String,
-  //                     course: String
-  //                   }],
   uploadedResources: [{
                         title:  String,
-                        id: String,
-                        course: String
+                        course: String,
+                        content: String,
+                        type: String,
+                        resourceId: String,
+                        username: String,
+                        publishedOn: String
                     }]
 
 });

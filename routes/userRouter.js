@@ -1,7 +1,10 @@
 const {BasicStrategy} = require('passport-http');
 
 const passport = require('passport');
+
+
 const express = require('express');
+
 
 const router = express.Router();
 
@@ -10,11 +13,13 @@ const jsonParser = bodyParser.json();
 
 const {Users} = require('../models');
 
+
+
+
 const basicStrategy = new BasicStrategy((username, password, callback) => {
 
     let user
-    console.log(username, password)
-    Users
+    return Users
     .findOne({username: username})
     .exec()
     .then(_user => {
@@ -43,12 +48,21 @@ const basicStrategy = new BasicStrategy((username, password, callback) => {
 
 
 passport.use(basicStrategy)
+
 router.use(passport.initialize());
 
+passport.serializeUser(function(user, done) {
+    done(null, user);
+});
+
+passport.deserializeUser(function(obj, done) {
+    done(null, obj);
+});
 
 
 
 router.post('/', (req, res) => {
+    console.log("correct")
     if (!req.body) {
 
         return res.status(400).json({message: 'no request body'})
@@ -96,6 +110,7 @@ router.post('/', (req, res) => {
         .exec()
         .then(count => {
             if(count > 0) {
+                console.log("error")
                 return res.status(422).json({message: 'username already taken'})
             }
             return Users.hashPassword(password)
@@ -123,10 +138,11 @@ router.post('/', (req, res) => {
 
 
 
-router.get('/welcome',
-    passport.authenticate('basic', {session: false}), (req, res) => {
-        res.json({user: req.user.apiRpr()})
-});
+router.post('/welcome',
+
+    passport.authenticate('basic', {session: true}), (req, res) => {
+        res.json({user: req.user.apiRpr(), token: new Date()})
+      })
 
 
 

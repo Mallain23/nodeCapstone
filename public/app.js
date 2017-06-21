@@ -2,9 +2,7 @@
 const Urls = {
 
   CREATE_USER_URL: '/users',
-  WELCOME_SCREEN_URL:'/users/welcome',
- USER_DATA_URL: '/user-data',
- RESOURCE_DATA_URL: '/resources'
+  WELCOME_SCREEN_URL:'/users/welcome'
 };
 
 const classReferences = {
@@ -15,7 +13,11 @@ const classReferences = {
   my_uploaded_resources_page: '.my-uploaded-resources-page',
   add_a_course_container: '.add-a-course-container',
   create_new_resource_window: '.create-new-resource-window',
-  message_box: '.message-box'
+  message_box: '.message-box',
+  create_new_user_container: '.create-new-user-container',
+  login_container: '.login-container',
+  login_message: '.login-message'
+
 }
 
 const state = {
@@ -77,93 +79,59 @@ const makeRequestToLogin = (username, password, callback) => {
     headers: {
       authorization: "Basic " + btoa(username + ':' + password)
     },
-    method: 'GET',
+    method: 'POST',
     success: callback
   }
 
 $.ajax(settings)
 }
 
-const makeRequestToAddNewClass = (course, callback) => {
 
-  let settings = {
-    url: Urls.USER_DATA_URL,
-    contentType: 'application/json',
-    method: 'PUT',
-    data: JSON.stringify({
-          currentClasses: {courseName: course, resources: []},
-          username: 'Test2'
-      }),
-      success: callback
-  }
 
-$.ajax(settings)
+
+
+const loginSuccessHandler = data => {
+      console.log(data)
+      window.location.replace(`http://localhost:8080/homepage/${data.user.username}`)
+}
+
+const directUserToLogin = (data) => {
+
+  addAndRemoveHideClass([classReferences.create_new_user_container], [classReferences.login_container, classReferences.login_message])
+  let message = `Success! New New user ${data.username} has been created! Please login below!`
+
+  $('.login-message').html(message)
+
 
 }
 
-const makeRequestToRemoveClass = (course, callback) => {
-  let settings = {
-    url: Urls.USER_DATA_URL,
-    contentType: 'application/json',
-    method: 'DELETE',
-    data: JSON.stringify({
-          currentClasses: {courseName: course},
-          username: 'Test2'
-      }),
-      success: callback
-  }
-
-$.ajax(settings)
-
-}
-
-const makeRequestToAddNewResource = (title, type, course, content, callback) => {
-
-      let settings = {
-        url: Urls.RESOURCE_DATA_URL,
-        contentType: 'application/json',
-        method: 'POST',
-        data: JSON.stringify({
-            username: 'Test2',
-            content: content,
-            title: title,
-            type: type,
-            course: course
-          }),
-          success: callback
-      }
-
-    $.ajax(settings)
-  }
-
-const displayClasses = (data) => {
-     Object.assign(state, data)
-
-     if (state.currentClasses.length < 1) {
-        message = "You have not added any classes yet, click add new class to add a class!"
-        $('.current-classes-container').html(message)
-
-        return
-    }
-
-    let formattedHtml = state.currentClasses.map(course => `<div class="${course.courseName}-container course-styles"><div class="name-of-course">Course Name: ${course.courseName}</div> <div class="number-of-resources">Number of Resources: ${course.resources.length}</div><button class="${course.courseName}-view-button">View Resources</button><button type='submit' value="${course.courseName}" class='remove-class-button'>Remove Course</button></div>`)
-
-    $('.current-classes-container').html(formattedHtml)
-
-    return
-}
-
-const updateForResourceAdd = (data) => {
-    state.uploadedResources.push(data)
-    alert(`Sucess! Your resource ${data.title} has been added to the database!`)
-    handlePopup('', classReferences.create_new_resource_window)
 
 
-}
 //const getStudyGuideData
 
 //this function watches for user to click create new user, it then takes values supplied and passes it
 //to a function that will make a post request to /users to create a new user
+
+const watchForShowCreateNewUserFormClick = () => {
+    $('.show-create-user-button').on('click', event => {
+        event.preventDefault();
+
+        $('#first-name').val('')
+        $('#last-name').val('')
+        $('#username').val('')
+        $('#password').val('')
+        $('login-message').val('')
+
+        addAndRemoveHideClass([classReferences.login_container], [classReferences.create_new_user_container])
+    })
+}
+
+const watchForShowLoginFormClick = () => {
+    $('.show-login-page-button').on('click', event => {
+        event.preventDefault();
+        addAndRemoveHideClass([classReferences.create_new_user_container], [classReferences.login_container], )
+    })
+}
 const watchForCreateNewUserClick = () => {
     $('.create-new-user-button').on('click', event => {
 
@@ -174,7 +142,7 @@ const watchForCreateNewUserClick = () => {
     let username = $('#username').val()
     let password = $('#password').val()
 
-    makeRequestToCreateNewUser(username, password, firstName, lastName, displayData)
+    makeRequestToCreateNewUser(username, password, firstName, lastName, directUserToLogin)
 
     })
 }
@@ -184,95 +152,24 @@ const watchForCreateNewUserClick = () => {
 const watchForLoginClick = () => {
     $('.login-button').on('click', event => {
       event.preventDefault()
-      resetState();
+
 
       let username = $('#login-username').val()
       let password = $('#login-password').val()
 
-      makeRequestToLogin(username, password, displayClasses)
+      makeRequestToLogin(username, password, loginSuccessHandler)
     })
 }
 
 
 
-const watchForShowAddNewClassFormClick = () => {
-    $('.add-a-course-button').on('click', event => {
-      event.preventDefault()
 
-      addAndRemoveHideClass([classReferences.message_box], [])
-      handlePopup(classReferences.add_a_course_container, '')
-
-    })
-}
-
-const watchForCancelClick = () => {
-    $('.add-course-cancel').on('click', event => {
-        event.preventDefault()
-        handlePopup('', classReferences.add_a_course_container)
-    })
-}
-
-const watchForAddNewClassClick = () => {
-    $('.add-course-submit').on('click', event => {
-          event.preventDefault();
-
-          addAndRemoveHideClass([classReferences.message_box], [])
-          let courseName = $('#course-name').val()
-          $('#course-name').val('')
-          if (state.currentClasses.some(course => course.courseName === courseName)) {
-              $('.message-box').text('Sorry, that class is already in your dashboard!')
-              addAndRemoveHideClass([], [classReferences.message_box])
-              return
-          }
-
-          handlePopup('', classReferences.add_a_course_container)
-          makeRequestToAddNewClass(courseName, displayClasses)
-    })
-}
-
-const watchForDeleteClassClick = () => {
-    $('.current-classes-container').on('click', ".remove-class-button", event => {
-          event.preventDefault()
-
-          let courseName = $(event.target).val();
-          makeRequestToRemoveClass(courseName, displayClasses)
-    })
-}
-
-const watchForCreateNewResourceClick = () => {
-    $('.create-new-resource-button').on('click', event => {
-        event.preventDefault();
-
-        $('#resource-course').val('')
-        $('#type-of-resource').val('')
-        $('#new-resource-content').val('')
-        $('#new-resource-title').val('')
-
-        handlePopup(classReferences.create_new_resource_window, '')
-    })
-}
-
-const watchForCreateNewResourceSubmitClick = () => {
-    $('.add-resource-submit').on("click", event => {
-
-        let courseName = $('#resource-course').val()
-        let resourceType = $('#type-of-resource').val()
-        let resourceContent = $('#new-resource-content').val()
-        let resourceTitle = $('#new-resource-title').val()
-
-
-        makeRequestToAddNewResource(resourceTitle, resourceType, courseName, resourceContent, updateForResourceAdd)
-    })
-}
 const init = () => {
     watchForCreateNewUserClick();
     watchForLoginClick();
-    watchForShowAddNewClassFormClick();
-    watchForCancelClick();
-    watchForAddNewClassClick();
-    watchForDeleteClassClick();
-    watchForCreateNewResourceClick();
-    watchForCreateNewResourceSubmitClick();
+    watchForShowCreateNewUserFormClick();
+    watchForShowLoginFormClick();
+
 
 }
 

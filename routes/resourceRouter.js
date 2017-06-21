@@ -30,7 +30,7 @@ router.get('/', (req, res) => {
 router.post('/', (req, res) => {
     const todaysDate = new Date().toLocaleString();
     const requiredFields = ['content', 'course', 'title', 'type']
-    console.log("22", req.body)
+
     const missingFields = requiredFields.filter(field => {
         return !field in req.body
     })
@@ -83,7 +83,7 @@ router.put('/:id', (req, res) => {
 })
 
 
-router.delete('/:id', (req, res) => {
+router.delete('/', (req, res) => {
     StudyResources
     .findByIdAndRemove(req.params.id)
     .exec()
