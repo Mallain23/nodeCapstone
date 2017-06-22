@@ -6,16 +6,16 @@ const jsonParser = bodyParser.json();
 
 const {StudyResources} = require('../models');
 
+
 router.get('/', (req, res) => {
     const filters = {};
-    const queryableFields = ['course', 'professor', 'username'];
+    const queryableFields = ['course', 'typeOfResource', 'username'];
 
     queryableFields.forEach(field => {
         if (req.query[field]) {
               filters[field] = req.query[field];
         }
     })
-    console.log(filters)
     StudyResources
         .find(filters)
         .exec()
@@ -29,7 +29,7 @@ router.get('/', (req, res) => {
 
 router.post('/', (req, res) => {
     const todaysDate = new Date().toLocaleString();
-    const requiredFields = ['content', 'course', 'title', 'type']
+    const requiredFields = ['content', 'course', 'title', 'typeOfResource']
 
     const missingFields = requiredFields.filter(field => {
         return !field in req.body
@@ -45,7 +45,7 @@ router.post('/', (req, res) => {
     StudyResources
         .create({
           title: req.body.title,
-          type: req.body.type,
+          typeOfResource: req.body.typeOfResource,
           content:req.body.content,
           course: req.body.course,
           publishedOn: todaysDate,
@@ -60,34 +60,40 @@ router.post('/', (req, res) => {
 
 
 router.put('/:id', (req, res) => {
-    if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
-        const message = `Request path id (${req.params.id}) and request body id (${req.body.id}) must match`
+    if (!req.params.id) {
+        const message = `Required field "ID" is missing from request path`
 
         console.error(message)
         res.status(400).json({message: message})
     }
 
+    const resourceId = req.params.id
     const toUpdate = {};
-    const updateableFields = ['title', 'content', 'course', 'type', 'professor'];
+    const updateableFields = ['title', 'content', 'course', 'typeOfResource'];
 
     updateableFields.forEach(field => {
         if (field in req.body) {
             toUpdate[field] = req.body[field]
         }
     })
+    console.log(toUpdate)
     StudyResources
-    .findByIdAndUpdate(req.params.id, {$set: toUpdate})
+    .findByIdAndUpdate(req.params.id, {$set: toUpdate}, {new: true})
     .exec()
-    .then(resource => res.status(204).end())
+    .then(resource => res.status(201).json(resource.apiRpr()))
     .catch(err => res.status(500).json({message: 'Internal Server Error'}))
 })
 
 
-router.delete('/', (req, res) => {
-    StudyResources
-    .findByIdAndRemove(req.params.id)
+router.delete('/:id', (req, res) => {
+    let resourceId = req.params.id
+
+    return StudyResources
+    .findOneAndRemove({_id: resourceId})
     .exec()
-    .then((resource) => res.status(204).json(resource.apiRpr))
+    .then((resource) => {
+      console.log(resource)
+      res.status(201).json(resource)})
     .catch(err => res.status(500).json({message: 'Internal Server Error'}))
 })
 

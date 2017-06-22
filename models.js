@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const studyResourceSchema = mongoose.Schema({
 
       title: {type: String, required: true},
-      type: {type: String, required: true},
+      typeOfResource: {type: String, required: true},
       username:  String,
       course: {type: String, required: true},
       content: {type: String, required: true},
@@ -18,7 +18,7 @@ studyResourceSchema.methods.apiRpr = function () {
     return {
       id: this.id,
       title: this.title,
-      type: this.type,
+      typeOfResource: this.typeOfResource,
       content: this.content,
       course: this.course,
       publishedOn: this.publishedOn,
@@ -39,23 +39,22 @@ const UserSchema = mongoose.Schema({
   },
   firstName: {type: String, default: ""},
   lastName: {type: String, default: ""},
+  myResources: [{
+                        title:  String,
+                        course: String,
+                        content: String,
+                        typeOfResource: String,
+                        resourceId: String,
+                        username: String,
+                        publishedOn: String
+                    }],
   currentClasses: [{
                 courseName: String,
                 resources: [{
                         title: String,
                         id: String,
                 }]
-  }],
-  uploadedResources: [{
-                        title:  String,
-                        course: String,
-                        content: String,
-                        type: String,
-                        resourceId: String,
-                        username: String,
-                        publishedOn: String
-                    }]
-
+  }]
 });
 
 UserSchema.methods.apiRpr = function() {
@@ -65,7 +64,7 @@ UserSchema.methods.apiRpr = function() {
         lastName: this.lastName || '',
         currentClasses: this.currentClasses || '',
         savedResources: this.savedResources || '',
-        uploadedResources: this.uploadedResources || ''
+        myResources: this.myResources || ''
     };
 };
 

@@ -18,21 +18,24 @@ const classReferences = {
   message_box: '.message-box',
   create_new_user_container: '.create-new-user-container',
   login_container: '.login-container',
-  login_message: '.login-message'
+  login_message: '.login-message',
+  edit_resource_page: '.edit-resource-page'
 
 }
 
 const state = {
     currentClasses: [],
-    uploadedResources: []
+    myResources: []
 };
+
+let idOfResourceToUpdate
 
 const resetState = () => {
     state.username = null,
     state.firstName = null,
     state.lastName = null,
     state.currentClasses = [],
-    state.uploadedResources = []
+    state.myResources = []
 }
 //adds hide class to elements in array of 1st param, removes hide class for elements in array of second param
 const addAndRemoveHideClass = (addArray, removeArray) => {
@@ -92,7 +95,7 @@ $.ajax(settings)
 
 }
 
-const makeRequestToAddNewResourceToResourceDatabase = (title, type, course, content, callback) => {
+const makeRequestToAddNewResourceToResourceDatabase = (title, typeOfResource, course, content, callback) => {
 
       let settings = {
         url: Urls.RESOURCE_DATA_URL,
@@ -102,7 +105,7 @@ const makeRequestToAddNewResourceToResourceDatabase = (title, type, course, cont
             username: 'Test2',
             content: content,
             title: title,
-            type: type,
+            typeOfResource: typeOfResource,
             course: course
           }),
           success: callback
@@ -111,20 +114,21 @@ const makeRequestToAddNewResourceToResourceDatabase = (title, type, course, cont
     $.ajax(settings)
   }
 
-const makeRequestToAddNewResourceToUserDatabase = ({title, type, course, content, id, publishedOn, username}) => {
-  console.log("here we are", id)
+const makeRequestToAddNewResourceToUserDatabase = ({title, typeOfResource, course, content, id, publishedOn, username}) => {
+
   let settings = {
     url: Urls.USER_RESOURCES_URL,
     contentType: 'application/json',
     method: 'PUT',
     data: JSON.stringify({
-        uploadedResource: { username: 'Test2',
-        content: content,
-        title: title,
-        type: type,
-        course: course,
-        publishedOn: publishedOn,
-        resourceId: id }
+        myResources: { username: 'Test2',
+                      content: content,
+                      title: title,
+                      typeOfResource: typeOfResource,
+                      course: course,
+                      publishedOn: publishedOn,
+                      resourceId: id
+                    }
       }),
       success: updateForResourceAdd
   }
@@ -133,24 +137,71 @@ $.ajax(settings)
 
 }
 
-const makeRequestToDeleteResourceFromUserDataBase = (resourceName, callback) => {
+const makeRequestToDeleleResourceFromResourceDataBase = (resourceId, callback) => {
+  let settings = {
+    url: `${Urls.RESOURCE_DATA_URL}/${resourceId}`,
+    contentType: 'application/json',
+    method: 'DELETE',
+    success: callback
+  }
+
+  $.ajax(settings)
+
+}
+const makeRequestToDeleteResourceFromUserDataBase = ({_id}, callback) => {
     let settings = {
-      url: Urls.USER_RESOURCES_URL,
+      url: `${Urls.USER_RESOURCES_URL}/${_id}`,
       contentType: 'application/json',
       method: 'DELETE',
-      data: JSON.stringify({
-            uploadedResources: resourceName,
-            username: 'Test2'
-        }),
-        success: callback
+      success: displayResources
     }
 
     $.ajax(settings)
 
 }
 
+const makeRequestToUpdateResourceDatabase = (resourceId, userame, content, title, typeOfResource, course, callback) => {
+  let settings = {
+    url: `${Urls.RESOURCE_DATA_URL}/${resourceId}`,
+    contentType: 'application/json',
+    method: 'PUT',
+    data: JSON.stringify({
+        username: 'Test2',
+        content: content,
+        title: title,
+        typeOfResource: typeOfResource,
+        course: course
+      }),
+      success: callback
+  }
 
-//makeRequestToDeleleResourceFromResourceDataBase(resourceName)
+$.ajax(settings)
+}
+
+const makeRequestToUpdateUserResource = ({content, title, typeOfResource, course, publishedOn, id}) => {
+  console.log("hey")
+
+  let settings = {
+    url: `${Urls.USER_RESOURCES_URL}/${id}`,
+    contentType: 'application/json',
+    method: 'PUT',
+    data: JSON.stringify({
+        myResources: { username: 'Test2',
+                      content: content,
+                      title: title,
+                      typeOfResource: typeOfResource,
+                      course: course,
+                      publishedOn: publishedOn,
+                      resourceId: id
+                    }
+      }),
+      success: updateForResourceUpdate
+  }
+
+  $.ajax(settings)
+
+
+}
 
 const displayClasses = (data) => {
      Object.assign(state, data)
@@ -169,30 +220,42 @@ const displayClasses = (data) => {
     return
 }
 
-const updateForResourceAdd = (data) => {
-    console.log(data)
-    alert(`Sucess! Your resource ${data.title} has been added to the database!`)
+const updateForResourceAdd = data => {
+
+    Object.assign(state, data)
+
+    displayResources();
     handlePopup([], [classReferences.create_new_resource_window])
 
-
+    alert(`Sucess! Your resource '${data.myResources[data.myResources.length - 1].title}' has been added to the database!`)
 }
 
-const saveResourcesToState = data => {
+const updateForResourceUpdate = data => {
   Object.assign(state, data)
-  console.log(state)
+
+  displayResources();
+  handlePopup([], [classReferences.create_new_resource_window])
+
+  alert(`Sucess! Your resource has been updated!`)
 }
-
-
 
 const displayResources = data => {
     if (data) {
         Object.assign(state, data)
-    }
+      }
 
-    let html = state.uploadedResources.map(resource => `<div class="${resource.title}-container resource-styles"><div class="name-of-resource">Course Name: ${resource.title}</div> <div class="resource-course-name">Class: ${resource.course}</div><div class="heading-for-resource-type">Type of Resource: ${resource.type}</div><div class="resource-published-date">Published Date: ${resource.publishedOn}</div><button type="submit" value="${resource.title} class="edit-resource-button">Edit Resource</button><button type='submit' value="${resource.title}" class='delete-resource-button'>Delete Resource</button></div>`)
+    let html = state.myResources.map(resource => `<div class="${resource.title}-container resource-styles"><div class="name-of-resource">Course Name: ${resource.title}</div> <div class="resource-course-name">Class: ${resource.course}</div><div class="heading-for-resource-type">Type of Resource: ${resource.typeOfResource}</div><div class="resource-published-date">Published Date: ${resource.publishedOn}</div><button type='submit' value='${resource.resourceId}' class='edit-resource-button'>Edit Resource</button><button type='submit' value="${resource.resourceId}" class='delete-resource-button'>Delete Resource</button></div>`)
     $('.uploaded-resources-container').html(html)
 
 }
+
+const displaySelectedResource = ({title, content, course, typeOfResource}) => {
+
+    $('#edit-resource-title').val(title)
+    $('#edit-resource-course').val(course)
+    $('#edit-type-of-resource').val(typeOfResource)
+    $('#edit-resource-content').val(content);
+};
 
 const watchForShowAddNewClassFormClick = () => {
     $('.add-a-course-button').on('click', event => {
@@ -256,12 +319,12 @@ const watchForCreateNewResourceSubmitClick = () => {
     $('.add-resource-submit').on("click", event => {
 
         let courseName = $('#resource-course').val()
-        let resourceType = $('#type-of-resource').val()
+        let typeOfResource = $('#type-of-resource').val()
         let resourceContent = $('#new-resource-content').val()
         let resourceTitle = $('#new-resource-title').val()
 
 
-        makeRequestToAddNewResourceToResourceDatabase(resourceTitle, resourceType, courseName, resourceContent, makeRequestToAddNewResourceToUserDatabase)
+        makeRequestToAddNewResourceToResourceDatabase(resourceTitle, typeOfResource, courseName, resourceContent, makeRequestToAddNewResourceToUserDatabase)
 
     })
 }
@@ -271,15 +334,45 @@ const watchForRetrieveSavedResourcesClick = () => {
 
         addAndRemoveHideClass([classReferences.dashboard_page, classReferences.create_new_resource_window], [classReferences.my_uploaded_resources_page])
         displayResources()
-})
+    })
 }
 
 const watchForDeleteSavedResourcesClick = () => {
     $('.uploaded-resources-container').on('click', '.delete-resource-button', event => {
-     let resourceName = $(event.target).val()
+     let resourceId = $(event.target).val()
 
-      makeRequestToDeleteResourceFromUserDataBase(resourceName, displayResources)
-      makeRequestToDeleleResourceFromResourceDataBase(resourceName)
+      makeRequestToDeleleResourceFromResourceDataBase(resourceId, makeRequestToDeleteResourceFromUserDataBase)
+    })
+}
+
+const watchForEditResourceClick = () => {
+    $('.uploaded-resources-container').on('click', '.edit-resource-button', event => {
+        idOfResourceToUpdate = $(event.target).val()
+
+        let myResource = state.myResources.filter(resource => {
+            return resource.resourceId === idOfResourceToUpdate
+        })
+
+
+        displaySelectedResource(myResource[0])
+
+        addAndRemoveHideClass([classReferences.my_uploaded_resources_page], [classReferences.edit_resource_page])
+    })
+};
+
+const watchForEditResourceSubmit = () => {
+    $('.edit-resource-submit').on('click', event => {
+
+      event.preventDefault();
+      addAndRemoveHideClass([classReferences.edit_resource_page], [classReferences.my_uploaded_resources_page])
+
+      let courseName = $('#edit-resource-course').val()
+      let typeOfResource = $('#edit-type-of-resource').val()
+      let resourceContent = $('#edit-resource-content').val()
+      let resourceTitle = $('#edit-resource-title').val()
+
+      makeRequestToUpdateResourceDatabase(idOfResourceToUpdate, state.username, resourceContent, resourceTitle, typeOfResource, courseName, makeRequestToUpdateUserResource)
+
     })
 }
 const init = () => {
@@ -293,6 +386,8 @@ const init = () => {
     //renderDashBoard();
     watchForRetrieveSavedResourcesClick();
     watchForDeleteSavedResourcesClick();
+    watchForEditResourceClick();
+    watchForEditResourceSubmit();
 
 }
 
