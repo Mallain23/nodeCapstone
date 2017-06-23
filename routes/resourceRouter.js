@@ -8,18 +8,22 @@ const {StudyResources} = require('../models');
 
 
 router.get('/', (req, res) => {
+    console.log(req.query)
     const filters = {};
-    const queryableFields = ['course', 'typeOfResource', 'username'];
+    const queryableFields = ['course', 'typeOfResource', 'username', 'title', '_id'];
 
     queryableFields.forEach(field => {
         if (req.query[field]) {
               filters[field] = req.query[field];
         }
     })
+
     StudyResources
         .find(filters)
         .exec()
-        .then(Resources => res.json(Resources.map(resource => resource.apiRpr())))
+        .then(Resources => {
+          console.log(Resources)
+          res.json(Resources.map(resource => resource.apiRpr()))})
         .catch(err => {
               console.error(err);
               res.status(500).json({message: 'internal server error'})

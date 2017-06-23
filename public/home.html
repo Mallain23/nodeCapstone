@@ -114,20 +114,20 @@
                       <option value="Torts">Torts</option>
                       <option value="Transactional Law">Transactional Law</option>
                       <option value="Trusts and Estates Law">Trusts and Estates Law</option>
-                      <option value="Wills Law"Wills Law</option>
+                      <option value="Wills Law">Wills Law</option>
                       <option value="Other">Other</option>
                   </select>
                   <label for="resource-content">Content</label>
                   <textarea type="text" name="content" id="new-resource-content" required placeholder="Enter the content of your new resource"></textarea>
             </form>
             <button type="submit" class="add-resource-submit">Add Resource!</button>
-            <button type="submit" class="add-resource-cancel cancel-button">Cancel</button>
+          
         </div>
 
 
-        <div class="my-saved-reources-page hide">
-            <div class='saved-resources-header'>Username's saved resources</div>
-            <div class="saved-resources-container">
+        <div class="my-favorite-resources-page hide">
+            <div class='favorite-resources-header'></div>
+            <div class="favorite-resources-container">
             </div>
         </div>
 
@@ -181,7 +181,7 @@
                     <option value="Torts">Torts</option>
                     <option value="Transactional Law">Transactional Law</option>
                     <option value="Trusts and Estates Law">Trusts and Estates Law</option>
-                    <option value="Wills Law"Wills Law</option>
+                    <option value="Wills Law">Wills Law</option>
                     <option value="Other">Other</option>
                 </select>
                 <label for="edit-resource-content">Content</label>
@@ -191,7 +191,92 @@
             <button type="submit" class="edit-resource-cancel cancel-button">Cancel</button>
         </div>
 
+        <div class='view-my-resource-page hide'>
+            <div class='view-resource-title small-style-box'></div>
+            <div class='view-resource-course small-style-box'></div>
+            <div class='view-resource-type small-style-box'></div>
+            <div class='view-resource-publish-date small-style-box'></div>
+            <div class='view-resource-content large-style-box'></div>
+            <button class='go-back-to-my-uploaded-resource-page' type='submit'>Go Back</button>
+        </div>
+
+        <div class='view-my-favorite-resource-page hide'>
+            <div class='view-resource-title small-style-box'></div>
+            <div class='view-resource-course small-style-box'></div>
+            <div class='view-resource-type small-style-box'></div>
+            <div class='view-resource-publish-date small-style-box'></div>
+            <div class='view-resource-content large-style-box'></div>
+            <button class='go-back-to-my-favorite-resources-page' type='submit'>Go Back</button>
+        </div>
+
+
+        <div class='find-resource-page hide'>
+            <form class='search-for-resource-form'>
+                <label for="search-resource-title" class="search-resource-label">Refine Search by Title</label>
+                <input type="text" name="title" id="search-resource-title" placeholder="Search by title">
+                <label class="search-type-of-resource-label" for="search-type-of-resource">Refine Search by Type of Resource</label>
+                <select name="type" id="search-resource-type" required>
+                    <option></option>
+                    <option value="Outline">Outline</option>
+                    <option value="Exam Questions/Answers">Exam practice questions and answers</option>
+                    <option value="Notes/Advice">Notes and helpful advice for class</option>
+                    <option value="Other">Other</option>
+                </select>
+                <label for="search-resource-class">Refine Search by Course</label>
+                <select name="type" id="search-resource-course" required>
+                   <option></option>
+                    <option value="Administrative Law">Administrative Law</option>
+                    <option value="Antitrust Law">Antitrust Law</option>
+                    <option value="Bankruptcy Law">Bankruptcy Law</option>
+                    <option value="Banking Law">Banking Law</option>
+                    <option value="Business Law">Business Law</option>
+                    <option value="Civil Procedure">Civil Procedure</option>
+                    <option value="Constitutional Law">Constitutional Law</option>
+                    <option value="Contracts">Contracts</option>
+                    <option value="Complex Litigation">Complex Litigation</option>
+                    <option value="Copyright Law">Copyright Law</option>
+                    <option value="Criminal Procedure">Criminal Procedure</option>
+                    <option value="Employment Law">Employment Law</option>
+                    <option value="Energy Law">Energy Law</option>
+                    <option value="Entertainment Law">Entertainment Law</option>
+                    <option value="Environmental Law">Environmental Law</option>
+                    <option value="Evidence">Evidence</option>
+                    <option value="Family Law">Family Law</option>
+                    <option value="Law and Finance">Law and Finance</option>
+                    <option value="Health Law">Health Law</option>
+                    <option value="Intellectual Property Law">Intellectual Property Law</option>
+                    <option value="International Law">International Law</option>
+                    <option value="Law and Econonmics">Law and Economics</option>
+                    <option value="Legal Methods">Legal Methods</option>
+                    <option value="Legal Writing">Legal Writing Class</option>
+                    <option value="Property Law">Property Law</option>
+                    <option value="Securities Law">Securities Law</option>
+                    <option value="Tax Law">Tax Law</option>
+                    <option value="Torts">Torts</option>
+                    <option value="Transactional Law">Transactional Law</option>
+                    <option value="Trusts and Estates Law">Trusts and Estates Law</option>
+                    <option value="Wills Law">Wills Law</option>
+                    <option value="Other">Other</option>
+                </select>
+                <label for="search-username">Refine Search by User</label>
+                <input type="text" name="content" id="search-resource-username"  placeholder="Refine Search by Username"></input>
+            </form>
+            <button type="submit" class="search-resource-submit">Find Resources!</button>
+            <button type="submit" class="search-resource-cancel cancel-button">Cancel</button>
+            <div class='results-container'></div>
+        </div>
+
+        <div class='view-result-from-search-page hide'>
+            <div class='view-resource-title small-style-box'></div>
+            <div class='view-resource-course small-style-box'></div>
+            <div class='view-resource-type small-style-box'></div>
+            <div class='view-resource-publish-date small-style-box'></div>
+            <div class='view-resource-content large-style-box'></div>
+            <button class='go-back-to-find-resource-page' type='submit'>Go Back</button>
+        </div>
+
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-    <script src="client.js"></script>
+    <script src="homepage.js"></script>
   </body>
 </html>

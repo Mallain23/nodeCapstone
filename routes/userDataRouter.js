@@ -139,4 +139,62 @@ router.delete('/resources/:id', (req, res) => {
     })
 })
 
+router.put('/favorite-resources', (req, res) => {
+
+    let {username, content, resourceId, title, publishedOn, typeOfResource, course } = req.body
+
+    // if (!'currentClasses' in req.body || !'username' in req.body) {
+    //     console.error("Missing required field in request body ")
+    //     return
+    // }
+
+
+    let toUpdate = { title:  title,
+                    course: course,
+                    content: content,
+                  typeOfResource: typeOfResource,
+                  resourceId: resourceId,
+                  username: username,
+                  publishedOn: publishedOn
+
+                }
+
+      return Users
+      .update({username: username, "currentClasses.courseName": course}, {$addToSet: {"currentClasses.$.resources": toUpdate}}, {new: true})
+      .exec()
+      .then(user => {
+          return Users
+          .findOne({username: username})
+          .exec()
+        })
+
+        .then(user => {
+            res.status(201).json(user.apiRpr())
+        })
+
+        .catch(err => {
+            console.log(err)
+            res.status(500).json({message: 'Internal Server Error'})
+        })
+    })
+
+router.delete('/favorite-resources/:id', (req, res) => {
+
+    let resourceId = req.params.id
+    let {username, courseName} = req.body
+
+    return Users
+    .findOneAndUpdate({username: username, "currentClasses.courseName": courseName}, {$pull: {"currentClasses.$.resources": {resourceId: resourceId}}}, {new: true})
+    .exec()
+    .then(user => {
+        res.status(201).json(user.apiRpr())
+    })
+
+    .catch(err => {
+        res.status(500).json({message: "Internal Server Error"})
+    })
+
+ })
+
+
 module.exports = {router}

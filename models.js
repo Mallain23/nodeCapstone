@@ -51,10 +51,15 @@ const UserSchema = mongoose.Schema({
   currentClasses: [{
                 courseName: String,
                 resources: [{
-                        title: String,
-                        id: String,
+                  title:  String,
+                  course: String,
+                  content: String,
+                  typeOfResource: String,
+                  resourceId: String,
+                  username: String,
+                  publishedOn: String
                 }]
-  }]
+              }]
 });
 
 UserSchema.methods.apiRpr = function() {
