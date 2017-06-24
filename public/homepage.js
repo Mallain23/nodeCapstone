@@ -224,7 +224,7 @@ $.ajax(settings)
 
 const makeRequestToAddResourcetoUserFavorites = data => {
     let {title, content, typeOfResource, publishedOn, id, username, course} = data[0]
-    console.log(state)
+
     if (state.currentClasses.every(className => className.courseName !== course)) {
         alert(`Resource Course: ${course} must be added to your classboard before you can add a favorite resource to the course!`)
         return
@@ -263,8 +263,10 @@ const makeRequestToDeleteFavoriteResource = (resourceId, courseName, callback) =
   $.ajax(settings)
 }
 
-const displayClasses = (data) => {
-     Object.assign(state, data)
+const displayClasses = data => {
+     if (data) {
+        Object.assign(state, data)
+    };
 
      if (state.currentClasses.length < 1) {
         message = "You have not added any classes yet, click add new class to add a class!"
@@ -313,10 +315,12 @@ const updateForFavoriteResourceAdd = data => {
     console.log(data)
     alert("Success! This resource has been added to your favorite resources!")
 }
+
 const updateForFavoriteResourceRemoval = data => {
     Object.assign(state, data)
+
     displayFavoriteResources(currentSelectedCourse)
-};
+}
 
 const displayFavoriteResources = courseName => {
 
@@ -370,46 +374,67 @@ const displaySearchResults = data => {
     $('.results-container').html(formattedHtml)
 }
 
-const watchForShowAddNewClassFormClick = () => {
-    $('.add-a-course-button').on('click', event => {
-      event.preventDefault()
+//this section is the functions that watch for click events
 
-      addAndRemoveHideClass([classReferences.message_box], [])
-      handlePopup([classReferences.add_a_course_container], [])
 
+//dashboard click is almost like home button - brigns users to there dashboard (classboard? ) which displays classes and allows them to add class
+const watchForMyDashboardClick = () => {
+    $('.home-button').on('click', event=> {
+        event.preventDefault()
+
+        displayClasses()
+        addAndRemoveHideClass([classReferences.find_resource_page, classReferences.view_my_resource_page, classReferences.my_uploaded_resources_page, classReferences.edit_resource_page, classReferences.create_new_resource_window, classReferences.my_favorite_resources_page, classReferences.view__result_from_search_page], [classReferences.dashboard_page])
     })
 }
+//this function watches for add new class click, then pop up form to add class comes up
+const watchForShowAddNewClassFormClick = () => {
+    $('.add-a-course-button').on('click', event => {
+        event.preventDefault()
 
+        addAndRemoveHideClass([classReferences.message_box], [])
+        handlePopup([classReferences.add_a_course_container], [])
+    })
+};
+//this function watches for user to click cancel when adding calss, and closes add class window
 const watchForCancelClick = () => {
     $('.cancel-button').on('click', event => {
           event.preventDefault()
+
           handlePopup([], [classReferences.add_a_course_container])
-
-
+          addAndRemoveHideClass([])
     })
-}
+};
 
+//this watches for user to submit the class to be added to there dashboard, if class is already in there dashboard or if they dont choose a class they will recieve an alert
 const watchForAddNewClassClick = () => {
     $('.add-course-submit').on('click', event => {
           event.preventDefault();
 
           addAndRemoveHideClass([classReferences.message_box], [])
+
           let courseName = $('#course-name').val()
+
           if (courseName === null) {
             alert("You must choose a course before clicking 'add course'!")
+
             return
           }
-          $('#course-name').val('')
+
           if (state.currentClasses.some(course => course.courseName === courseName)) {
               $('.message-box').text('Sorry, that class is already in your dashboard!')
               addAndRemoveHideClass([], [classReferences.message_box])
+
               return
           }
 
+          $('#course-name').val('')
           handlePopup([], [classReferences.add_a_course_container])
+
           makeRequestToAddNewClass(courseName, displayClasses)
     })
-}
+};
+
+//watches for user to click to delete a course, and then it makes request to remove course
 
 const watchForDeleteClassClick = () => {
     $('.current-classes-container').on('click', ".remove-course-button", event => {
@@ -418,8 +443,9 @@ const watchForDeleteClassClick = () => {
           let courseName = $(event.target).val();
           makeRequestToRemoveClass(courseName, displayClasses)
     })
-}
+};
 
+//this function watches for user to click to create a new resource, and pulls up the page to allow them to create a new resource
 const watchForCreateNewResourceClick = () => {
     $('.create-new-resource-button').on('click', event => {
         event.preventDefault();
@@ -429,72 +455,84 @@ const watchForCreateNewResourceClick = () => {
         $('#new-resource-content').val('')
         $('#new-resource-title').val('')
 
-        addAndRemoveHideClass([classReferences.my_uploaded_resources_page, classReferences.my_saved_resources_page, classReferences.my_favorite_resources_page, classReferences.dashboard_page, classReferences.edit_resource_page, classReferences.view_my_resource_page, classReferences.find_resource_page], [classReferences.create_new_resource_window])
-
+        addAndRemoveHideClass([classReferences.my_uploaded_resources_page, classReferences.my_saved_resources_page, classReferences.my_favorite_resources_page, classReferences.dashboard_page, classReferences.edit_resource_page, classReferences.view_my_resource_page, classReferences.find_resource_page, classReferences.view__result_from_search_page], [classReferences.create_new_resource_window])
     })
 }
 
+//once user submits new resource this function gets the value of inputs and puts them in a function to make request to database to create resource
+//the resource must be added to the resource data base and then to the userdata base (to associate resource with the user)
 const watchForCreateNewResourceSubmitClick = () => {
     $('.add-resource-submit').on("click", event => {
 
-        let courseName = $('#resource-course').val()
-        let typeOfResource = $('#type-of-resource').val()
-        let resourceContent = $('#new-resource-content').val()
-        let resourceTitle = $('#new-resource-title').val()
+          let courseName = $('#resource-course').val()
+          let typeOfResource = $('#type-of-resource').val()
+          let resourceContent = $('#new-resource-content').val()
+          let resourceTitle = $('#new-resource-title').val()
 
+          if (courseName === null || typeOfResource === null || resourceContent === null || resourceTitle === null) {
+            alert('All fields are required! Please enter content for all fields before submitting')
 
-        makeRequestToAddNewResourceToResourceDatabase(resourceTitle, typeOfResource, courseName, resourceContent, makeRequestToAddNewResourceToUserDatabase)
+            return
+          }
 
+          makeRequestToAddNewResourceToResourceDatabase(resourceTitle, typeOfResource, courseName, resourceContent, makeRequestToAddNewResourceToUserDatabase)
     })
-}
+};
 
+//this function watches for user to click manage resources and will display that page and call the function to display the resources they have uploaded
 const watchForRetrieveSavedResourcesClick = () => {
     $('.edit-existing-resource-button').on('click', event => {
 
-        addAndRemoveHideClass([classReferences.dashboard_page, classReferences.create_new_resource_window], [classReferences.my_uploaded_resources_page])
+        addAndRemoveHideClass([classReferences.dashboard_page, classReferences.create_new_resource_window, classReferences.my_favorite_resources_page, classReferences.edit_resource_page, classReferences.view_my_resource_page, classReferences.view_my_favorite_resource_page, classReferences.find_resource_page, classReferences.view__result_from_search_page], [classReferences.my_uploaded_resources_page])
         displayResources()
     })
-}
+};
 
+//this function watches for user to click to delete a resource that they have uploaded, and calls function that will delete it from resource database and user database
 const watchForDeleteSavedResourcesClick = () => {
     $('.uploaded-resources-container').on('click', '.delete-resource-button', event => {
-     let resourceId = $(event.target).val()
+        let resourceId = $(event.target).val()
 
-      makeRequestToDeleleResourceFromResourceDataBase(resourceId, makeRequestToDeleteResourceFromUserDataBase)
+        makeRequestToDeleleResourceFromResourceDataBase(resourceId, makeRequestToDeleteResourceFromUserDataBase)
     })
 }
 
+//this function watches for user to click to edit a resource they have uploaded, and then pulls up form to allow them to edit the resource
 const watchForEditResourceClick = () => {
     $('.uploaded-resources-container').on('click', '.edit-resource-button', event => {
         idOfResourceToUpdate = $(event.target).val()
 
-        let myResource = state.myResources.filter(resource => {
-            return resource.resourceId === idOfResourceToUpdate
-        })
+        let myResource = state.myResources.find(resource => resource.resourceId === idOfResourceToUpdate)
 
-
-        displaySelectedResourceToEdit(myResource[0])
+        displaySelectedResourceToEdit(myResource)
 
         addAndRemoveHideClass([classReferences.my_uploaded_resources_page], [classReferences.edit_resource_page])
     })
 };
 
+//once user has editted resource this watches for user to submit, gets the values for updated fields and calls function to make request to update
 const watchForEditResourceSubmit = () => {
     $('.edit-resource-submit').on('click', event => {
+          event.preventDefault();
 
-      event.preventDefault();
+          addAndRemoveHideClass([classReferences.edit_resource_page], [classReferences.my_uploaded_resources_page])
 
-      addAndRemoveHideClass([classReferences.edit_resource_page], [classReferences.my_uploaded_resources_page])
+          let courseName = $('#edit-resource-course').val()
+          let typeOfResource = $('#edit-type-of-resource').val()
+          let resourceContent = $('#edit-resource-content').val()
+          let resourceTitle = $('#edit-resource-title').val()
 
-      let courseName = $('#edit-resource-course').val()
-      let typeOfResource = $('#edit-type-of-resource').val()
-      let resourceContent = $('#edit-resource-content').val()
-      let resourceTitle = $('#edit-resource-title').val()
+          if (courseName === null || typeOfResource === null || resourceContent === null || resourceTitle === null) {
+              alert('All fields are required! Please enter content for all fields before submitting')
 
-      makeRequestToUpdateResourceDatabase(idOfResourceToUpdate, state.username, resourceContent, resourceTitle, typeOfResource, courseName, makeRequestToUpdateUserResource)
+              return
+          }
+
+          makeRequestToUpdateResourceDatabase(idOfResourceToUpdate, state.username, resourceContent, resourceTitle, typeOfResource, courseName, makeRequestToUpdateUserResource)
     })
-}
+};
 
+//this function watches for user to click button to view a specific resource they have uploaded
 const watchForViewResourceClick = () => {
     $('.uploaded-resources-container').on('click', '.view-resource-button', event => {
           event.preventDefault();
@@ -502,40 +540,37 @@ const watchForViewResourceClick = () => {
           addAndRemoveHideClass([classReferences.my_uploaded_resources_page], [classReferences.view_my_resource_page])
 
           idOfResourceToUpdate = $(event.target).val()
-          let myResource = state.myResources.filter(resource => {
-              return resource.resourceId === idOfResourceToUpdate
-          });
+          let myResource = state.myResources.find(resource => resource.resourceId === idOfResourceToUpdate)
 
-          displaySelectedResourceToView(myResource[0]);
+          displaySelectedResourceToView(myResource);
     })
 }
 
+//this function watches for user to click to go back to the uploaded resource page (handles from edit or view resource)
 const watchForGoBackToUploadedResourcesClick = () => {
     $('.go-back-to-my-uploaded-resource-page').on('click', event => {
           event.preventDefault()
 
-          addAndRemoveHideClass([classReferences.view_my_resource_page], [classReferences.my_uploaded_resources_page])
-    })
-}
-const watchForMyDashboardClick = () => {
-    $('.home-button').on('click', event=> {
-        event.preventDefault()
-
-
-        addAndRemoveHideClass([classReferences.find_resource_page, classReferences.view_my_resource_page, classReferences.my_uploaded_resources_page, classReferences.edit_resource_page, classReferences.create_new_resource_window, classReferences.my_favorite_resources_page, classReferences.view__result_from_search_page], [classReferences.dashboard_page])
+          addAndRemoveHideClass([classReferences.view_my_resource_page, classReferences.edit_resource_page], [classReferences.my_uploaded_resources_page])
     })
 }
 
+//this function watches for user to search for resources and brings up page to allow them to search
 const watchForSearchForResourcesClick = () => {
     $('.search-for-resource-button').on('click', event => {
         event.preventDefault();
 
+        $('#search-resource-title').val('')
+        $('#search-resource-course').val('')
+        $('#search-resource-username').val('')
+        $('#search-resource-type').val('')
         $('.results-container').text('');
 
-        addAndRemoveHideClass([classReferences.view_my_resource_page, classReferences.my_uploaded_resources_page, classReferences.edit_resource_page, classReferences.create_new_resource_window, classReferences.dashboard_page], [classReferences.find_resource_page])
+        addAndRemoveHideClass([classReferences.view_my_resource_page, classReferences.view_my_favorite_resource_page, classReferences.view__result_from_search_page, classReferences.my_favorite_resources_page, classReferences.my_uploaded_resources_page, classReferences.edit_resource_page, classReferences.create_new_resource_window, classReferences.dashboard_page], [classReferences.find_resource_page])
     })
 }
 
+//this function watches for submit of search for resources and calls function to sent request to server
 const watchForSearchForResourcesSubmitClick = () => {
     $('.search-resource-submit').on('click', event => {
         event.preventDefault();
@@ -547,32 +582,34 @@ const watchForSearchForResourcesSubmitClick = () => {
 
         makeRequestToFindResources(searchTitle, searchCourse, searchUser, searchType, '', displaySearchResults)
     })
-}
+};
 
+//this function watches for user to click a specific resource to view and makes request to server to view that resource
 const watchForViewResourceFromQueryResultsClick = () => {
-  $('.results-container').on('click', '.view-resource-button', event => {
-        event.preventDefault();
+    $('.results-container').on('click', '.view-resource-button', event => {
+          event.preventDefault();
 
-        addAndRemoveHideClass([classReferences.find_resource_page], [classReferences.view__result_from_search_page])
+          addAndRemoveHideClass([classReferences.find_resource_page], [classReferences.view__result_from_search_page])
 
-        resourceId = $(event.target).val()
-        makeRequestToFindResources('', '', '', '', resourceId, displayResourceFromQueryResults)
-  })
-}
+          resourceId = $(event.target).val()
+          makeRequestToFindResources('', '', '', '', resourceId, displayResourceFromQueryResults)
+    })
+};
 
+//if user clicks on a resources and wants to go back to results - this funciton watches for click and then brings them back
 const watchForGoBackToFindResourcePageClick = () => {
     $('.go-back-to-find-resource-page').on('click', event => {
         addAndRemoveHideClass([classReferences.view__result_from_search_page], [classReferences.find_resource_page])
     })
-}
+};
 
+//watches for user to click to add a resource to their favorite resources
 const watchForAddResourceToFavoritesClick = () => {
     $('.results-container').on('click', '.add-to-my-favorites-button', event => {
         event.preventDefault();
 
         resourceId = $(event.target).val()
         makeRequestToFindResources('', '', '', '', resourceId, makeRequestToAddResourcetoUserFavorites)
-
     })
 }
 
