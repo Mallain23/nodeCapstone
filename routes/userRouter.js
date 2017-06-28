@@ -138,11 +138,9 @@ router.post('/', (req, res) => {
 
 
 
-router.post('/welcome',
-
-    passport.authenticate('basic', {session: true}), (req, res) => {
+router.post('/welcome', passport.authenticate('basic', {session: true}), (req, res) => {
         res.json({user: req.user.apiRpr(), token: new Date()})
-      })
+})
 
 
 

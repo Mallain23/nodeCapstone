@@ -373,21 +373,26 @@ const displayFavoriteResources = courseName => {
 //const this function updates the HTML fields when user is viewing a resource either through their favorites or when they
 //are doing a query.
 const updateHTML= (title, content, course, typeOfResource, publishedOn) => {
-    $('.view-resource-title').text(title)
-    $('.view-resource-course').text(course)
-    $('.view-resource-type').text(typeOfResource)
-    $('.view-resource-content').text(content);
-    $('.view-resource-publish-date').text(publishedOn)
+  return `<div class="row"><div class="col-sm-12"><span class='view-resource-title small-style-box'>Title: ${title}</span></div></div>
+                <div class="row"><div class="col-sm-12"><span class='view-resource-course small-style-box'>Course: ${course}</span></div></div>
+                <div class="row"><div class="col-sm-12"><span class='view-resource-type small-style-box'>Type of Resource: ${typeOfResource}</span></div></div>
+                <div class="row"><div class="col-sm-12"><span class='view-resource-publish-date small-style-box'>Publish Date: ${publishedOn}</span></div></div>
+                <div class="row"><div class="col-sm-12"> <div class='view-resource-content large-style-box'>${content}</div><div></div>
+                <button class='go-back-to-find-resource-page' type='submit'>Go Back</button>`
+
+
 }
 
 //We have an object passed in as a parameter here, and
 const displaySelectedResourceToView = ({title, content, course, typeOfResource, publishedOn}) => {
-    updateHTML(title, content, course, typeOfResource, publishedOn)
+  let html =  updateHTML(title, content, course, typeOfResource, publishedOn)
 };
 
 const displayResourceFromQueryResults = data => {
     let {title, course, typeOfResource, content, publishedOn} = data[0]
-    updateHTML(title, content, course, typeOfResource, publishedOn)
+    let html = updateHTML(title, content, course, typeOfResource, publishedOn)
+
+    $('.query-results-container').html(html)
 };
 
 //this function displays the resource for the user to edit
@@ -645,7 +650,7 @@ const watchForViewResourceFromQueryResultsClick = () => {
 
 //if user clicks on a resources and wants to go back to results - this funciton watches for click and then brings them back
 const watchForGoBackToFindResourcePageClick = () => {
-    $('.go-back-to-find-resource-page').on('click', event => {
+    $('.query-results-container').on('click', '.go-back-to-find-resource-page', event => {
         addAndRemoveHideClass([classReferences.view__result_from_search_page], [classReferences.find_resource_page])
     })
 };

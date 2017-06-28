@@ -45,14 +45,13 @@ body {
 .small-style-box {
   width: 200px;
   height:50px;
-  border: 1px solid black;
   margin: 15px;
 }
 
 .large-style-box {
   width: 300px;
-  height: 600px;
-  border: 1px solid black;
+  height: 200px;
+  overflow: scroll;
   margin: 15px;
 
 }
@@ -138,4 +137,13 @@ label {
 
 .query-result-button {
   font-size: 12px;
+}
+
+.query-results-container {
+  background-color: white;
+  width: 600px;
+  height: 400px;
+  overflow: scroll;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }

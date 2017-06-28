@@ -45,9 +45,9 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/public/index.html')
 })
 
-app.get('/homepage', function(req, res) {
+app.get('/homepage/:username', function(req, res) {
 
-    res.sendFile(path.join(__dirname + '/public/home.html'));
+    res.sendFile(path.join(__dirname + '/public/welcome.html'));
 });
 
 

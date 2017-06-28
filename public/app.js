@@ -72,7 +72,7 @@ const makeRequestToCreateNewUser = (username, password, firstName, lastName, cal
 //this checks to see if user is valid, if user is valid it has callback function
 //which gives us user data for us to display
 const makeRequestToLogin = (username, password, callback) => {
-
+  console.log("test")
   let settings = {
     url: Urls.WELCOME_SCREEN_URL,
     contentType: 'application/json',
@@ -82,9 +82,9 @@ const makeRequestToLogin = (username, password, callback) => {
     method: 'POST',
     success: callback
   }
-
+console.log($, $.ajax)
 $.ajax(settings)
-}
+};
 
 
 
