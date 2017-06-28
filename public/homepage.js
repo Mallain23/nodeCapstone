@@ -23,7 +23,8 @@ const classReferences = {
   find_resource_page: '.find-resource-page',
   view__result_from_search_page: '.view-result-from-search-page',
   my_favorite_resources_page: '.my-favorite-resources-page',
-  view_my_favorite_resource_page: '.view-my-favorite-resource-page'
+  view_my_favorite_resource_page: '.view-my-favorite-resource-page',
+  current_classes_container: '.current-classes-container'
 
 }
 
@@ -67,6 +68,13 @@ const handlePopup = (showPopArr, hidePopArr) => {
       $(element).fadeOut();
     })
 
+}
+
+const clearSearchForm = () => {
+    $('#search-resource-title').val('')
+    $('#search-resource-course').val('')
+    $('#search-resource-username').val('')
+    $('#search-resource-type').val('')
 }
 
 //we have two seperate databases we are working with. One of them holds all the resources that are uploaded, and
@@ -287,13 +295,17 @@ const displayClasses = data => {
     }
 
      if (state.currentClasses.length < 1) {
-        message = "You have not added any classes yet, click add new class to add a class!"
-        $('.current-classes-container').html(message)
+        message = "You do not currently have any classes added to your Classboard. Click 'add new course' to add a course!"
+
+        $('.message-box').html(message)
+        $('.current-classes-container').html('')
+
+        addAndRemoveHideClass([''], [classReferences.message_box])
 
         return
     }
 
-    let formattedHtml = state.currentClasses.map(course => `<div class="${course.courseName}-container course-styles"><div class="name-of-course">Course Name: ${course.courseName}</div> <div class="number-of-resources">Number of Resources: ${course.resources.length}</div><button type="submit" value="${course.courseName}" class="view-course-resources-button">View Resources</button><button type='submit' value="${course.courseName}" class='remove-course-button'>Remove Course</button></div>`)
+    let formattedHtml = state.currentClasses.map(course => `<div class="${course.courseName}-container course-styles"><span class="name-of-course">${course.courseName}</span><br> <span class="number-of-resources">Number of Resources: ${course.resources.length}</span><br><button type="submit" value="${course.courseName}" class="view-course-resources-button btn button-style">View Resources</button><br><button type='submit' value="${course.courseName}" class='remove-course-button btn button-style'>Remove Course</button></div>`)
 
     $('.current-classes-container').html(formattedHtml)
 
@@ -396,7 +408,7 @@ const displaySearchResults = data => {
     }
 
     let formattedHtml = data.map(resource => {
-        return `<div class="${resource.title}-container resource-styles"><div class="name-of-resource">Resource Name: ${resource.title}</div> <div class="resource-course-name">Course: ${resource.course}</div><div class="heading-for-resource-type">Type of Resource: ${resource.typeOfResource}</div><div class="resource-published-date">Published Date: ${resource.publishedOn}</div><button type='submit' value='${resource.id}' class='view-resource-button'>View Resource</button><button type='submit' value='${resource.id}' class='add-to-my-favorites-button'>Add Resource to your Saved Resources</button></div>`
+        return `<div class="${resource.title}-container resource-styles"><span class="name-of-resource">${resource.title}</span><br><br> <span class="resource-course-name"> ${resource.course}</span><br><br><span class="heading-for-resource-type">${resource.typeOfResource}</span><br><br><span class="resource-published-date">Published Date: ${resource.publishedOn}</span><br><br><button type='submit' value='${resource.id}' class='view-resource-button btn button-style query-result-button'>View Resource</button><button type='submit' value='${resource.id}' class='add-to-my-favorites-button btn button-style query-result-button'>Add to Saved Resources</button></div>`
     })
 
     $('.results-container').html(formattedHtml)
@@ -415,14 +427,15 @@ const watchForMyDashboardClick = () => {
     })
 };
 //this function watches for add new class click, then pop up form to add class comes up
-const watchForShowAddNewClassFormClick = () => {
-    $('.add-a-course-button').on('click', event => {
-        event.preventDefault()
+// const watchForShowAddNewClassFormClick = () => {
+//     $('.add-a-course-button').on('click', event => {
+//         event.preventDefault()
+//
+//         addAndRemoveHideClass([classReferences.message_box], [classReferences.add_a_course_container])
+//       //  handlePopup([classReferences.add_a_course_container], [])
+//     })
+// };
 
-        addAndRemoveHideClass([classReferences.message_box], [])
-        handlePopup([classReferences.add_a_course_container], [])
-    })
-};
 //this function watches for user to click cancel when adding calss, and closes add class window
 const watchForCancelClick = () => {
     $('.cancel-button').on('click', event => {
@@ -583,15 +596,13 @@ const watchForGoBackToUploadedResourcesClick = () => {
     })
 };
 
+
 //this function watches for user to search for resources and brings up page to allow them to search
 const watchForSearchForResourcesClick = () => {
     $('.search-for-resource-button').on('click', event => {
         event.preventDefault();
 
-        $('#search-resource-title').val('')
-        $('#search-resource-course').val('')
-        $('#search-resource-username').val('')
-        $('#search-resource-type').val('')
+        clearSearchForm()
         $('.results-container').text('');
 
         addAndRemoveHideClass([classReferences.view_my_resource_page, classReferences.view_my_favorite_resource_page, classReferences.view__result_from_search_page, classReferences.my_favorite_resources_page, classReferences.my_uploaded_resources_page, classReferences.edit_resource_page, classReferences.create_new_resource_window, classReferences.dashboard_page], [classReferences.find_resource_page])
@@ -609,6 +620,14 @@ const watchForSearchForResourcesSubmitClick = () => {
         let searchType = $('#search-resource-type').val()
 
         makeRequestToFindResources(searchTitle, searchCourse, searchType, searchUser, '', displaySearchResults)
+    })
+};
+
+
+const watchForClearFormClick = () => {
+    $('.clear-form').on('click', event => {
+        event.preventDefault();
+        clearSearchForm();
     })
 };
 
@@ -641,7 +660,7 @@ const watchForAddResourceToFavoritesClick = () => {
 
         if (state.currentClasses.some(courses => courses.resources.some(resources => resources.resourceId  === resourceId))) {
 
-            alert('This resource is already in your favorite resources! You can see your favorite resouces from your classboard page!')
+            alert('This resource is already in your favorite resources! You can see your favorite resources from your classboard page!')
 
             return
         };
@@ -701,7 +720,7 @@ const watchForGoBackToMyFavoriteResourcesPageClick = () => {
 }
 const init = () => {
 
-    watchForShowAddNewClassFormClick();
+    //watchForShowAddNewClassFormClick();
     watchForCancelClick();
     watchForAddNewClassClick();
     watchForDeleteClassClick();
@@ -723,6 +742,7 @@ const init = () => {
     watchForRemoveCourseFromFavoritesClick();
     watchForViewFavoriteResourceButtonClick();
     watchForGoBackToMyFavoriteResourcesPageClick();
+    watchForClearFormClick();
 
 }
 
