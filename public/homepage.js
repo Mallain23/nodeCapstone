@@ -187,6 +187,7 @@ const makeRequestToDeleteResourceFromUserDataBase = ({_id}, callback) => {
 
 //this function makes request to update the resource in the resource database
 const makeRequestToUpdateResourceDatabase = (resourceId, userame, content, title, typeOfResource, course, callback) => {
+    console.log("test")
     let settings = {
         url: `${Urls.RESOURCE_DATA_URL}/${resourceId}`,
         contentType: 'application/json',
@@ -244,6 +245,7 @@ const makeRequestToFindResources = (title, course, typeOfResource, username, res
 //this function makes request to add resource to users favorites (makes sure user has
 //added the class to their dashboard first)
 const makeRequestToAddResourcetoUserFavorites = data => {
+
     let {title, content, typeOfResource, publishedOn, id, username, course} = data[0]
 
     if (state.currentClasses.every(className => className.courseName !== course)) {
@@ -287,6 +289,12 @@ const makeRequestToDeleteFavoriteResource = (resourceId, courseName, callback) =
     $.ajax(settings)
 };
 
+const formatHtmlForClassDisplay = () => {
+    return state.currentClasses.map(course => `<div class="${course.courseName}-container course-styles"><span class="name-of-course">${course.courseName}</span><br>
+        <span class="number-of-resources">Number of Resources: ${course.resources.length}</span><br>
+        <button type="submit" value="${course.courseName}" class="view-course-resources-button btn-sm button-style">View Resources</button><br>
+        <button type='submit' value="${course.courseName}" class='remove-course-button btn-sm button-style'>Remove Course</button></div>`)
+}
 //if this function gets data back from server, saves it to state. If user does not have any classes yet,
 // we will display message saying so. If user does have classes, we will display the classes
 const displayClasses = data => {
@@ -305,11 +313,8 @@ const displayClasses = data => {
         return
     }
 
-    let formattedHtml = state.currentClasses.map(course => `<div class="${course.courseName}-container course-styles"><span class="name-of-course">${course.courseName}</span><br> <span class="number-of-resources">Number of Resources: ${course.resources.length}</span><br><button type="submit" value="${course.courseName}" class="view-course-resources-button btn button-style">View Resources</button><br><button type='submit' value="${course.courseName}" class='remove-course-button btn button-style'>Remove Course</button></div>`)
-
-    $('.current-classes-container').html(formattedHtml)
-
-    return
+    let html = formatHtmlForClassDisplay()
+    $('.current-classes-container').html(html)
 };
 
 //once user adds a resource to databases, this function will save that resource to state, and then show the user
@@ -318,7 +323,7 @@ const updateForResourceAdd = data => {
     Object.assign(state, data)
 
     displayResources();
-    addAndRemoveHideClass([classReferences.create_new_resource_window], [classReferences.my_uploaded_resources_page])
+    addAndRemoveHideClass([''], [classReferences.my_uploaded_resources_page])
 
     alert(`Sucess! Your resource '${data.myResources[data.myResources.length - 1].title}' has been added to the database!`)
 };
@@ -327,7 +332,6 @@ const updateForResourceUpdate = data => {
   Object.assign(state, data)
 
   displayResources();
-  handlePopup([], [classReferences.create_new_resource_window])
 
   alert(`Sucess! Your resource has been updated!`)
 };
@@ -336,14 +340,30 @@ const updateForResourceUpdate = data => {
 //will also update html to display all resources user has added/updated
 //both the updateForResourceAdd and updateForResourceUpdate function call this and they do not pass data into function
 //the function is a callback for when user deletes a resource, and it does pass data to function
+const formatMyResourceHtml = () => {
+    return state.myResources.map(resource => `<div class="${resource.title}-container resource-styles"><span class="name-of-resource">${resource.title}</span><br><br>
+        <span class="resource-course-name">${resource.course}</span><br><br>
+        <span class="heading-for-resource-type">${resource.typeOfResource}</span><br><br>
+        <span class="resource-published-date">Published Date: ${resource.publishedOn}</span><br><br>
+        <button type='submit' value='${resource.resourceId}' class='view-resource-button btn-sm button-style'>View Resource</button><br>
+        <button type='submit' value='${resource.resourceId}' class='edit-resource-button btn-sm button-style' data-toggle='modal' data-target='#edit-resource'>Edit Resource</button><br>
+        <button type='submit' value="${resource.resourceId}" class='delete-resource-button btn-sm button-style'>Delete Resource</button></div>`)
+}
+
 const displayResources = data => {
     if (data) {
         Object.assign(state, data)
     }
 
-    let html = state.myResources.map(resource => `<div class="${resource.title}-container resource-styles"><div class="name-of-resource">Resource Name: ${resource.title}</div> <div class="resource-course-name">Course: ${resource.course}</div><div class="heading-for-resource-type">Type of Resource: ${resource.typeOfResource}</div><div class="resource-published-date">Published Date: ${resource.publishedOn}</div><button type='submit' value='${resource.resourceId}' class='view-resource-button'>View Resource</button><button type='submit' value='${resource.resourceId}' class='edit-resource-button'>Edit Resource</button><button type='submit' value="${resource.resourceId}" class='delete-resource-button'>Delete Resource</button></div>`)
-    $('.uploaded-resources-container').html(html)
+    if (state.myResources.length < 1) {
+       let html = "You do not currently have any resources uploaded to the database. Click 'Add New Resource to Database' to add a resource!"
+       $('.resource-message-box').html(html)
+       return
+    }
 
+    let html = formatMyResourceHtml()
+    $('.resource-message-box').text('')
+    $('.uploaded-resources-container').html(html)
 };
 
 //this function adds resource to users favorites, allows user to continue to search for additional researches
@@ -361,36 +381,57 @@ const updateForFavoriteResourceRemoval = data => {
     displayFavoriteResources(currentSelectedCourse)
 };
 
+const formatFavoriteResourceHtml = courseObject => {
+    return  courseObject.resources.map(resource => `<div class="${resource.title}-container resource-styles">
+        <span class="name-of-resource">${resource.title}</span><br><br>
+        <span class="resource-course-name">${resource.course}</span><br><br>
+        <span class="heading-for-resource-type">${resource.typeOfResource}</span><br><br>
+        <span class="resource-published-date">Published Date: ${resource.publishedOn}</span><br><br>
+        <button type='submit' value='${resource.resourceId}' class='view-resource-button btn btn-sm button-style'>View Resource</button><br>
+        <button type='submit' value="${resource.resourceId}" class='delete-resource-button btn btn-sm button-style'>Remove Resource from Favorites</button></div>`)
+}
+
 //displays favorite resource for a course (using global variable to identify which course)
 const displayFavoriteResources = courseName => {
     let courseObject =  state.currentClasses.find(course => course.courseName === courseName)
 
-    let html = courseObject.resources.map(resource => `<div class="${resource.title}-container resource-styles"><div class="name-of-resource">Resource Name: ${resource.title}</div> <div class="resource-course-name">Course: ${resource.course}</div><div class="heading-for-resource-type">Type of Resource: ${resource.typeOfResource}</div><div class="resource-published-date">Published Date: ${resource.publishedOn}</div><button type='submit' value='${resource.resourceId}' class='view-resource-button'>View Resource</button><button type='submit' value="${resource.resourceId}" class='delete-resource-button'>Remove Resource from Favorites</button></div>`)
+    if (courseObject.resources.length < 1) {
+      let message = 'You have not yet added any favorite resources for this class!'
+      $('.favorite-resource-message-box').text(message)
 
+      return
+    }
+
+    let html = formatFavoriteResourceHtml(courseObject)
+
+    $('.favorite-resource-message-box').text('')
     $('.favorite-resources-container').html(html)
 };
 
 //const this function updates the HTML fields when user is viewing a resource either through their favorites or when they
 //are doing a query.
-const updateHTML= (title, content, course, typeOfResource, publishedOn) => {
-  return `<div class="row"><div class="col-sm-12"><span class='view-resource-title small-style-box'>Title: ${title}</span></div></div>
-                <div class="row"><div class="col-sm-12"><span class='view-resource-course small-style-box'>Course: ${course}</span></div></div>
-                <div class="row"><div class="col-sm-12"><span class='view-resource-type small-style-box'>Type of Resource: ${typeOfResource}</span></div></div>
-                <div class="row"><div class="col-sm-12"><span class='view-resource-publish-date small-style-box'>Publish Date: ${publishedOn}</span></div></div>
-                <div class="row"><div class="col-sm-12"> <div class='view-resource-content large-style-box'>${content}</div><div></div>
-                <button class='go-back-to-find-resource-page' type='submit'>Go Back</button>`
-
-
+const formatHtmlForResultDisplay= (title, content, course, typeOfResource, publishedOn, resourceId) => {
+  return `<div class="row"><div class="col-lg-12 small-style-box"><span class='view-resource-title small-style-box'>Title: ${title}</span></div></div>
+                <div class="row"><div class="col-lg-12 small-style-box"><span class='view-resource-course small-style-box'>Course: ${course}</span></div></div>
+                <div class="row"><div class="col-lg-12 small-style-box"><span class='view-resource-type small-style-box'>Type of Resource: ${typeOfResource}</span></div></div>
+                <div class="row"><div class="col-lg-12 small-style-box"><span class='view-resource-publish-date small-style-box'>Publish Date: ${publishedOn}</span></div></div>
+                <div class="row"><div class="col-lg-12 small-style-box"><span class="margin"><button class='go-back-button btn button-style' type='submit'>Go Back</button>
+                <button class='add-to-my-favorites-button btn button-style' value="${resourceId}" type='submit'>Add to Favorites</button></span></div></div>
+                <div class="row"><div class="col-lg-12"> <div class='view-resource-content large-style-box'>${content}</div><div></div>
+                `
 }
 
-//We have an object passed in as a parameter here, and
-const displaySelectedResourceToView = ({title, content, course, typeOfResource, publishedOn}) => {
-  let html =  updateHTML(title, content, course, typeOfResource, publishedOn)
+
+const displaySelectedResourceToView = ({title, content, course, typeOfResource, publishedOn, resourceId}) => {
+    let html =  formatHtmlForResultDisplay(title, content, course, typeOfResource, publishedOn, resourceId)
+
+    $('.my-resource-container').html(html)
 };
 
 const displayResourceFromQueryResults = data => {
-    let {title, course, typeOfResource, content, publishedOn} = data[0]
-    let html = updateHTML(title, content, course, typeOfResource, publishedOn)
+    let {title, course, typeOfResource, content, publishedOn, id} = data[0]
+
+    let html = formatHtmlForResultDisplay(title, content, course, typeOfResource, publishedOn, id)
 
     $('.query-results-container').html(html)
 };
@@ -404,6 +445,45 @@ const displaySelectedResourceToEdit = ({title, content, course, typeOfResource})
     $('#edit-resource-content').val(content);
 };
 
+//checks to see if course selection is null or if class has already been added
+const checkToSeeIfWeShouldAddCourse = courseName => {
+    if (courseName === null) {
+        alert("You must choose a course before clicking 'add course'!")
+
+        return false
+    }
+
+    if (state.currentClasses.some(course => course.courseName === courseName)) {
+
+        $('.message-box').text('Sorry, that class is already in your dashboard!')
+        addAndRemoveHideClass([], [classReferences.message_box])
+
+        return false
+    }
+
+    return true
+
+}
+//checks to see if resource is already in favorites, if not makes request to user database to add to user favorites
+const addResourceToFavorites = resourceId => {
+    if (state.currentClasses.some(courses => courses.resources.some(resources => resources.resourceId  === resourceId))) {
+
+        alert('This resource is already in your favorite resources! You can see your favorite resources from your classboard page!')
+
+        return
+    };
+
+    makeRequestToFindResources('', '', '', '', resourceId, makeRequestToAddResourcetoUserFavorites)
+}
+
+
+const formatSearchResultHtml = (data) => {
+    return data.map(resource => `<div class="${resource.title}-container resource-styles"><span class="name-of-resource">${resource.title}</span><br><br>
+        <span class="resource-course-name"> ${resource.course}</span><br><br><span class="heading-for-resource-type">${resource.typeOfResource}</span><br><br>
+        <span class="resource-published-date">Published Date: ${resource.publishedOn}</span><br><br>
+        <button type='submit' value='${resource.id}' class='view-resource-button btn button-style query-result-button'>View Resource</button>
+        <button type='submit' value='${resource.id}' class='add-to-my-favorites-button btn button-style query-result-button'>Add to Favorites</button></div>`)
+}
 //displays search results - if data array is zero in length, no data back - user needs to refine search
 //otherwise will display results
 const displaySearchResults = data => {
@@ -412,11 +492,8 @@ const displaySearchResults = data => {
       return
     }
 
-    let formattedHtml = data.map(resource => {
-        return `<div class="${resource.title}-container resource-styles"><span class="name-of-resource">${resource.title}</span><br><br> <span class="resource-course-name"> ${resource.course}</span><br><br><span class="heading-for-resource-type">${resource.typeOfResource}</span><br><br><span class="resource-published-date">Published Date: ${resource.publishedOn}</span><br><br><button type='submit' value='${resource.id}' class='view-resource-button btn button-style query-result-button'>View Resource</button><button type='submit' value='${resource.id}' class='add-to-my-favorites-button btn button-style query-result-button'>Add to Saved Resources</button></div>`
-    })
-
-    $('.results-container').html(formattedHtml)
+    let html = formatSearchResultHtml(data)
+    $('.results-container').html(html)
 };
 
 
@@ -431,25 +508,7 @@ const watchForMyDashboardClick = () => {
         addAndRemoveHideClass([classReferences.find_resource_page, classReferences.view_my_resource_page, classReferences.my_uploaded_resources_page, classReferences.edit_resource_page, classReferences.create_new_resource_window, classReferences.my_favorite_resources_page, classReferences.view__result_from_search_page], [classReferences.dashboard_page])
     })
 };
-//this function watches for add new class click, then pop up form to add class comes up
-// const watchForShowAddNewClassFormClick = () => {
-//     $('.add-a-course-button').on('click', event => {
-//         event.preventDefault()
-//
-//         addAndRemoveHideClass([classReferences.message_box], [classReferences.add_a_course_container])
-//       //  handlePopup([classReferences.add_a_course_container], [])
-//     })
-// };
 
-//this function watches for user to click cancel when adding calss, and closes add class window
-const watchForCancelClick = () => {
-    $('.cancel-button').on('click', event => {
-          event.preventDefault()
-
-          handlePopup([], [classReferences.add_a_course_container])
-          addAndRemoveHideClass([])
-    })
-};
 
 //this watches for user to submit the class to be added to there dashboard, if class is already in there dashboard or if they dont choose a class they will recieve an alert
 const watchForAddNewClassClick = () => {
@@ -459,25 +518,14 @@ const watchForAddNewClassClick = () => {
           addAndRemoveHideClass([classReferences.message_box], [])
 
           let courseName = $('#course-name').val()
-
-          if (courseName === null) {
-            alert("You must choose a course before clicking 'add course'!")
-
-            return
-          }
-
-          if (state.currentClasses.some(course => course.courseName === courseName)) {
-
-              $('.message-box').text('Sorry, that class is already in your dashboard!')
-              addAndRemoveHideClass([], [classReferences.message_box])
-
-              return
-          }
+          let shouldWeAdd = checkToSeeIfWeShouldAddCourse(courseName)
 
           $('#course-name').val('')
           handlePopup([], [classReferences.add_a_course_container])
 
-          makeRequestToAddNewClass(courseName, displayClasses)
+          if (shouldWeAdd) {
+              makeRequestToAddNewClass(courseName, displayClasses)
+          }
     })
 };
 
@@ -502,7 +550,7 @@ const watchForCreateNewResourceClick = () => {
         $('#new-resource-content').val('')
         $('#new-resource-title').val('')
 
-        addAndRemoveHideClass([classReferences.my_uploaded_resources_page, classReferences.my_saved_resources_page, classReferences.my_favorite_resources_page, classReferences.dashboard_page, classReferences.edit_resource_page, classReferences.view_my_resource_page, classReferences.find_resource_page, classReferences.view__result_from_search_page], [classReferences.create_new_resource_window])
+        addAndRemoveHideClass([classReferences.my_favorite_resources_page, classReferences.dashboard_page, classReferences.edit_resource_page, classReferences.view_my_resource_page, classReferences.find_resource_page, classReferences.view__result_from_search_page], [classReferences.my_uploaded_resources_page])
     })
 }
 
@@ -530,6 +578,7 @@ const watchForCreateNewResourceSubmitClick = () => {
 const watchForRetrieveSavedResourcesClick = () => {
     $('.edit-existing-resource-button').on('click', event => {
 
+
         addAndRemoveHideClass([classReferences.dashboard_page, classReferences.create_new_resource_window, classReferences.my_favorite_resources_page, classReferences.edit_resource_page, classReferences.view_my_resource_page, classReferences.view_my_favorite_resource_page, classReferences.find_resource_page, classReferences.view__result_from_search_page], [classReferences.my_uploaded_resources_page])
         displayResources()
     })
@@ -547,7 +596,6 @@ const watchForDeleteSavedResourcesClick = () => {
 //this function watches for user to click to edit a resource they have uploaded, and then pulls up form to allow them to edit the resource
 const watchForEditResourceClick = () => {
     $('.uploaded-resources-container').on('click', '.edit-resource-button', event => {
-        addAndRemoveHideClass([classReferences.my_uploaded_resources_page], [classReferences.edit_resource_page])
 
         idOfResourceToUpdate = $(event.target).val()
         let myResource = state.myResources.find(resource => resource.resourceId === idOfResourceToUpdate)
@@ -558,10 +606,8 @@ const watchForEditResourceClick = () => {
 
 //once user has editted resource this function watches for user to submit, gets the values for updated fields and calls function to make request to update
 const watchForEditResourceSubmit = () => {
-    $('.edit-resource-submit').on('click', event => {
+    $('.edit-submit').on('click', event => {
           event.preventDefault();
-
-          addAndRemoveHideClass([classReferences.edit_resource_page], [classReferences.my_uploaded_resources_page])
 
           let courseName = $('#edit-resource-course').val()
           let typeOfResource = $('#edit-type-of-resource').val()
@@ -594,9 +640,9 @@ const watchForViewResourceClick = () => {
 
 //this function watches for user to click to go back to the uploaded resource page (handles from edit or view resource)
 const watchForGoBackToUploadedResourcesClick = () => {
-    $('.go-back-to-my-uploaded-resource-page').on('click', event => {
+    $('.my-resource-container').on('click', '.go-back-button', event => {
           event.preventDefault()
-
+          console.log("Sdf")
           addAndRemoveHideClass([classReferences.view_my_resource_page, classReferences.edit_resource_page], [classReferences.my_uploaded_resources_page])
     })
 };
@@ -650,10 +696,11 @@ const watchForViewResourceFromQueryResultsClick = () => {
 
 //if user clicks on a resources and wants to go back to results - this funciton watches for click and then brings them back
 const watchForGoBackToFindResourcePageClick = () => {
-    $('.query-results-container').on('click', '.go-back-to-find-resource-page', event => {
+    $('.query-results-container').on('click', '.go-back-button', event => {
         addAndRemoveHideClass([classReferences.view__result_from_search_page], [classReferences.find_resource_page])
     })
 };
+
 
 //watches for user to click to add a resource to their favorite resources, will get the resoruce id and then
 //make a call to find the resource by resource id, once it gets that resource it will make request to add it to user favorites
@@ -662,16 +709,22 @@ const watchForAddResourceToFavoritesClick = () => {
         event.preventDefault();
 
         resourceId = $(event.target).val()
+        addResourceToFavorites(resourceId)
+    });
 
-        if (state.currentClasses.some(courses => courses.resources.some(resources => resources.resourceId  === resourceId))) {
+    $('.query-results-container').on('click', '.add-to-my-favorites-button', event => {
+        event.preventDefault();
 
-            alert('This resource is already in your favorite resources! You can see your favorite resources from your classboard page!')
+        resourceId = $(event.target).val()
+        addResourceToFavorites(resourceId)
+     });
 
-            return
-        };
+     $('.my-resource-container').on('click', '.add-to-my-favorites-button', event => {
+        event.preventDefault();
 
-        makeRequestToFindResources('', '', '', '', resourceId, makeRequestToAddResourcetoUserFavorites)
-    })
+        resourceId = $(event.target).val()
+        addResourceToFavorites(resourceId)
+      })
 };
 
 // this function watches for user to click to view favorite resources for a given course
@@ -726,7 +779,7 @@ const watchForGoBackToMyFavoriteResourcesPageClick = () => {
 const init = () => {
 
     //watchForShowAddNewClassFormClick();
-    watchForCancelClick();
+    //cwatchForCancelClick();
     watchForAddNewClassClick();
     watchForDeleteClassClick();
     watchForCreateNewResourceClick();
@@ -748,6 +801,7 @@ const init = () => {
     watchForViewFavoriteResourceButtonClick();
     watchForGoBackToMyFavoriteResourcesPageClick();
     watchForClearFormClick();
+  //  loadPageRequest();
 
 }
 

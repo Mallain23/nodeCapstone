@@ -23,6 +23,7 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(morgan('common'));
 
+
 app.use(express.static('public'));
 
 app.use((req, res, next) => {
@@ -47,8 +48,9 @@ app.get('/', (req, res) => {
 
 app.get('/homepage/:username', function(req, res) {
 
-    res.sendFile(path.join(__dirname + '/public/welcome.html'));
+   res.sendFile(path.join(__dirname + '/public/welcome.html'));
 });
+
 
 
 

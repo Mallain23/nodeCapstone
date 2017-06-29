@@ -102,8 +102,8 @@ router.put('/resources', (req, res) => {
 router.put('/resources/:id', (req, res) => {
     let {username, content, resourceId, title, publishedOn, typeOfResource, course } = req.body.myResources
 
-    if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
-        const message = (`Request path id '(${req.params.id})' and request body id '(${req.body.id})' must match`);
+    if (!(req.params.id && resourceId && req.params.id === resourceId)) {
+        const message = (`Request path id '(${req.params.id})' and request body id '(${resourceId})' must match`);
         console.error(message);
         res.status(400).json({message: message});
     }
