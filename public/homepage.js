@@ -26,7 +26,9 @@ const classReferences = {
   view_my_favorite_resource_page: '.view-my-favorite-resource-page',
   current_classes_container: '.current-classes-container',
   search_for_resource_form: '.search-for-resource-form',
-  show_form_button: '.show-form-button'
+  show_form_button: '.show-form-button',
+  favorite_resources_message_box: '.favorite-resources-message-box',
+  favorite_resources_container: '.favorite-resources-container'
 
 }
 
@@ -247,7 +249,7 @@ const makeRequestToFindResources = (title, course, typeOfResource, username, res
 //this function makes request to add resource to users favorites (makes sure user has
 //added the class to their dashboard first)
 const makeRequestToAddResourcetoUserFavorites = data => {
-
+    console.log(data)
     let {title, content, typeOfResource, publishedOn, id, username, course} = data[0]
 
     if (state.currentClasses.every(className => className.courseName !== course)) {
@@ -298,12 +300,12 @@ const formatHtmlForClassDisplay = () => {
         num === 6 ? num = 1 : num++
 
         return `<div class="${course.courseName}-container course-styles course-${num}"><div class="info-container">
-          <span class="name-of-course">${course.courseName}</span><br>
-          <span class="number-of-resources">Number of Resources: ${course.resources.length}</span><br></div>
-          <button type="submit" value="${course.courseName}" class="view-course-resources-button btn-sm button-style">View Resources</button><br>
-          <button type='submit' value="${course.courseName}" class='remove-course-button btn-sm button-style'>Remove Course</button></div>`
-      })
-}
+                <span class="name-of-course">${course.courseName}</span><br>
+                <span class="number-of-resources">Number of Resources: ${course.resources.length}</span><br></div>
+                <button type="submit" value="${course.courseName}" class="view-course-resources-button btn-sm button-style">View Resources</button><br>
+                <button type='submit' value="${course.courseName}" class='remove-course-button btn-sm button-style'>Remove Course</button></div>`
+        })
+};
 //if this function gets data back from server, saves it to state. If user does not have any classes yet,
 // we will display message saying so. If user does have classes, we will display the classes
 const displayClasses = data => {
@@ -373,10 +375,13 @@ const displayResources = data => {
     if (state.myResources.length < 1) {
        let html = "You do not currently have any resources uploaded to the database. Click 'Add New Resource to Database' to add a resource!"
        $('.resource-message-box').html(html)
+       $('.uploaded-resources-container').html('')
+
+
        return
     }
-
     let html = formatMyResourceHtml()
+
     $('.resource-message-box').text('')
     $('.uploaded-resources-container').html(html)
 };
@@ -417,10 +422,11 @@ const displayFavoriteResources = courseName => {
     let courseObject =  state.currentClasses.find(course => course.courseName === courseName)
 
     if (courseObject.resources.length < 1) {
-      let message = 'You have not yet added any favorite resources for this class!'
-      $('.favorite-resource-message-box').text(message)
+        let message = 'You have not yet added any favorite resources for this class!'
 
-      return
+        $('.favorite-resources-message-box').text(message)
+
+        return
     }
 
     let html = formatFavoriteResourceHtml(courseObject)
@@ -429,31 +435,52 @@ const displayFavoriteResources = courseName => {
     $('.favorite-resources-container').html(html)
 };
 
+
+
 //const this function updates the HTML fields when user is viewing a resource either through their favorites or when they
 //are doing a query.
-const formatHtmlForResultDisplay= (title, content, course, typeOfResource, publishedOn, resourceId) => {
-    return `<div class="row"><div class="col-lg-12 small-style-box"><span class='view-resource-title small-style-box'>Title: ${title}</span></div></div>
+const formatHtmlTextForResultDisplay = (title, content, course, typeOfResource, publishedOn, resourceId) => {
+    return `<div class="info-container"><div class="row"><div class="col-lg-12 small-style-box"><span class='view-resource-title small-style-box'>Title: ${title}</span></div></div>
             <div class="row"><div class="col-lg-12 small-style-box"><span class='view-resource-course small-style-box'>Course: ${course}</span></div></div>
             <div class="row"><div class="col-lg-12 small-style-box"><span class='view-resource-type small-style-box'>Type of Resource: ${typeOfResource}</span></div></div>
-            <div class="row"><div class="col-lg-12 small-style-box"><span class='view-resource-publish-date small-style-box'>Publish Date: ${publishedOn}</span></div></div>
-            <div class="row"><div class="col-lg-12 small-style-box"><span class="margin"><button class='go-back-button btn button-style' type='submit'>Go Back</button>
-            <button class='add-to-my-favorites-button btn button-style' value="${resourceId}" type='submit'>Add to Favorites</button></span></div></div>
+            <div class="row"><div class="col-lg-12 small-style-box"><span class='view-resource-publish-date small-style-box'>Publish Date: ${publishedOn}</span></div></div></div>
             <div class="row"><div class="col-lg-12"> <div class='view-resource-content large-style-box'>${content}</div><div></div>`
 };
 
+const formatHtmlButtonsForResultDisplay = resourceId => {
+    return `<button class='go-back-button btn button-style' type='submit'>Go Back</button>
+            <button class='add-to-my-favorites-button btn button-style' value="${resourceId}" type='submit'>Add to Favorites</button>`
+}
+
+const formatHtmlButtonsForFavoriteDisplay = resourceId => {
+    return `<button class='go-back-to-my-favorite-resources-page btn button-style' type='submit'>Go Back!</button>`
+}
+
 
 const displaySelectedResourceToView = ({title, content, course, typeOfResource, publishedOn, resourceId}) => {
-    let html =  formatHtmlForResultDisplay(title, content, course, typeOfResource, publishedOn, resourceId)
+    let html =  formatHtmlTextForResultDisplay(title, content, course, typeOfResource, publishedOn, resourceId)
+    let buttonHtml = formatHtmlButtonsForResultDisplay(resourceId)
 
     $('.my-resource-container').html(html)
+    $('.resource-button-box').html(buttonHtml)
+};
+
+const displaySelectedFavoriteToView = ({title, content, course, typeOfResource, publishedOn, resourceId}) => {
+    let html =  formatHtmlTextForResultDisplay(title, content, course, typeOfResource, publishedOn, resourceId)
+    let buttonHtml = formatHtmlButtonsForFavoriteDisplay(resourceId)
+
+    $('.my-favorite-resource-container').html(html)
+    $('.resource-button-box').html(buttonHtml)
 };
 
 const displayResourceFromQueryResults = data => {
     let {title, course, typeOfResource, content, publishedOn, id} = data[0]
 
-    let html = formatHtmlForResultDisplay(title, content, course, typeOfResource, publishedOn, id)
+    let html = formatHtmlTextForResultDisplay(title, content, course, typeOfResource, publishedOn, id)
+    let buttonHtml = formatHtmlButtonsForResultDisplay(resourceId)
 
     $('.query-results-container').html(html)
+    $('.query-resource-button-box').html(buttonHtml)
 };
 
 //this function displays the resource for the user to edit
@@ -492,7 +519,7 @@ const addResourceToFavorites = resourceId => {
 
         return
     };
-
+    console.log(resourceId)
     makeRequestToFindResources('', '', '', '', resourceId, makeRequestToAddResourcetoUserFavorites)
 }
 
@@ -667,9 +694,9 @@ const watchForViewResourceClick = () => {
 
 //this function watches for user to click to go back to the uploaded resource page (handles from edit or view resource)
 const watchForGoBackToUploadedResourcesClick = () => {
-    $('.my-resource-container').on('click', '.go-back-button', event => {
+    $('.resource-button-box').on('click', '.go-back-button', event => {
           event.preventDefault()
-          console.log("Sdf")
+
           addAndRemoveHideClass([classReferences.view_my_resource_page, classReferences.edit_resource_page], [classReferences.my_uploaded_resources_page])
     })
 };
@@ -723,7 +750,7 @@ const watchForViewResourceFromQueryResultsClick = () => {
 
 //if user clicks on a resources and wants to go back to results - this funciton watches for click and then brings them back
 const watchForGoBackToFindResourcePageClick = () => {
-    $('.query-results-container').on('click', '.go-back-button', event => {
+    $('.query-resource-button-box').on('click', '.go-back-button', event => {
         addAndRemoveHideClass([classReferences.view__result_from_search_page], [classReferences.find_resource_page])
     })
 };
@@ -736,6 +763,7 @@ const watchForAddResourceToFavoritesClick = () => {
         event.preventDefault();
 
         resourceId = $(event.target).val()
+        console.log(resourceId)
         addResourceToFavorites(resourceId)
     });
 
@@ -746,7 +774,7 @@ const watchForAddResourceToFavoritesClick = () => {
         addResourceToFavorites(resourceId)
      });
 
-     $('.my-resource-container').on('click', '.add-to-my-favorites-button', event => {
+     $('.resource-button-box').on('click', '.add-to-my-favorites-button', event => {
         event.preventDefault();
 
         resourceId = $(event.target).val()
@@ -781,7 +809,7 @@ const watchForViewFavoriteResourceButtonClick = () => {
          let targetCourse = state.currentClasses.find(course => course.courseName === currentSelectedCourse)
          let targetResource = targetCourse.resources.find(resource => resource.resourceId === idOfCourseToView)
 
-         displaySelectedResourceToView(targetResource);
+         displaySelectedFavoriteToView(targetResource);
     })
 };
 
@@ -797,9 +825,9 @@ const watchForRemoveCourseFromFavoritesClick = () => {
 };
 
 const watchForGoBackToMyFavoriteResourcesPageClick = () => {
-    $('.go-back-to-my-favorite-resources-page').on('click', event =>{
+    $('.resource-button-box').on('click', '.go-back-to-my-favorite-resources-page', event =>{
         event.preventDefault()
-
+        console.log("right spot")
         addAndRemoveHideClass([classReferences.view_my_favorite_resource_page],[classReferences.my_favorite_resources_page])
     })
 }
