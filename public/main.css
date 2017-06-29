@@ -11,12 +11,12 @@ body {
 .info-container {
   border-bottom: 1px solid black;
   margin-bottom: 10px;
-  padding-bottom: 5px;
+  padding-bottom: 10px;
 }
 
-.current-classes-container {
-  margin-top: 40px;
-  margin-bottom: 40px;
+.current-classes-container, .favorite-resources-container, .uploaded-resources-container {
+  margin-top: 25px;
+  margin-bottom: 25px;
 
 }
 .course-styles {
@@ -60,15 +60,16 @@ body {
 
 .resource-styles {
   display: inline-block;
-  height: 250px;
-  width: 275px;
-  border: 1px solid black;
-  background-color: white;
+  height: 200px;
+  width: 200px;
+  border: 2px solid black;
   margin: 20px;
   overflow: scroll;
   padding: 15px;
-  font-size: 16px;
+  font-size: 12px;
+  font-weight: bold;
 }
+
 
 #edit-resource-content, #new-resource-content {
   height: 300px;
@@ -96,7 +97,7 @@ body {
   cursor: pointer;
 }
 
-.welcome-header, .uploaded-resources-page-header, .favorite-resources-header{
+.welcome-header, .uploaded-resources-page-header, .favorite-resources-header, .search-page-heading {
   font-family: Archivo Black;
   font-size: 32px;
   text-align: center;
@@ -147,10 +148,6 @@ body {
   font-size: 24px;
 }
 
-.search-page-heading {
-  text-align: center;
-  font-size: 24px;
-}
 
 .form-control {
   width: 50%;
@@ -176,7 +173,7 @@ label {
   font-size: 12px;
 }
 
-.query-results-container, .my-resource-container {
+.query-results-container, .my-resource-container, {
   background-color: white;
   width: 600px;
   height: 600px;
@@ -192,4 +189,18 @@ label {
 .margin {
   margin-left: 10px;
   margin-top: 10px;
+}
+
+.search-for-resource-form {
+  margin-top: 25px;
+}
+
+.find-heading {
+  font-size: 16px;
+  margin-left: 8px;
+}
+
+.show-form-container {
+  text-align: center;
+  margin-top: 15px;
 }

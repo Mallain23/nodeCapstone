@@ -24,7 +24,9 @@ const classReferences = {
   view__result_from_search_page: '.view-result-from-search-page',
   my_favorite_resources_page: '.my-favorite-resources-page',
   view_my_favorite_resource_page: '.view-my-favorite-resource-page',
-  current_classes_container: '.current-classes-container'
+  current_classes_container: '.current-classes-container',
+  search_for_resource_form: '.search-for-resource-form',
+  show_form_button: '.show-form-button'
 
 }
 
@@ -348,14 +350,20 @@ const updateForResourceUpdate = data => {
 //both the updateForResourceAdd and updateForResourceUpdate function call this and they do not pass data into function
 //the function is a callback for when user deletes a resource, and it does pass data to function
 const formatMyResourceHtml = () => {
-    return state.myResources.map(resource => `<div class="${resource.title}-container resource-styles"><span class="name-of-resource">${resource.title}</span><br><br>
-        <span class="resource-course-name">${resource.course}</span><br><br>
-        <span class="heading-for-resource-type">${resource.typeOfResource}</span><br><br>
-        <span class="resource-published-date">Published Date: ${resource.publishedOn}</span><br><br>
-        <button type='submit' value='${resource.resourceId}' class='view-resource-button btn-sm button-style'>View Resource</button><br>
-        <button type='submit' value='${resource.resourceId}' class='edit-resource-button btn-sm button-style' data-toggle='modal' data-target='#edit-resource'>Edit Resource</button><br>
-        <button type='submit' value="${resource.resourceId}" class='delete-resource-button btn-sm button-style'>Delete Resource</button></div>`)
-}
+    let num = 0
+
+    return state.myResources.map(resource => {
+        num === 6 ? num = 1 : num++
+        return `<div class="${resource.title}-container resource-styles course-${num}"><div class="info-container">
+                <span class="name-of-resource">${resource.title}</span><br><br>
+                <span class="resource-course-name">${resource.course}</span><br><br>
+                <span class="heading-for-resource-type">${resource.typeOfResource}</span><br><br>
+                <span class="resource-published-date">Published Date: ${resource.publishedOn}</span></div>
+                <button type='submit' value='${resource.resourceId}' class='view-resource-button btn-sm button-style'>View Resource</button><br>
+                <button type='submit' value='${resource.resourceId}' class='edit-resource-button btn-sm button-style' data-toggle='modal' data-target='#edit-resource'>Edit Resource</button><br>
+                <button type='submit' value="${resource.resourceId}" class='delete-resource-button btn-sm button-style'>Delete Resource</button></div>`
+      })
+};
 
 const displayResources = data => {
     if (data) {
@@ -389,13 +397,19 @@ const updateForFavoriteResourceRemoval = data => {
 };
 
 const formatFavoriteResourceHtml = courseObject => {
-    return  courseObject.resources.map(resource => `<div class="${resource.title}-container resource-styles">
-        <span class="name-of-resource">${resource.title}</span><br><br>
-        <span class="resource-course-name">${resource.course}</span><br><br>
-        <span class="heading-for-resource-type">${resource.typeOfResource}</span><br><br>
-        <span class="resource-published-date">Published Date: ${resource.publishedOn}</span><br><br>
-        <button type='submit' value='${resource.resourceId}' class='view-resource-button btn btn-sm button-style'>View Resource</button><br>
-        <button type='submit' value="${resource.resourceId}" class='delete-resource-button btn btn-sm button-style'>Remove Resource from Favorites</button></div>`)
+    let num = 0
+
+    return  courseObject.resources.map(resource => {
+        num === 6 ? num = 1 : num++
+
+        return `<div class="${resource.title}-container resource-styles course-${num}">
+                <div class=info-container><span class="name-of-resource">${resource.title}</span><br><br>
+                <span class="resource-course-name">${resource.course}</span><br><br>
+                <span class="heading-for-resource-type">${resource.typeOfResource}</span><br><br>
+                <span class="resource-published-date">Published Date: ${resource.publishedOn}</span></div>
+                <button type='submit' value='${resource.resourceId}' class='view-resource-button btn btn-sm button-style'>View Resource</button><br>
+                <button type='submit' value="${resource.resourceId}" class='delete-resource-button btn btn-sm button-style'>Remove Resource</button></div>`
+        })
 }
 
 //displays favorite resource for a course (using global variable to identify which course)
@@ -418,15 +432,14 @@ const displayFavoriteResources = courseName => {
 //const this function updates the HTML fields when user is viewing a resource either through their favorites or when they
 //are doing a query.
 const formatHtmlForResultDisplay= (title, content, course, typeOfResource, publishedOn, resourceId) => {
-  return `<div class="row"><div class="col-lg-12 small-style-box"><span class='view-resource-title small-style-box'>Title: ${title}</span></div></div>
-                <div class="row"><div class="col-lg-12 small-style-box"><span class='view-resource-course small-style-box'>Course: ${course}</span></div></div>
-                <div class="row"><div class="col-lg-12 small-style-box"><span class='view-resource-type small-style-box'>Type of Resource: ${typeOfResource}</span></div></div>
-                <div class="row"><div class="col-lg-12 small-style-box"><span class='view-resource-publish-date small-style-box'>Publish Date: ${publishedOn}</span></div></div>
-                <div class="row"><div class="col-lg-12 small-style-box"><span class="margin"><button class='go-back-button btn button-style' type='submit'>Go Back</button>
-                <button class='add-to-my-favorites-button btn button-style' value="${resourceId}" type='submit'>Add to Favorites</button></span></div></div>
-                <div class="row"><div class="col-lg-12"> <div class='view-resource-content large-style-box'>${content}</div><div></div>
-                `
-}
+    return `<div class="row"><div class="col-lg-12 small-style-box"><span class='view-resource-title small-style-box'>Title: ${title}</span></div></div>
+            <div class="row"><div class="col-lg-12 small-style-box"><span class='view-resource-course small-style-box'>Course: ${course}</span></div></div>
+            <div class="row"><div class="col-lg-12 small-style-box"><span class='view-resource-type small-style-box'>Type of Resource: ${typeOfResource}</span></div></div>
+            <div class="row"><div class="col-lg-12 small-style-box"><span class='view-resource-publish-date small-style-box'>Publish Date: ${publishedOn}</span></div></div>
+            <div class="row"><div class="col-lg-12 small-style-box"><span class="margin"><button class='go-back-button btn button-style' type='submit'>Go Back</button>
+            <button class='add-to-my-favorites-button btn button-style' value="${resourceId}" type='submit'>Add to Favorites</button></span></div></div>
+            <div class="row"><div class="col-lg-12"> <div class='view-resource-content large-style-box'>${content}</div><div></div>`
+};
 
 
 const displaySelectedResourceToView = ({title, content, course, typeOfResource, publishedOn, resourceId}) => {
@@ -485,11 +498,18 @@ const addResourceToFavorites = resourceId => {
 
 
 const formatSearchResultHtml = (data) => {
-    return data.map(resource => `<div class="${resource.title}-container resource-styles"><span class="name-of-resource">${resource.title}</span><br><br>
-        <span class="resource-course-name"> ${resource.course}</span><br><br><span class="heading-for-resource-type">${resource.typeOfResource}</span><br><br>
-        <span class="resource-published-date">Published Date: ${resource.publishedOn}</span><br><br>
-        <button type='submit' value='${resource.id}' class='view-resource-button btn button-style query-result-button'>View Resource</button>
-        <button type='submit' value='${resource.id}' class='add-to-my-favorites-button btn button-style query-result-button'>Add to Favorites</button></div>`)
+    let num = 0
+
+    return data.map(resource =>  {
+        num === 6 ? num = 1 : num++
+
+        return `<div class="${resource.title}-container resource-styles course-${num}"><div class="info-container">
+                <span class="name-of-resource">${resource.title}</span><br><br>
+                <span class="resource-course-name"> ${resource.course}</span><br><br><span class="heading-for-resource-type">${resource.typeOfResource}</span><br><br>
+                <span class="resource-published-date">Published Date: ${resource.publishedOn}</span></div>
+                <button type='submit' value='${resource.id}' class='view-resource-button btn button-style query-result-button'>View Resource</button>
+                <button type='submit' value='${resource.id}' class='add-to-my-favorites-button btn button-style query-result-button'>Add to Favorites</button></div>`
+              })
 }
 //displays search results - if data array is zero in length, no data back - user needs to refine search
 //otherwise will display results
@@ -784,8 +804,17 @@ const watchForGoBackToMyFavoriteResourcesPageClick = () => {
     })
 }
 
+const watchForHideFormClick = () => {
+    $('.hide-form-button').on('click', event => {
+        addAndRemoveHideClass([classReferences.search_for_resource_form], [classReferences.show_form_button])
+    })
+}
 
-
+const watchForShowFormClick = () => {
+    $('.show-form-button').on('click', event => {
+        addAndRemoveHideClass([classReferences.show_form_button], [classReferences.search_for_resource_form])
+    })
+}
 const init = () => {
 
     //watchForShowAddNewClassFormClick();
@@ -811,6 +840,8 @@ const init = () => {
     watchForViewFavoriteResourceButtonClick();
     watchForGoBackToMyFavoriteResourcesPageClick();
     watchForClearFormClick();
+    watchForShowFormClick()
+    watchForHideFormClick()
 
   //  loadPageRequest();
 
