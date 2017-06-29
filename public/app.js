@@ -1,4 +1,3 @@
-//contains URLS for API calls
 const Urls = {
 
   CREATE_USER_URL: '/users',
@@ -169,7 +168,6 @@ const init = () => {
     watchForLoginClick();
     watchForShowCreateNewUserFormClick();
     watchForShowLoginFormClick();
-
 
 }
 

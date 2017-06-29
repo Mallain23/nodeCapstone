@@ -139,6 +139,7 @@ router.post('/', (req, res) => {
 
 
 router.post('/welcome', passport.authenticate('basic', {session: true}), (req, res) => {
+        console.log(req.user)
         res.json({user: req.user.apiRpr(), token: new Date()})
 })
 

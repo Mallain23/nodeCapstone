@@ -68,8 +68,8 @@ UserSchema.methods.apiRpr = function() {
         firstName: this.firstName || '',
         lastName: this.lastName || '',
         currentClasses: this.currentClasses || '',
-        savedResources: this.savedResources || '',
-        myResources: this.myResources || ''
+        myResources: this.myResources || '',
+        username: this.username || ''
     };
 };
 

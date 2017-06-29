@@ -8,9 +8,16 @@ body {
   display: none;
 }
 
+.info-container {
+  border-bottom: 1px solid black;
+  margin-bottom: 10px;
+  padding-bottom: 5px;
+}
 
-.current-courses-container {
-  margin-top: 20px;
+.current-classes-container {
+  margin-top: 40px;
+  margin-bottom: 40px;
+
 }
 .course-styles {
   display: inline-block;
@@ -21,6 +28,29 @@ body {
   margin: 15px;
   padding: 10px;
   color: black;
+}
+
+.course-1 {
+  background-color: #4d94ff;
+}
+
+.course-2 {
+  background-color: #39ac39;
+}
+.course-3 {
+  background-color: #d580ff;
+}
+
+.course-4 {
+  background-color: #ff944d;
+}
+
+.course-5 {
+  background-color: #ffff66;
+}
+
+.course-6 {
+  background-color: #ff8080;
 }
 
 .login-page-welcome {
@@ -102,8 +132,8 @@ body {
 .button-style {
   border: 1px solid black;
   margin: 5px;
-  background-color: grey;
-  color: white
+  background-color: white;
+  color: black;
 }
 
 .button-style:hover {

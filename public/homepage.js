@@ -290,10 +290,17 @@ const makeRequestToDeleteFavoriteResource = (resourceId, courseName, callback) =
 };
 
 const formatHtmlForClassDisplay = () => {
-    return state.currentClasses.map(course => `<div class="${course.courseName}-container course-styles"><span class="name-of-course">${course.courseName}</span><br>
-        <span class="number-of-resources">Number of Resources: ${course.resources.length}</span><br>
-        <button type="submit" value="${course.courseName}" class="view-course-resources-button btn-sm button-style">View Resources</button><br>
-        <button type='submit' value="${course.courseName}" class='remove-course-button btn-sm button-style'>Remove Course</button></div>`)
+    let num = 0
+
+    return state.currentClasses.map(course => {
+        num === 6 ? num = 1 : num++
+
+        return `<div class="${course.courseName}-container course-styles course-${num}"><div class="info-container">
+          <span class="name-of-course">${course.courseName}</span><br>
+          <span class="number-of-resources">Number of Resources: ${course.resources.length}</span><br></div>
+          <button type="submit" value="${course.courseName}" class="view-course-resources-button btn-sm button-style">View Resources</button><br>
+          <button type='submit' value="${course.courseName}" class='remove-course-button btn-sm button-style'>Remove Course</button></div>`
+      })
 }
 //if this function gets data back from server, saves it to state. If user does not have any classes yet,
 // we will display message saying so. If user does have classes, we will display the classes
@@ -776,6 +783,9 @@ const watchForGoBackToMyFavoriteResourcesPageClick = () => {
         addAndRemoveHideClass([classReferences.view_my_favorite_resource_page],[classReferences.my_favorite_resources_page])
     })
 }
+
+
+
 const init = () => {
 
     //watchForShowAddNewClassFormClick();
@@ -801,6 +811,7 @@ const init = () => {
     watchForViewFavoriteResourceButtonClick();
     watchForGoBackToMyFavoriteResourcesPageClick();
     watchForClearFormClick();
+
   //  loadPageRequest();
 
 }
