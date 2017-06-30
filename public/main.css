@@ -253,3 +253,7 @@ label {
 .space-button {
   margin-right: 10px;
 }
+.prev-next-container {
+  text-align: center;
+  margin-bottom: 15px;
+}

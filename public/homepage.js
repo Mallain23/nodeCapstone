@@ -28,7 +28,8 @@ const classReferences = {
   search_for_resource_form: '.search-for-resource-form',
   show_form_button: '.show-form-button',
   favorite_resources_message_box: '.favorite-resources-message-box',
-  favorite_resources_container: '.favorite-resources-container'
+  favorite_resources_container: '.favorite-resources-container',
+  prev_next_container: '.prev-next-container'
 
 }
 
@@ -42,11 +43,7 @@ let idOfResourceToUpdate
 
 let currentSelectedCourse
 
-// const updateState = data => {
-//
-//     Object.assign(state, data)
-//     displayClasses();
-// }
+let searchPageIndex = 0
 
 const resetState = () => {
     state.username = null,
@@ -515,7 +512,7 @@ const displaySelectedResourceToEdit = ({title, content, course, typeOfResource})
 //checks to see if course selection is null or if class has already been added
 
 const formatSearchResultHtml = (data) => {
-    let num = 0
+    let num = 0;
 
     return data.map(resource =>  {
         num === 6 ? num = 1 : num++
@@ -530,16 +527,47 @@ const formatSearchResultHtml = (data) => {
 }
 //displays search results - if data array is zero in length, no data back - user needs to refine search
 //otherwise will display results
-const displaySearchResults = data => {
+const storeSearchResults = data => {
     if (data.length < 1) {
-      $('.results-container').text('Sorry, your search terms were too narrow and have not returned any results. Try refining your search terms!')
-      return
+        $('.results-container').text('Sorry, your search terms were too narrow and have not returned any results. Try refining your search terms!')
+        return
     }
 
-    let html = formatSearchResultHtml(data)
+    state.searchResults = data;
+    displaySearchResults()
+}
+
+const displaySearchResults = ()=> {
+
+    let resultArray = state.searchResults.slice(searchPageIndex * 12, (searchPageIndex * 12) + 12)
+
+    if (resultArray.length < 1) {
+        $(".results-container").append("<h3>Sorry, no additional results</h3>")
+        $(".go-to-next-page").attr("disabled", "disabled")
+
+        return;
+    }
+    addAndRemoveHideClass([''], [classReferences.prev_next_container])
+
+    let html = formatSearchResultHtml(resultArray)
+    let pageNum = searchPageIndex + 1;
+
     $('.results-container').html(html)
+    $('.page').text(pageNum)
+
 };
 
+const displayPriorPageOfSearchResults = () => {
+    searchPageIndex = searchPageIndex - 1;
+    let pageNum = searchPageIndex + 1;
+
+    let resultArray = state.searchResults.slice(searchPageIndex * 12, (searchPageIndex * 12) + 12)
+    let html = formatSearchResultHtml(resultArray)
+
+    $('.results-container').html(html)
+    $('.page').text(pageNum)
+
+}
 
 const checkToSeeIfWeShouldAddCourse = courseName => {
     if (courseName === null) {
@@ -730,7 +758,7 @@ const watchForSearchForResourcesClick = () => {
         clearSearchForm()
         $('.results-container').text('');
 
-        addAndRemoveHideClass([classReferences.view_my_resource_page, classReferences.view_my_favorite_resource_page, classReferences.view__result_from_search_page, classReferences.my_favorite_resources_page, classReferences.my_uploaded_resources_page, classReferences.edit_resource_page, classReferences.create_new_resource_window, classReferences.dashboard_page], [classReferences.find_resource_page])
+        addAndRemoveHideClass([classReferences.prev_next_container, classReferences.view_my_resource_page, classReferences.view_my_favorite_resource_page, classReferences.view__result_from_search_page, classReferences.my_favorite_resources_page, classReferences.my_uploaded_resources_page, classReferences.edit_resource_page, classReferences.create_new_resource_window, classReferences.dashboard_page], [classReferences.find_resource_page])
     })
 }
 
@@ -739,18 +767,21 @@ const watchForSearchForResourcesSubmitClick = () => {
     $('.search-resource-submit').on('click', event => {
         event.preventDefault();
 
+        searchPageIndex = 0;
+        $(".go-to-prev-page").attr("disabled", "disabled")
+
         let searchTitle = $('#search-resource-title').val()
         let searchCourse = $('#search-resource-course').val()
         let searchUser = $('#search-resource-username').val()
         let searchType = $('#search-resource-type').val()
 
-        makeRequestToFindResources(searchTitle, searchCourse, searchType, searchUser, '', displaySearchResults)
+        makeRequestToFindResources(searchTitle, searchCourse, searchType, searchUser, '', storeSearchResults)
     })
 };
 
-
 const watchForClearFormClick = () => {
     $('.clear-form').on('click', event => {
+
         event.preventDefault();
         clearSearchForm();
     })
@@ -869,8 +900,30 @@ const watchForShowFormClick = () => {
         addAndRemoveHideClass([classReferences.show_form_button], [classReferences.search_for_resource_form])
     })
 }
+const watchForGoToNextPageOfResultsClick = () => {
+    $('.go-to-next-page').on('click', event => {
+        searchPageIndex++
+        displaySearchResults()
 
+        $(".results-container").scrollTop(0);
+        $(".go-to-prev-page").removeAttr("disabled")
 
+    })
+}
+
+const watchForGoToPreviousPageOfResultsClick = () => {
+    $('.go-to-prev-page').on('click', event => {
+
+          displayPriorPageOfSearchResults();
+
+          $(".result-list").scrollTop(0);
+          $(".go-to-prev-page").removeAttr("disabled")
+
+          if (searchPageIndex === 0) {
+              $(".go-to-prev-page").attr("disabled", "disabled");
+          }
+    });
+};
 
 
 
@@ -901,7 +954,8 @@ const init = () => {
     watchForShowFormClick()
     watchForHideFormClick()
     makeRequesToGetUsername(displayClasses);
-
+    watchForGoToNextPageOfResultsClick();
+    watchForGoToPreviousPageOfResultsClick();
 }
 
 $(init);

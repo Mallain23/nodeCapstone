@@ -213,7 +213,7 @@
             </div>
             <div class="row">
                 <div class="col-xs-12 add-resource-button">
-                    <button data-toggle="modal" data-target="#create-new-resource-container" class="btn button-style">Add a Resource to Database</button>
+                    <button data-toggle="modal" class="create-new-resource-button btn button-style" data-target="#create-new-resource-container" class="btn button-style">Add a Resource to Database</button>
                 </div>
             </div>
             <div class="row">
@@ -383,6 +383,11 @@
                   <button type='submit' class="show-form-button btn btn-md button-style hide">Show Form</button>
             </div>
             <div class='results-container row'></div>
+            <div class="prev-next-container hide row">
+              <button class="btn btn-sm button-style go-to-prev-page" disabled>Previous Page</button>
+              <div class="page-num">Page: <span class="page"></span></div>
+              <button class="btn btn-sm button-style go-to-next-page">Next Page</button>
+            </div>
         </div>
 
         <div class="view-my-resource-page hide">
@@ -416,7 +421,7 @@
               </div>
           </div>
 
-    <script src="http://localhost:8080/app.js"></script>
+
     <script src="http://localhost:8080/homepage.js"></script>
 
 
