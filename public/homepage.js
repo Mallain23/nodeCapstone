@@ -42,6 +42,12 @@ let idOfResourceToUpdate
 
 let currentSelectedCourse
 
+// const updateState = data => {
+//
+//     Object.assign(state, data)
+//     displayClasses();
+// }
+
 const resetState = () => {
     state.username = null,
     state.firstName = null,
@@ -86,6 +92,19 @@ const clearSearchForm = () => {
 //are the creators. There is also a user database which stores all the users, and resources that they have created,
 //the courses they have added to their classboard, and favorite resoruces they have saved to their courses.
 
+const makeRequesToGetUsername = callback => {
+      let addressUrl = `/users${window.location.pathname}`
+      let settings = {
+          url: addressUrl,
+          contentType: 'application/json',
+          method: 'POST',
+          success: callback
+      };
+
+      $.ajax(settings)
+  };
+
+
 
 //this function makes request to add a new class to users courseboard -
 const makeRequestToAddNewClass = (course, callback) => {
@@ -95,7 +114,7 @@ const makeRequestToAddNewClass = (course, callback) => {
         method: 'PUT',
         data: JSON.stringify({
             currentClasses: {courseName: course, resources: []},
-            username: 'Test2'
+            username: state.username
         }),
         success: callback
     };
@@ -112,7 +131,7 @@ const makeRequestToRemoveClass = (course, callback) => {
         method: 'DELETE',
         data: JSON.stringify({
             currentClasses: {courseName: course},
-            username: 'Test2'
+            username: state.username
         }),
         success: callback
     };
@@ -127,7 +146,7 @@ const makeRequestToAddNewResourceToResourceDatabase = (title, typeOfResource, co
         contentType: 'application/json',
         method: 'POST',
         data: JSON.stringify({
-            username: 'Test2',
+            username: state.username,
             content: content,
             title: title,
             typeOfResource: typeOfResource,
@@ -146,7 +165,7 @@ const makeRequestToAddNewResourceToUserDatabase = ({title, typeOfResource, cours
         contentType: 'application/json',
         method: 'PUT',
         data: JSON.stringify({
-        myResources: { username: 'Test2',
+        myResources: { username: state.username,
                       content: content,
                       title: title,
                       typeOfResource: typeOfResource,
@@ -191,13 +210,13 @@ const makeRequestToDeleteResourceFromUserDataBase = ({_id}, callback) => {
 
 //this function makes request to update the resource in the resource database
 const makeRequestToUpdateResourceDatabase = (resourceId, userame, content, title, typeOfResource, course, callback) => {
-    console.log("test")
+
     let settings = {
         url: `${Urls.RESOURCE_DATA_URL}/${resourceId}`,
         contentType: 'application/json',
         method: 'PUT',
         data: JSON.stringify({
-            username: 'Test2',
+            username: state.username,
             content: content,
             title: title,
             typeOfResource: typeOfResource,
@@ -217,7 +236,7 @@ const makeRequestToUpdateUserResource = ({content, title, typeOfResource, course
         contentType: 'application/json',
         method: 'PUT',
         data: JSON.stringify({
-            myResources: { username: 'Test2',
+            myResources: { username: state.username,
                           content: content,
                           title: title,
                           typeOfResource: typeOfResource,
@@ -262,7 +281,7 @@ const makeRequestToAddResourcetoUserFavorites = data => {
         contentType: 'application/json',
         method: 'PUT',
         data: JSON.stringify({
-                          username: 'Test2',
+                          username: state.username,
                           content: content,
                           title: title,
                           typeOfResource: typeOfResource,
@@ -283,7 +302,7 @@ const makeRequestToDeleteFavoriteResource = (resourceId, courseName, callback) =
         contentType: 'application/json',
         method: 'DELETE',
         data: JSON.stringify({
-                      username: 'Test2',
+                      username: state.username,
                       courseName: courseName
         }),
         success: callback
@@ -850,6 +869,12 @@ const watchForShowFormClick = () => {
         addAndRemoveHideClass([classReferences.show_form_button], [classReferences.search_for_resource_form])
     })
 }
+
+
+
+
+
+
 const init = () => {
 
     watchForAddNewClassClick();
@@ -875,8 +900,7 @@ const init = () => {
     watchForClearFormClick();
     watchForShowFormClick()
     watchForHideFormClick()
-
-  //  loadPageRequest();
+    makeRequesToGetUsername(displayClasses);
 
 }
 

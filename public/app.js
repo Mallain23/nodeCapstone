@@ -1,59 +1,23 @@
-const Urls = {
+const urls = {
 
   CREATE_USER_URL: '/users',
   WELCOME_SCREEN_URL:'/users/welcome'
 };
 
-const classReferences = {
-  dashboard_page: '.dashboard-page',
-  current_classes_page: '.current-classes-page',
-  prior_classes_page: '.prior-classes-page',
-  my_saved_resources_page: '.my-saved-resources-page',
-  my_uploaded_resources_page: '.my-uploaded-resources-page',
-  add_a_course_container: '.add-a-course-container',
-  create_new_resource_window: '.create-new-resource-window',
-  message_box: '.message-box',
-  create_new_user_container: '.create-new-user-container',
-  login_container: '.login-container',
-  login_message: '.login-message'
 
-}
 
-const state = {
-    currentClasses: [],
-    uploadedResources: []
-};
+let currentUsername
 
-const resetState = () => {
-    state.username = null,
-    state.firstName = null,
-    state.lastName = null,
-    state.currentClasses = [],
-    state.uploadedResources = []
-}
+
 //adds hide class to elements in array of 1st param, removes hide class for elements in array of second param
-const addAndRemoveHideClass = (addArray, removeArray) => {
 
-    addArray.forEach(element => {
-        $(element).addClass('hide')
-    })
 
-    removeArray.forEach(element => {
-        $(element).removeClass('hide')
-    })
 
-};
-
-const handlePopup = (showPop, hidePop) => {
-  $(showPop).fadeIn('slow');
-  $(hidePop).fadeOut('slow');
-
-}
 
 const makeRequestToCreateNewUser = (username, password, firstName, lastName, callback) => {
 
       let settings = {
-        url: Urls.CREATE_USER_URL,
+        url: urls.CREATE_USER_URL,
         contentType: 'application/json',
         method: 'POST',
         data: JSON.stringify({
@@ -73,7 +37,7 @@ const makeRequestToCreateNewUser = (username, password, firstName, lastName, cal
 const makeRequestToLogin = (username, password, callback) => {
   console.log("test")
   let settings = {
-    url: Urls.WELCOME_SCREEN_URL,
+    url: urls.WELCOME_SCREEN_URL,
     contentType: 'application/json',
     headers: {
       authorization: "Basic " + btoa(username + ':' + password)
@@ -90,17 +54,13 @@ $.ajax(settings)
 
 
 const loginSuccessHandler = data => {
-      console.log(data)
       window.location.replace(`http://localhost:8080/homepage/${data.user.username}`)
 }
 
+
 const directUserToLogin = data => {
-  console.log("sdsd", data)
 
   alert(`Success! New New user ${data.username} has been created! Click 'Login' to log into your account!`)
-
-
-
 
 }
 
@@ -144,11 +104,10 @@ const watchForLoginClick = () => {
 
 
 
-const init = () => {
+const startup = () => {
     watchForCreateNewUserClick();
     watchForLoginClick();
 
-
 }
 
-$(init);
+$(startup);

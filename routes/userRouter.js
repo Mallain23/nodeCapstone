@@ -2,9 +2,10 @@ const {BasicStrategy} = require('passport-http');
 
 const passport = require('passport');
 
+// const LocalStrategy = require('passport-local').Strategy;
 
 const express = require('express');
-
+const session = require('express-session')
 
 const router = express.Router();
 
@@ -14,6 +15,33 @@ const jsonParser = bodyParser.json();
 const {Users} = require('../models');
 
 
+//
+// const localStrategy = new LocalStrategy((username, password, callback) => {
+//
+//     let user
+//     return Users
+//     .findOne({username: username})
+//     .exec()
+//     .then(_user => {
+//
+//         user = _user
+//         if(!user) {
+//
+//             return callback(null, false, {message: 'Invalid Username'})
+//         }
+//
+//         return user.validatePassword(password)
+//     })
+//     .then(isValid => {
+//
+//         if (!isValid) {
+//
+//             return callback(null, false, {message: 'Incorrect Password'})
+//         }
+//         return callback(null, user);
+//     })
+//     .catch(err => callback(err))
+// })
 
 
 const basicStrategy = new BasicStrategy((username, password, callback) => {
@@ -27,7 +55,7 @@ const basicStrategy = new BasicStrategy((username, password, callback) => {
         user = _user
         if(!user) {
 
-            return callback(null, false)
+            return callback(null, false, {message: 'Invalid Username'})
         }
 
         return user.validatePassword(password)
@@ -49,7 +77,9 @@ const basicStrategy = new BasicStrategy((username, password, callback) => {
 
 passport.use(basicStrategy)
 
+
 router.use(passport.initialize());
+
 
 passport.serializeUser(function(user, done) {
     done(null, user);
@@ -136,13 +166,33 @@ router.post('/', (req, res) => {
         })
 })
 
+// router.post('/welcome', passport.authenticate('local'), function(req, res) {
+//   console.log("yes")
+//   res.json({user: req.user.apiRpr(), token: new Date()})
+// });
 
 
 router.post('/welcome', passport.authenticate('basic', {session: true}), (req, res) => {
-        console.log(req.user)
+
         res.json({user: req.user.apiRpr(), token: new Date()})
 })
 
+router.post('/homepage/:username', (req, res) => {
+    let username = req.params.username
+
+    return Users
+    .findOne({username})
+    .exec()
+    .then(user => {
+        console.log(user)
+        res.json(user.apiRpr())
+    })
+
+    .catch(err => {
+        console.error(err)
+        res.status(500).json({message: 'Internal Server Error'})
+    })
+})
 
 
 module.exports = {router};
