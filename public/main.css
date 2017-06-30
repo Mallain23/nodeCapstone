@@ -97,7 +97,7 @@ body {
   cursor: pointer;
 }
 
-.welcome-header, .uploaded-resources-page-header, .favorite-resources-header, .search-page-heading {
+.welcome-header, .uploaded-resources-page-header, .favorite-resources-header, .search-page-heading, .login-page-welcome {
   font-family: Archivo Black;
   font-size: 32px;
   text-align: center;
@@ -115,7 +115,7 @@ body {
 
 .form-control {
   margin: 10px;
-  width: 80%;
+  width: 75%;
 }
 
 .modal-body .form-horizontal .col-sm-2,
@@ -149,9 +149,9 @@ body {
 }
 
 
-.form-control {
+/*.form-control {
   width: 50%;
-}
+}*/
 
 .form-group {
   margin: 15px;
@@ -210,4 +210,45 @@ label {
   margin-left: 50px;
   text-align: center;
   margin-bottom: 30px;
+}
+
+.user-margin {
+ margin-left: 30px;
+
+}
+
+.label-margin {
+ margin-left: 20px;
+ margin-bottom: 10px;
+}
+
+.login-buttons {
+  margin-left: 20px;
+  margin-bottom: 10px;
+}
+
+.about-us {
+  width: 500px;
+
+
+  margin: 20px;
+  border-radius: 5%;
+
+}
+
+.about-us-heading {
+  font-size: 24px;
+  border-bottom: 2px solid black;
+  font-weight: bold;
+  padding-bottom: 10px;
+  margin-top: 50px;
+}
+
+.about-us-body {
+  font-size: 16px;
+  margin-top: 15px;
+}
+
+.space-button {
+  margin-right: 10px;
 }

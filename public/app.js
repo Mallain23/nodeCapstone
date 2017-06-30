@@ -94,12 +94,12 @@ const loginSuccessHandler = data => {
       window.location.replace(`http://localhost:8080/homepage/${data.user.username}`)
 }
 
-const directUserToLogin = (data) => {
+const directUserToLogin = data => {
+  console.log("sdsd", data)
 
-  addAndRemoveHideClass([classReferences.create_new_user_container], [classReferences.login_container, classReferences.login_message])
-  let message = `Success! New New user ${data.username} has been created! Please login below!`
+  alert(`Success! New New user ${data.username} has been created! Click 'Login' to log into your account!`)
 
-  $('.login-message').html(message)
+
 
 
 }
@@ -111,26 +111,7 @@ const directUserToLogin = (data) => {
 //this function watches for user to click create new user, it then takes values supplied and passes it
 //to a function that will make a post request to /users to create a new user
 
-const watchForShowCreateNewUserFormClick = () => {
-    $('.show-create-user-button').on('click', event => {
-        event.preventDefault();
 
-        $('#first-name').val('')
-        $('#last-name').val('')
-        $('#username').val('')
-        $('#password').val('')
-        $('login-message').val('')
-
-        addAndRemoveHideClass([classReferences.login_container], [classReferences.create_new_user_container])
-    })
-}
-
-const watchForShowLoginFormClick = () => {
-    $('.show-login-page-button').on('click', event => {
-        event.preventDefault();
-        addAndRemoveHideClass([classReferences.create_new_user_container], [classReferences.login_container], )
-    })
-}
 const watchForCreateNewUserClick = () => {
     $('.create-new-user-button').on('click', event => {
 
@@ -166,8 +147,7 @@ const watchForLoginClick = () => {
 const init = () => {
     watchForCreateNewUserClick();
     watchForLoginClick();
-    watchForShowCreateNewUserFormClick();
-    watchForShowLoginFormClick();
+
 
 }
 

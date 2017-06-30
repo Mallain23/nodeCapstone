@@ -2,46 +2,107 @@
 <html>
     <head>
         <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-        <link rel="stylesheet" href="main.css" media="screen" title="no title" charset="utf-8">
-        <title>Law Student Study Portal!</title>
+        <link href="https://fonts.googleapis.com/css?family=Archivo+Black" rel="stylesheet">
+        <link rel="stylesheet" href="http://localhost:8080/main.css" media="screen" title="no title" charset="utf-8">
+        <title>Law Student Study Portal</title>
+
     </head>
 
     <body>
+      <nav class="navbar navbar-inverse">
+          <div class="container-fluid">
+              <div class="navbar-header">
+                  <a class="navbar-brand">LAW STUDENT STUDY PORTAL</a>
+              </div>
+              <ul class="nav navbar-nav">
+                    <li><a class='create-user pointer' data-toggle="modal" data-target="#create-new-user">Create New User</a></li>
+                    <li><a class="login pointer" data-toggle="modal" data-target="#login">Login</a></li>
+              </ul>
+          </div>
+      </nav>
+
 
         <div class="login-page-welcome">Welcome to the Law Student Study Portal!</div>
-        <div class="login-button-container">
-            <button class="show-create-user-button" type="submit"> Create New User!</button>
-            <button class="show-login-page-button" type="submit">Login to your account!</button>
+
+          <div class="modal fade" id="create-new-user" role="dialog">
+              <div class="modal-dialog">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal">
+                              <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+                          </button>
+                          <h3 class="modal-title">Create New User</h3>
+                      </div>
+                  <div class="modal-body create-user-modal">
+                      <form class="create-new-user-form center-form form-horizontal" role="form">
+                          <div class="form-group">
+                              <label class="col-sm-12 label-margin" for="first-name">Enter your First Name</label>
+                              <input placeholder='Enter First Name' class="form-control user-margin" type="text" name='first-name' id='first-name'/>
+                          </div>
+                          <div class="form-group">
+                              <label class="col-sm-12 label-margin" for="last-name">Last Name</label>
+                              <input type="text" class="form-control user-margin" name='last-name' id='last-name' placeholder='Enter Last Name'/>
+                          </div>
+                          <div class="form-group">
+                              <label class="col-sm-12 label-margin" for="username">Username</label>
+                              <input type="text" class="form-control user-margin" name='username' id='username' required placeholder='Enter New Username'/>
+                          </div>
+                          <div class="form-group">
+                              <label class="col-sm-12 label-margin" for="password">Password</label>
+                              <input class="form-control user-margin" type="password" name='password' id='password' required placeholder='Enter New Password'/>
+                          </div>
+                      </form>
+                      <div class="login-buttons">
+                        <button type="submit" class="create-new-user-button space-button btn btn-success" data-dismiss="modal">Create New User</button>
+                        <button type="submit" class="cancel-button space-button btn " data-dismiss="modal">Cancel</button>
+                    </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+      <div class="modal fade" id="login" role="dialog">
+          <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal">
+                          <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+                      </button>
+                      <h3 class="modal-title">Login to your Account</h3>
+                  </div>
+              <div class="modal-body login-modal">
+                  <form class="login-form form-horizontal" role="form">
+                      <div class="form-group">
+                          <label class="col-sm-12 label-margin" for="username">Enter your Username</label>
+                          <input placeholder='Enter Username' class="form-control user-margin" type="text" name='first-name' id='login-username'/>
+                      </div>
+                      <div class="form-group">
+                          <label class="col-sm-12 label-margin" for="login-password">Password</label>
+                          <input type="password" class="form-control user-margin" name="password" id='login-password' placeholder='Enter Password'/>
+                      </div>
+                  </form>
+                  <div class="login-buttons">
+                      <button type="submit" class="login-button btn btn-success space-button" data-dismiss="modal">Login</button>
+                      <button type="submit" class="cancel-button btn space-button" data-dismiss="modal">Cancel</button>
+                  </div>
+              </div>
+            </div>
         </div>
+    </div>
 
-
-        <div class="create-new-user-container hide">
-            <form class='create-new-user-form'>
-                <label for="first-name">First Name</label>
-                <input placeholder='Enter First Name' type="text" name='first-name' id='first-name'/>
-                <label for="last-name">Last Name</label>
-                <input type="text" name='last-name' id='last-name' placeholder='Enter Last Name'/>
-                <label for="username">Username</label>
-                <input type="text" name='username' id='username' required placeholder='Enter New Username'/>
-                <label for="password">Password</label>
-                <input type="password" name='password' id='password' required placeholder='Enter New Password'/>
-            </form>
-            <button class='create-new-user-button' type='submit'> Submit! </button>
-        </div>
-
-
-        <div class="login-container hide">
-            <form class="login-form">
-                <div class="login-message hide"></div>
-                <label for="logn-username">Username</label>
-                <input placeholder='Enter Username' type="text" name='first-name' id='login-username'/>
-                <label for="login-password">Password</label>
-                <input type="password" name="password" id='login-password' placeholder='Enter Password'/>
-            </form>
-            <button class="login-button" type="submit">Login</button>
-        </div>
+    <div class="container">
+      <div class="row-sm-12">
+          <div class="about-us"><div class="about-us-heading"> ABOUT THE LAW STUDENT PORTAL</div><div class="about-us-body"> The Law Student Portal is a tool for Law Students. It is meant to help Law School Students share resources, advice, and strategies for getting through Law School and acing their final exams. Users can create their own accounts, customize their classboard to reflect the classes they are taking and browse resources for those classes. The Law School Portal has Outlines, Exam Questions and Answers, Class Notes, and other miscelleanous resources and tools available for you to seach. If like a resource or find it helpful, add it to your favorites for easy access! Also, as a user, you are encourages to share your resources and advice to others! </div></div>
+      </div>
+      <div class='login-button-container'>
+          <button class="btn button-style" data-toggle="modal" data-target="#create-new-user">Create New User</button>
+          <button class="btn button-style" data-toggle="modal" data-target="#login">Login</button>
+      </div>
+  </div>
 
 
 
