@@ -584,7 +584,7 @@ const displaySearchResults = ()=> {
 
 };
 
-const displayPriorPageOfResourceResults = () => {
+const displayPriorPageOfSearchResults = () => {
     searchPageIndex = searchPageIndex - 1;
     let pageNum = searchPageIndex + 1;
 

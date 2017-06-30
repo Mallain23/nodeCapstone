@@ -75,7 +75,7 @@ router.put('/:id', (req, res) => {
             toUpdate[field] = req.body[field]
         }
     })
-    console.log(toUpdate)
+
     StudyResources
     .findByIdAndUpdate(req.params.id, {$set: toUpdate}, {new: true})
     .exec()

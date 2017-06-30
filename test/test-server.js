@@ -27,14 +27,12 @@ const generateStudyResourceData = () => {
     return {
 
         title: faker.lorem.sentence(),
-        type: faker.lorem.sentence(),
+        typeOfResource: faker.lorem.sentence(),
         username: faker.name.findName(),
         course: faker.lorem.sentence(),
         professor: faker.lorem.sentence(),
         content: faker.lorem.sentence(),
-        popularity: 5,
         publishedOn: new Date()
-
     }
 }
 
@@ -69,6 +67,7 @@ describe('Studyguide Resource API', function() {
             return chai.request(app)
             .get('/resources')
             .then(function(res) {
+
                 res.should.have.status(200)
                 res.should.be.json
                 res.body.should.be.a('array')
@@ -76,7 +75,7 @@ describe('Studyguide Resource API', function() {
 
                 res.body.forEach(resource => {
                     resource.should.be.a('object')
-                    resource.should.include.keys('title', 'content', 'course', 'username', 'id', 'type')
+                    resource.should.include.keys('title', 'content', 'course', 'username', 'id', 'typeOfResource')
                 })
                 resResource = res.body[0]
 
@@ -87,7 +86,7 @@ describe('Studyguide Resource API', function() {
                 resResource.course.should.equal(resource.course)
                 resResource.content.should.equal(resource.content)
                 resResource.username.should.equal(resource.username)
-                resResource.type.should.equal(resource.type)
+                resResource.typeOfResource.should.equal(resource.typeOfResource)
             })
        })
 
@@ -120,7 +119,7 @@ describe('Studyguide Resource API', function() {
               title: "sample new title",
               content: "sample new content",
               course: "contracts",
-              type: "study guide"
+              typeOfResource: "study guide"
             }
 
             return chai.request(app)
@@ -131,11 +130,11 @@ describe('Studyguide Resource API', function() {
                 res.should.have.status(201)
                 res.should.be.json
                 res.body.should.be.a('object')
-                res.body.should.include.keys('title', 'content', 'course', 'type', 'id')
+                res.body.should.include.keys('title', 'content', 'course', 'typeOfResource', 'id')
                 res.body.title.should.equal(newResource.title)
                 res.body.content.should.equal(newResource.content)
                 res.body.course.should.equal(newResource.course)
-                res.body.type.should.equal(newResource.type)
+                res.body.typeOfResource.should.equal(newResource.typeOfResource)
                 res.body.id.should.not.be.null
 
                 return StudyResources.findById(res.body.id).exec()
@@ -144,7 +143,7 @@ describe('Studyguide Resource API', function() {
 
                 resource.title.should.equal(newResource.title)
                 resource.content.should.equal(newResource.content)
-                resource.type.should.equal(newResource.type)
+                resource.typeOfResource.should.equal(newResource.typeOfResource)
                 resource.course.should.equal(newResource.course)
             })
         })
@@ -158,7 +157,7 @@ describe('Studyguide Resource API', function() {
               title: 'new title',
               content: 'new content',
               course: 'new course',
-              type: 'new type'
+              typeOfResource: 'new type'
             }
 
             return StudyResources
@@ -173,15 +172,14 @@ describe('Studyguide Resource API', function() {
 
             .then(function(res) {
 
-                res.should.have.status(204)
+                res.should.have.status(201)
                 return StudyResources.findById(updatedResource.id).exec()
             })
 
             .then(function(resource) {
-                console.log("2", resource)
                 resource.title.should.equal(updatedResource.title)
                 resource.content.should.equal(updatedResource.content)
-                resource.type.should.equal(updatedResource.type)
+                resource.typeOfResource.should.equal(updatedResource.typeOfResource)
                 resource.course.should.equal(updatedResource.course)
             })
         })
