@@ -249,11 +249,10 @@ const makeRequestToFindResources = (title, course, typeOfResource, username, res
 //this function makes request to add resource to users favorites (makes sure user has
 //added the class to their dashboard first)
 const makeRequestToAddResourcetoUserFavorites = data => {
-    console.log(data)
     let {title, content, typeOfResource, publishedOn, id, username, course} = data[0]
 
     if (state.currentClasses.every(className => className.courseName !== course)) {
-        alert(`Resource Course "${course}" must be added to your classboard before you can add a favorite resource to the course!`)
+        alert(`Course "${course}" must be added to your classboard before you can add a favorite resource to the course!`)
 
         return
     }
@@ -293,6 +292,10 @@ const makeRequestToDeleteFavoriteResource = (resourceId, courseName, callback) =
     $.ajax(settings)
 };
 
+
+// functions that help display classes to class back-to-dashboard
+
+
 const formatHtmlForClassDisplay = () => {
     let num = 0
 
@@ -312,21 +315,19 @@ const displayClasses = data => {
      if (data) {
         Object.assign(state, data)
     }
-
      if (state.currentClasses.length < 1) {
         message = "You do not currently have any classes added to your Classboard. Click 'add new course' to add a course!"
 
         $('.message-box').html(message)
         $('.current-classes-container').html('')
 
-        addAndRemoveHideClass([''], [classReferences.message_box])
-
         return
     }
-
     let html = formatHtmlForClassDisplay()
     $('.current-classes-container').html(html)
+    $('.message-box').html('')
 };
+
 
 //once user adds a resource to databases, this function will save that resource to state, and then show the user
 //a page with all of the resources they have managed (and update that page with new resource)
@@ -340,11 +341,11 @@ const updateForResourceAdd = data => {
 };
 
 const updateForResourceUpdate = data => {
-  Object.assign(state, data)
+    Object.assign(state, data)
 
-  displayResources();
+    displayResources();
 
-  alert(`Sucess! Your resource has been updated!`)
+    alert(`Sucess! Your resource has been updated!`)
 };
 
 //if function recieves data back from server, will update state
@@ -356,6 +357,7 @@ const formatMyResourceHtml = () => {
 
     return state.myResources.map(resource => {
         num === 6 ? num = 1 : num++
+
         return `<div class="${resource.title}-container resource-styles course-${num}"><div class="info-container">
                 <span class="name-of-resource">${resource.title}</span><br><br>
                 <span class="resource-course-name">${resource.course}</span><br><br>
@@ -364,19 +366,17 @@ const formatMyResourceHtml = () => {
                 <button type='submit' value='${resource.resourceId}' class='view-resource-button btn-sm button-style'>View Resource</button><br>
                 <button type='submit' value='${resource.resourceId}' class='edit-resource-button btn-sm button-style' data-toggle='modal' data-target='#edit-resource'>Edit Resource</button><br>
                 <button type='submit' value="${resource.resourceId}" class='delete-resource-button btn-sm button-style'>Delete Resource</button></div>`
-      })
+        })
 };
 
 const displayResources = data => {
     if (data) {
         Object.assign(state, data)
     }
-
     if (state.myResources.length < 1) {
        let html = "You do not currently have any resources uploaded to the database. Click 'Add New Resource to Database' to add a resource!"
        $('.resource-message-box').html(html)
        $('.uploaded-resources-container').html('')
-
 
        return
     }
@@ -425,16 +425,17 @@ const displayFavoriteResources = courseName => {
         let message = 'You have not yet added any favorite resources for this class!'
 
         $('.favorite-resources-message-box').text(message)
+        $('.favorite-resources-container').html('')
 
         return
     }
 
     let html = formatFavoriteResourceHtml(courseObject)
 
-    $('.favorite-resource-message-box').text('')
     $('.favorite-resources-container').html(html)
-};
+    $('.favorite-resource-message-box').text('')
 
+};
 
 
 //const this function updates the HTML fields when user is viewing a resource either through their favorites or when they
@@ -456,7 +457,6 @@ const formatHtmlButtonsForFavoriteDisplay = resourceId => {
     return `<button class='go-back-to-my-favorite-resources-page btn button-style' type='submit'>Go Back!</button>`
 }
 
-
 const displaySelectedResourceToView = ({title, content, course, typeOfResource, publishedOn, resourceId}) => {
     let html =  formatHtmlTextForResultDisplay(title, content, course, typeOfResource, publishedOn, resourceId)
     let buttonHtml = formatHtmlButtonsForResultDisplay(resourceId)
@@ -464,6 +464,7 @@ const displaySelectedResourceToView = ({title, content, course, typeOfResource, 
     $('.my-resource-container').html(html)
     $('.resource-button-box').html(buttonHtml)
 };
+
 
 const displaySelectedFavoriteToView = ({title, content, course, typeOfResource, publishedOn, resourceId}) => {
     let html =  formatHtmlTextForResultDisplay(title, content, course, typeOfResource, publishedOn, resourceId)
@@ -493,36 +494,6 @@ const displaySelectedResourceToEdit = ({title, content, course, typeOfResource})
 };
 
 //checks to see if course selection is null or if class has already been added
-const checkToSeeIfWeShouldAddCourse = courseName => {
-    if (courseName === null) {
-        alert("You must choose a course before clicking 'add course'!")
-
-        return false
-    }
-
-    if (state.currentClasses.some(course => course.courseName === courseName)) {
-
-        $('.message-box').text('Sorry, that class is already in your dashboard!')
-        addAndRemoveHideClass([], [classReferences.message_box])
-
-        return false
-    }
-
-    return true
-
-}
-//checks to see if resource is already in favorites, if not makes request to user database to add to user favorites
-const addResourceToFavorites = resourceId => {
-    if (state.currentClasses.some(courses => courses.resources.some(resources => resources.resourceId  === resourceId))) {
-
-        alert('This resource is already in your favorite resources! You can see your favorite resources from your classboard page!')
-
-        return
-    };
-    console.log(resourceId)
-    makeRequestToFindResources('', '', '', '', resourceId, makeRequestToAddResourcetoUserFavorites)
-}
-
 
 const formatSearchResultHtml = (data) => {
     let num = 0
@@ -550,6 +521,36 @@ const displaySearchResults = data => {
     $('.results-container').html(html)
 };
 
+
+const checkToSeeIfWeShouldAddCourse = courseName => {
+    if (courseName === null) {
+        alert("You must choose a course before clicking 'add course'!")
+
+        return false
+    }
+
+    if (state.currentClasses.some(course => course.courseName === courseName)) {
+
+        $('.message-box').text('Sorry, that class is already in your dashboard!')
+        addAndRemoveHideClass([], [classReferences.message_box])
+
+        return false
+    }
+
+    return true
+
+}
+//checks to see if resource is already in favorites, if not makes request to user database to add to user favorites
+const addResourceToFavorites = resourceId => {
+    if (state.currentClasses.some(courses => courses.resources.some(resources => resources.resourceId  === resourceId))) {
+
+        alert('This resource is already in your favorite resources! You can see your favorite resources from your classboard page!')
+
+        return
+    };
+
+    makeRequestToFindResources('', '', '', '', resourceId, makeRequestToAddResourcetoUserFavorites)
+}
 
 //this section is the functions that watch for click events
 
@@ -763,7 +764,6 @@ const watchForAddResourceToFavoritesClick = () => {
         event.preventDefault();
 
         resourceId = $(event.target).val()
-        console.log(resourceId)
         addResourceToFavorites(resourceId)
     });
 
@@ -779,7 +779,14 @@ const watchForAddResourceToFavoritesClick = () => {
 
         resourceId = $(event.target).val()
         addResourceToFavorites(resourceId)
-      })
+      });
+
+      $('.query-resource-button-box').on('click', '.add-to-my-favorites-button', event => {
+         event.preventDefault();
+
+         resourceId = $(event.target).val()
+         addResourceToFavorites(resourceId)
+       });
 };
 
 // this function watches for user to click to view favorite resources for a given course
@@ -845,8 +852,6 @@ const watchForShowFormClick = () => {
 }
 const init = () => {
 
-    //watchForShowAddNewClassFormClick();
-    //cwatchForCancelClick();
     watchForAddNewClassClick();
     watchForDeleteClassClick();
     watchForCreateNewResourceClick();
