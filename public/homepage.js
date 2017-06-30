@@ -45,6 +45,8 @@ let currentSelectedCourse
 
 let searchPageIndex = 0
 
+let resourcePageIndex = 0
+
 const resetState = () => {
     state.username = null,
     state.firstName = null,
@@ -199,7 +201,7 @@ const makeRequestToDeleteResourceFromUserDataBase = ({_id}, callback) => {
         url: `${Urls.USER_RESOURCES_URL}/${_id}`,
         contentType: 'application/json',
         method: 'DELETE',
-        success: displayResources
+        success: storeMyResourceData
     };
 
     $.ajax(settings)
@@ -350,6 +352,7 @@ const displayClasses = data => {
 const updateForResourceAdd = data => {
     Object.assign(state, data)
 
+    resourcePageIndex = 0
     displayResources();
     addAndRemoveHideClass([''], [classReferences.my_uploaded_resources_page])
 
@@ -359,6 +362,7 @@ const updateForResourceAdd = data => {
 const updateForResourceUpdate = data => {
     Object.assign(state, data)
 
+    resourcePageIndex = 0
     displayResources();
 
     alert(`Sucess! Your resource has been updated!`)
@@ -368,10 +372,10 @@ const updateForResourceUpdate = data => {
 //will also update html to display all resources user has added/updated
 //both the updateForResourceAdd and updateForResourceUpdate function call this and they do not pass data into function
 //the function is a callback for when user deletes a resource, and it does pass data to function
-const formatMyResourceHtml = () => {
+const formatMyResourceHtml = results => {
     let num = 0
 
-    return state.myResources.map(resource => {
+    return results.map(resource => {
         num === 6 ? num = 1 : num++
 
         return `<div class="${resource.title}-container resource-styles course-${num}"><div class="info-container">
@@ -385,10 +389,9 @@ const formatMyResourceHtml = () => {
         })
 };
 
-const displayResources = data => {
-    if (data) {
-        Object.assign(state, data)
-    }
+const storeMyResourceData = data => {
+    Object.assign(state, data)
+
     if (state.myResources.length < 1) {
        let html = "You do not currently have any resources uploaded to the database. Click 'Add New Resource to Database' to add a resource!"
        $('.resource-message-box').html(html)
@@ -396,11 +399,38 @@ const displayResources = data => {
 
        return
     }
-    let html = formatMyResourceHtml()
+    displayResources()
+}
 
-    $('.resource-message-box').text('')
+const displayResources = data => {
+
+    let resultArray = state.myResources.slice(resourcePageIndex * 12, (resourcePageIndex * 12) + 12)
+
+
+    resultArray.length < 12 ?  $(".go-to-next-page-resource").attr("disabled", "disabled") : $(".go-to-next-page-resource").removeAttr("disabled")
+    resourcePageIndex < 1 ?  $(".go-to-prev-page-resource").attr("disabled", "disabled") : $(".go-to-prev-page-resource").removeAttr("disabled")
+
+    addAndRemoveHideClass([''], [classReferences.prev_next_container])
+
+    let html = formatMyResourceHtml(resultArray)
+    let pageNum = resourcePageIndex + 1;
+
     $('.uploaded-resources-container').html(html)
+    $('.page').text(pageNum)
+    $('.resource-message-box').html('')
 };
+
+const displayPriorPageOfResources = () => {
+      resourcePageIndex = resourcePageIndex - 1;
+      let pageNum = resourcePageIndex + 1;
+
+      let resultArray = state.myResources.slice(resourcePageIndex * 12, (resourcePageIndex * 12) + 12)
+      let html = formatMyResourceHtml(resultArray)
+
+      $('.uploaded-resources-container').html(html)
+      $('.page').text(pageNum)
+}
+
 
 //this function adds resource to users favorites, allows user to continue to search for additional researches
 //and does not change the current window they are viewing - just lets them know resource has been added
@@ -541,12 +571,9 @@ const displaySearchResults = ()=> {
 
     let resultArray = state.searchResults.slice(searchPageIndex * 12, (searchPageIndex * 12) + 12)
 
-    if (resultArray.length < 1) {
-        $(".results-container").append("<h3>Sorry, no additional results</h3>")
-        $(".go-to-next-page").attr("disabled", "disabled")
+    resultArray.length < 12 ?  $(".go-to-next-page").attr("disabled", "disabled") : $(".go-to-next-page-resource").removeAttr("disabled")
+    searchPageIndex < 1 ?  $(".go-to-prev-page").attr("disabled", "disabled") : $(".go-to-prev-page-resource").removeAttr("disabled")
 
-        return;
-    }
     addAndRemoveHideClass([''], [classReferences.prev_next_container])
 
     let html = formatSearchResultHtml(resultArray)
@@ -557,7 +584,7 @@ const displaySearchResults = ()=> {
 
 };
 
-const displayPriorPageOfSearchResults = () => {
+const displayPriorPageOfResourceResults = () => {
     searchPageIndex = searchPageIndex - 1;
     let pageNum = searchPageIndex + 1;
 
@@ -682,7 +709,8 @@ const watchForRetrieveSavedResourcesClick = () => {
 
 
         addAndRemoveHideClass([classReferences.dashboard_page, classReferences.create_new_resource_window, classReferences.my_favorite_resources_page, classReferences.edit_resource_page, classReferences.view_my_resource_page, classReferences.view_my_favorite_resource_page, classReferences.find_resource_page, classReferences.view__result_from_search_page], [classReferences.my_uploaded_resources_page])
-        displayResources()
+        resourcePageIndex = 0
+        storeMyResourceData()
     })
 };
 
@@ -690,6 +718,7 @@ const watchForRetrieveSavedResourcesClick = () => {
 const watchForDeleteSavedResourcesClick = () => {
     $('.uploaded-resources-container').on('click', '.delete-resource-button', event => {
         let resourceId = $(event.target).val()
+        resourcePageIndex = 0
 
         makeRequestToDeleleResourceFromResourceDataBase(resourceId, makeRequestToDeleteResourceFromUserDataBase)
     })
@@ -916,8 +945,8 @@ const watchForGoToPreviousPageOfResultsClick = () => {
 
           displayPriorPageOfSearchResults();
 
-          $(".result-list").scrollTop(0);
-          $(".go-to-prev-page").removeAttr("disabled")
+          $(".results-container").scrollTop(0);
+          $(".go-to-next-page").removeAttr("disabled")
 
           if (searchPageIndex === 0) {
               $(".go-to-prev-page").attr("disabled", "disabled");
@@ -925,6 +954,30 @@ const watchForGoToPreviousPageOfResultsClick = () => {
     });
 };
 
+const watchForGoToNextPageOfResourcesClick = () => {
+  $('.go-to-next-page-resource').on('click', event => {
+      resourcePageIndex++
+      displayResources()
+
+      $(".uploaded-resources-container").scrollTop(0);
+      $(".go-to-prev-page-resource").removeAttr("disabled")
+
+  })
+}
+
+const watchForGoToPreviousPageOfResourcesClick = () => {
+    $('.go-to-prev-page-resource').on('click', event => {
+
+          displayPriorPageOfResources();
+
+          $(".uploaded-resources-container").scrollTop(0);
+          $(".go-to-next-page-resource").removeAttr("disabled")
+
+          if (resourcePageIndex === 0) {
+              $(".go-to-prev-page-resource").attr("disabled", "disabled");
+          }
+    });
+};
 
 
 
@@ -956,6 +1009,8 @@ const init = () => {
     makeRequesToGetUsername(displayClasses);
     watchForGoToNextPageOfResultsClick();
     watchForGoToPreviousPageOfResultsClick();
+    watchForGoToPreviousPageOfResourcesClick();
+    watchForGoToNextPageOfResourcesClick();
 }
 
 $(init);
