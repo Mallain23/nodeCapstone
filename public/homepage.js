@@ -68,17 +68,6 @@ const addAndRemoveHideClass = (addArray, removeArray) => {
 
 };
 
-const handlePopup = (showPopArr, hidePopArr) => {
-    showPopArr.forEach(element => {
-        $(element).fadeIn('slow');
-    })
-
-    hidePopArr.forEach(element => {
-      $(element).fadeOut();
-    })
-
-}
-
 const clearSearchForm = () => {
     $('#search-resource-title').val('')
     $('#search-resource-course').val('')
@@ -102,8 +91,6 @@ const makeRequesToGetUsername = callback => {
 
       $.ajax(settings)
   };
-
-
 
 //this function makes request to add a new class to users courseboard -
 const makeRequestToAddNewClass = (course, callback) => {
@@ -310,10 +297,7 @@ const makeRequestToDeleteFavoriteResource = (resourceId, courseName, callback) =
     $.ajax(settings)
 };
 
-
 // functions that help display classes to class back-to-dashboard
-
-
 const formatHtmlForClassDisplay = () => {
     let num = 0
 
@@ -334,19 +318,33 @@ const displayClasses = data => {
         Object.assign(state, data)
     }
      if (state.currentClasses.length < 1) {
-        message = "You do not currently have any classes added to your Classboard. Click 'add new course' to add a course!"
+        message = "You currently do not have any classes added to your Classboard. Click 'add new course' to add a course!"
 
         $('.message-box').html(message)
         $('.current-classes-container').html('')
 
         return
     }
+
     let html = formatHtmlForClassDisplay()
+
     $('.current-classes-container').html(html)
     $('.message-box').html('')
 };
 
 
+const storeMyResourceData = data => {
+    Object.assign(state, data)
+
+    if (state.myResources.length < 1) {
+       let html = "You do not currently have any resources uploaded to the database. Click 'Add New Resource to Database' to add a resource!"
+       $('.resource-message-box').html(html)
+       $('.uploaded-resources-container').html('')
+
+       return
+    }
+    displayResources()
+}
 //once user adds a resource to databases, this function will save that resource to state, and then show the user
 //a page with all of the resources they have managed (and update that page with new resource)
 const updateForResourceAdd = data => {
@@ -354,8 +352,8 @@ const updateForResourceAdd = data => {
 
     resourcePageIndex = 0
     displayResources();
-    addAndRemoveHideClass([''], [classReferences.my_uploaded_resources_page])
 
+    addAndRemoveHideClass([''], [classReferences.my_uploaded_resources_page])
     alert(`Sucess! Your resource '${data.myResources[data.myResources.length - 1].title}' has been added to the database!`)
 };
 
@@ -389,23 +387,9 @@ const formatMyResourceHtml = results => {
         })
 };
 
-const storeMyResourceData = data => {
-    Object.assign(state, data)
-
-    if (state.myResources.length < 1) {
-       let html = "You do not currently have any resources uploaded to the database. Click 'Add New Resource to Database' to add a resource!"
-       $('.resource-message-box').html(html)
-       $('.uploaded-resources-container').html('')
-
-       return
-    }
-    displayResources()
-}
-
 const displayResources = data => {
 
     let resultArray = state.myResources.slice(resourcePageIndex * 12, (resourcePageIndex * 12) + 12)
-
 
     resultArray.length < 12 ?  $(".go-to-next-page-resource").attr("disabled", "disabled") : $(".go-to-next-page-resource").removeAttr("disabled")
     resourcePageIndex < 1 ?  $(".go-to-prev-page-resource").attr("disabled", "disabled") : $(".go-to-prev-page-resource").removeAttr("disabled")
@@ -430,7 +414,6 @@ const displayPriorPageOfResources = () => {
       $('.uploaded-resources-container').html(html)
       $('.page').text(pageNum)
 }
-
 
 //this function adds resource to users favorites, allows user to continue to search for additional researches
 //and does not change the current window they are viewing - just lets them know resource has been added
@@ -468,7 +451,7 @@ const displayFavoriteResources = courseName => {
     let courseObject =  state.currentClasses.find(course => course.courseName === courseName)
 
     if (courseObject.resources.length < 1) {
-        let message = 'You have not yet added any favorite resources for this class!'
+        let message = 'You do not have any favorite resources for this course!'
 
         $('.favorite-resources-message-box').text(message)
         $('.favorite-resources-container').html('')
@@ -650,7 +633,6 @@ const watchForAddNewClassClick = () => {
           let shouldWeAdd = checkToSeeIfWeShouldAddCourse(courseName)
 
           $('#course-name').val('')
-          handlePopup([], [classReferences.add_a_course_container])
 
           if (shouldWeAdd) {
               makeRequestToAddNewClass(courseName, displayClasses)
@@ -980,7 +962,6 @@ const watchForGoToPreviousPageOfResourcesClick = () => {
 };
 
 
-
 const init = () => {
 
     watchForAddNewClassClick();
@@ -1011,6 +992,7 @@ const init = () => {
     watchForGoToPreviousPageOfResultsClick();
     watchForGoToPreviousPageOfResourcesClick();
     watchForGoToNextPageOfResourcesClick();
+
 }
 
 $(init);

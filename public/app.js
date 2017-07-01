@@ -50,9 +50,6 @@ $.ajax(settings)
 };
 
 
-
-
-
 const loginSuccessHandler = data => {
       window.location.replace(`http://localhost:8080/homepage/${data.user.username}`)
 }
@@ -65,8 +62,6 @@ const directUserToLogin = data => {
 }
 
 
-
-//const getStudyGuideData
 
 //this function watches for user to click create new user, it then takes values supplied and passes it
 //to a function that will make a post request to /users to create a new user
@@ -101,13 +96,10 @@ const watchForLoginClick = () => {
     })
 }
 
-
-
-
-const startup = () => {
+const init = () => {
     watchForCreateNewUserClick();
     watchForLoginClick();
 
 }
 
-$(startup);
+$(init);
