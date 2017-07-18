@@ -77,6 +77,35 @@ describe('User Data API', function() {
         return closeServer();
     });
 
+    describe('POST Endpoint', function(){
+        it('should return correct user data', function() {
+
+            let username
+
+            return Users.findOne()
+            .exec()
+            .then(function(user) {
+                username = user.username
+                return chai.request(app)
+                .post(`/users/homepage/${username}`)
+            })
+
+            .then(function(res) {
+                res.should.have.status(200)
+                res.body.should.be.a("object")
+                res.body.should.have.keys("username", "lastName", "firstName", "currentClasses", "myResources")
+                res.body.currentClasses.should.be.a("array")
+                res.body.myResources.should.be.a("array")
+
+                return Users.findOne({username: res.body.username})
+                .exec()
+            })
+            .then(function(user) {
+                user.username.should.equal(username)
+            })
+        })
+    })
+
     describe('PUT Endpoint', function() {
 
         it('should add a course and return users data', function() {
@@ -231,7 +260,7 @@ describe('User Data API', function() {
             })
 
             .then(function(res) {
-              
+
                 res.should.have.status(201)
 
                 return Users.findOne({username: newResourceObject.username})
@@ -277,9 +306,7 @@ describe('User Data API', function() {
                 .exec()
             })
             .then(function(user) {
-                let doesCourseExist = user.currentClasses.some(course => {
-                    return course.CourseName === removeCourseDataObject.currentclasses.courseName
-                })
+                let doesCourseExist = user.currentClasses.some(course => course.CourseName === removeCourseDataObject.currentclasses.courseName)
 
                 doesCourseExist.should.equal(false)
             })
@@ -306,47 +333,43 @@ describe('User Data API', function() {
               .exec()
             })
             .then(function(user){
-              let doesResourceExist = user.myResources.some(resource => {
-                  resource.resourceId === resourceId
-              })
+              let doesResourceExist = user.myResources.some(resource => resource.resourceId === resourceId)
               doesResourceExist.should.equal(false)
             })
         })
 
         it("should delete a users favorite resource", function() {
-          let resourceId
-          let deleteResourceData = {}
+            let resourceId
+            let deleteResourceData = {}
 
-          return Users.findOne()
-          .exec()
-          .then(function(user) {
-              deleteResourceData.username = user.username
-              deleteResourceData.courseName = user.currentClasses[0].courseName
-              resourceId = user.currentClasses[0].resources[0].resourceId
+            return Users.findOne()
+            .exec()
+            .then(function(user) {
+                deleteResourceData.username = user.username
+                deleteResourceData.courseName = user.currentClasses[0].courseName
+                resourceId = user.currentClasses[0].resources[0].resourceId
 
-              return chai.request(app)
-              .delete(`/user-data/favorite-resources/${resourceId}`)
-              .send(deleteResourceData)
-          })
+                return chai.request(app)
+                .delete(`/user-data/favorite-resources/${resourceId}`)
+                .send(deleteResourceData)
+            })
 
-          .then(function(res) {
-              res.should.have.status(201)
+            .then(function(res) {
+                res.should.have.status(201)
 
-              return Users.findOne({username: deleteResourceData.username})
-              .exec()
-          })
-          .then(function(user) {
+                return Users.findOne({username: deleteResourceData.username})
+                .exec()
+            })
+            .then(function(user) {
 
-              let courseObject = user.currentClasses.find(courses => {
-                  return courses.courseName ===  deleteResourceData.courseName
-              })
+                let courseObject = user.currentClasses.find(courses => {
+                    return courses.courseName ===  deleteResourceData.courseName
+                })
 
-              let doesResourceExist = courseObject.resources.some(resouce => {
-                  return resource.resourceId === resourceId
-              })
+                let doesResourceExist = courseObject.resources.some(resouce => resource.resourceId === resourceId)
 
-              doesResourceExist.should.equal(false)
-          })
+                doesResourceExist.should.equal(false)
+            })
         })
     })
 })
