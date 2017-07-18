@@ -8,6 +8,7 @@ const jsonParser = bodyParser.json();
 const {Users} = require('../models');
 
 
+
 //this function updates courses (adds a course) to user
 router.put('/courses', (req, res) => {
     if (!'currentClasses' in req.body || !'username' in req.body) {
@@ -65,6 +66,7 @@ router.delete('/courses', (req, res) => {
 
 //this function adds a resource to user database
 router.put('/resources', (req, res) => {
+    console.log(req.body.myResources)
     const username = req.body.myResources.username;
     const objectToAddToDataBase = {}
 

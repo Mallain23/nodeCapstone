@@ -1,3 +1,4 @@
+
 const Urls = {
 
   USER_COURSES_URL: '/user-data/courses',
@@ -30,7 +31,6 @@ const classReferences = {
   favorite_resources_message_box: '.favorite-resources-message-box',
   favorite_resources_container: '.favorite-resources-container',
   prev_next_container: '.prev-next-container'
-
 }
 
 const state = {
@@ -38,7 +38,7 @@ const state = {
     myResources: []
 };
 
-//declaring two global variables that we use to track user selections
+//declaring global variables
 let idOfResourceToUpdate
 
 let currentSelectedCourse
@@ -79,8 +79,9 @@ const clearSearchForm = () => {
 //are the creators. There is also a user database which stores all the users, and resources that they have created,
 //the courses they have added to their classboard, and favorite resoruces they have saved to their courses.
 
-const makeRequesToGetUsername = callback => {
+const makeRequesToGetUserData = callback => {
       let addressUrl = `/users${window.location.pathname}`
+
       let settings = {
           url: addressUrl,
           contentType: 'application/json',
@@ -308,6 +309,10 @@ const formatHtmlForClassDisplay = () => {
                 <button type='submit' value="${course.courseName}" class='remove-course-button btn-sm button-style'>Remove Course</button></div>`
         })
 };
+
+const makeRequestToLogOut = () => {
+  window.location.replace(`http://localhost:8080/`)
+}
 //if this function gets data back from server, saves it to state. If user does not have any classes yet,
 // we will display message saying so. If user does have classes, we will display the classes
 const displayClasses = data => {
@@ -927,8 +932,6 @@ const watchForGoToNextPageOfResultsClick = () => {
         displaySearchResults()
 
         $(".results-container").scrollTop(0);
-      //  $(".go-to-prev-page").removeAttr("disabled")
-
     })
 }
 
@@ -940,9 +943,6 @@ const watchForGoToPreviousPageOfResultsClick = () => {
           $(".results-container").scrollTop(0);
           $(".go-to-next-page").removeAttr("disabled")
 
-          // if (searchPageIndex === 0) {
-          //     $(".go-to-prev-page").attr("disabled", "disabled");
-          // }
     });
 };
 
@@ -964,6 +964,12 @@ const watchForGoToPreviousPageOfResourcesClick = () => {
     });
 };
 
+const watchForLogOutClick = () => {
+    $('.dropdown-menu').on('click', '.logout', event => {
+        console.log("Sdfs")
+        makeRequestToLogOut()
+    })
+}
 
 const init = () => {
 
@@ -990,11 +996,12 @@ const init = () => {
     watchForClearFormClick();
     watchForShowFormClick()
     watchForHideFormClick()
-    makeRequesToGetUsername(displayClasses);
+    makeRequesToGetUserData(displayClasses);
     watchForGoToNextPageOfResultsClick();
     watchForGoToPreviousPageOfResultsClick();
     watchForGoToPreviousPageOfResourcesClick();
     watchForGoToNextPageOfResourcesClick();
+    watchForLogOutClick()
 }
 
 $(init);
