@@ -6,6 +6,9 @@ const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const morgan = require('morgan')
 
+const passport = require('passport')
+const session = require('express-session')
+
 
 
 const {PORT, DATABASE_URL} = require('./config');
@@ -33,23 +36,36 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use(session({secret: '755North755North755North'}))
+app.use(passport.initialize());
+app.use(passport.session())
+
+
+const isLoggedIn = (req, res, next) => {
+    if(req.isAuthenticated()) {
+      return next()
+    }
+    res.redirect('/')
+}
 
 app.use('/users', userRouter)
 
 app.use('/resources', resourceRouter)
 
-app.use('/user-data', userDataRouter)
+app.use('/user-data', isLoggedIn, userDataRouter)
 
 var path = require('path');
 
 app.get('/', (req, res) => {
+  console.log("called")
   res.sendFile(__dirname + '/public/index.html')
 })
 
-app.get('/homepage/:username', function(req, res) {
+app.get('/homepage', function(req, res) {
 
    res.sendFile(path.join(__dirname + '/public/welcome.html'));
 });
+
 
 
 let server;

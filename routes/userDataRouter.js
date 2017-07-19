@@ -8,9 +8,27 @@ const jsonParser = bodyParser.json();
 const {Users} = require('../models');
 
 
+router.get('/user-profile', (req, res) => {
+
+    let username = req.user.username
+
+    return Users
+    .findOne({username})
+    .exec()
+    .then(user => {
+        console.log(user)
+        res.status(200).json(user.apiRpr())
+    })
+
+    .catch(err => {
+        console.error(err)
+        res.status(500).json({message: 'Internal Server Error'})
+    })
+})
 
 //this function updates courses (adds a course) to user
 router.put('/courses', (req, res) => {
+    console.log(req.isAuthenticated)
     if (!'currentClasses' in req.body || !'username' in req.body) {
         console.error("Missing required field in request body ")
         return

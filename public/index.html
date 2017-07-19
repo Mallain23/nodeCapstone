@@ -8,6 +8,9 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <link href="https://fonts.googleapis.com/css?family=Archivo+Black" rel="stylesheet">
         <link rel="stylesheet" href="http://localhost:8080/main.css" media="screen" title="no title" charset="utf-8">
+
+        <script src="bower_components/sweetalert2.min.js"></script>
+        <link rel="stylesheet" href="/bower_components/sweetalert2.min.css">
         <title>Law Student Study Portal</title>
 
     </head>
@@ -75,7 +78,7 @@
                       <h3 class="modal-title">Login to your Account</h3>
                   </div>
               <div class="modal-body login-modal">
-                  <form class="login-form form-horizontal" role="form">
+                  <form class="login-form form-horizontal" role="form" action="/users/welcome" method="post">
                       <div class="form-group">
                           <label class="col-sm-12 label-margin" for="username">Enter your Username</label>
                           <input placeholder='Enter Username' class="form-control user-margin" type="text" name='first-name' id='login-username'/>
@@ -94,14 +97,16 @@
         </div>
     </div>
 
+
+
     <div class="container">
       <div class="row-sm-12">
           <div class="about-us"><div class="about-us-heading"> ABOUT THE LAW STUDENT PORTAL</div><div class="about-us-body"> The Law Student Portal is a tool for Law Students. It is meant to help Law School Students share resources, advice, and strategies for getting through Law School and acing their final exams. Users can create their own accounts, customize their classboard to reflect the classes they are taking and browse resources for those classes. The Law School Portal has Outlines, Exam Questions and Answers, Class Notes, and other miscelleanous resources and tools available for you to seach. If you like a resource or find it helpful, add it to your favorites for easy access! Also, as a user, you are encouraged to share your resources and advice to others! </div></div>
       </div>
       <div class='login-button-container'>
         <div class="about-us center">
-          <button class="btn button-style" data-toggle="modal" data-target="#create-new-user">Create New User</button>
-          <button class="btn button-style" data-toggle="modal" data-target="#login">Login</button>
+          <button class="btn button-style create-user" data-toggle="modal" data-target="#create-new-user">Create New User</button>
+          <button class="btn button-style login" data-toggle="modal" data-target="#login">Login</button>
         </div>
       </div>
   </div>
@@ -109,6 +114,8 @@
 
 
         <script src="app.js"></script>
+
+
 
     </body>
 

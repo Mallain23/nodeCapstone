@@ -35,29 +35,49 @@ const makeRequestToCreateNewUser = (username, password, firstName, lastName, cal
 //this checks to see if user is valid, if user is valid it has callback function
 //which gives us user data for us to display
 const makeRequestToLogin = (username, password, callback) => {
-  console.log("test")
+
   let settings = {
     url: urls.WELCOME_SCREEN_URL,
     contentType: 'application/json',
-    headers: {
-      authorization: "Basic " + btoa(username + ':' + password)
-    },
+    // headers: {
+    //   authorization: "Basic " + btoa(username + ':' + password)
+    // },
+    data: JSON.stringify({
+            username: username,
+            password: password
+          }),
     method: 'POST',
     success: callback
   }
-console.log($, $.ajax)
+
 $.ajax(settings)
 };
 
 
 const loginSuccessHandler = data => {
-      window.location.replace(`http://localhost:8080/homepage/${data.user.username}`)
+
+        if (data.user) {
+          //  window.location.replace(`http://localhost:8080/homepage/${data.user.username}`)
+            window.location.replace('http://localhost:8080/homepage')
+            return
+        };
+
+        alert(data.message)
 }
 
 
 const directUserToLogin = data => {
+    console.log(data)
+    if (data.username) {
+        alert(`Success! New New user ${data.username} has been created! Click 'Login' to log into your account!`)
+        return
+    }
+    if (data.message) {
+        alert(data.message)
+        return
+    }
 
-  alert(`Success! New New user ${data.username} has been created! Click 'Login' to log into your account!`)
+    alert("Something went wrong with your request, please try again")
 
 }
 
@@ -66,8 +86,17 @@ const directUserToLogin = data => {
 //this function watches for user to click create new user, it then takes values supplied and passes it
 //to a function that will make a post request to /users to create a new user
 
-
 const watchForCreateNewUserClick = () => {
+    $('.create-user').on('click', event => {
+        console.log("Sd")
+        $('#first-name').val('')
+        $('#last-name').val('')
+        $('#username').val('')
+        $('#password').val('')
+    })
+}
+
+const watchForCreateNewUserSubmit = () => {
     $('.create-new-user-button').on('click', event => {
 
     event.preventDefault()
@@ -82,9 +111,17 @@ const watchForCreateNewUserClick = () => {
     })
 }
 
+
+const watchForLoginClick = () => {
+    $('.login').on('click', event => {
+
+        $('#login-username').val('')
+        $('#login-password').val('')
+    })
+}
 //this function watches for user to click login button, takes the value of supplied username and password and passes it to
 //function to validate the user
-const watchForLoginClick = () => {
+const watchForLoginSubmitClick = () => {
     $('.login-button').on('click', event => {
       event.preventDefault()
 
@@ -99,6 +136,8 @@ const watchForLoginClick = () => {
 const init = () => {
     watchForCreateNewUserClick();
     watchForLoginClick();
+    watchForLoginSubmitClick();
+    watchForCreateNewUserSubmit();
 
 }
 

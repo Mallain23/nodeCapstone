@@ -4,7 +4,8 @@ const Urls = {
   USER_COURSES_URL: '/user-data/courses',
   RESOURCE_DATA_URL: '/resources',
   USER_RESOURCES_URL: '/user-data/resources',
-  USER_FAVORITE_RESOURCES_URL: '/user-data/favorite-resources'
+  USER_FAVORITE_RESOURCES_URL: '/user-data/favorite-resources',
+  USER_PROFILE: '/user-data/user-profile'
 };
 
 const classReferences = {
@@ -80,12 +81,11 @@ const clearSearchForm = () => {
 //the courses they have added to their classboard, and favorite resoruces they have saved to their courses.
 
 const makeRequesToGetUserData = callback => {
-      let addressUrl = `/users${window.location.pathname}`
 
       let settings = {
-          url: addressUrl,
+          url: Urls.USER_PROFILE,
           contentType: 'application/json',
-          method: 'POST',
+          method: 'GET',
           success: callback
       };
 
@@ -295,6 +295,17 @@ const makeRequestToDeleteFavoriteResource = (resourceId, courseName, callback) =
     $.ajax(settings)
 };
 
+const makeRequestToLogOut = () => {
+  let settings = {
+      url: '/users/logout',
+      contentType: 'application/json',
+      method: 'GET',
+      success: console.log("working")
+  };
+
+  $.ajax(settings)
+};
+
 // functions that help display classes to class back-to-dashboard
 const formatHtmlForClassDisplay = () => {
     let num = 0
@@ -310,9 +321,7 @@ const formatHtmlForClassDisplay = () => {
         })
 };
 
-const makeRequestToLogOut = () => {
-  window.location.replace(`http://localhost:8080/`)
-}
+
 //if this function gets data back from server, saves it to state. If user does not have any classes yet,
 // we will display message saying so. If user does have classes, we will display the classes
 const displayClasses = data => {
@@ -320,6 +329,7 @@ const displayClasses = data => {
      if (data) {
         Object.assign(state, data)
     }
+    $('.welcome-header').text(`${state.firstName} ${state.lastName}'s Classboard`)
 
      if (state.currentClasses.length < 1) {
         message = "You currently do not have any classes added to your Classboard. Click 'add new course' to add a course!"
@@ -338,7 +348,7 @@ const displayClasses = data => {
 
 
 const storeMyResourceData = data => {
-
+    $('')
     Object.assign(state, data)
 
     if (state.myResources.length < 1) {
@@ -459,6 +469,8 @@ const formatFavoriteResourceHtml = courseObject => {
 
 //displays favorite resource for a course (using global variable to identify which course)
 const displayFavoriteResources = courseName => {
+    $('.favorite-resources-header').text(`${state.firstName} ${state.lastName}'s Favorite Resources`)
+
     let courseObject =  state.currentClasses.find(course => course.courseName === courseName)
 
     if (courseObject.resources.length < 1) {

@@ -77,7 +77,7 @@ describe('User Data API', function() {
         return closeServer();
     });
 
-    describe('POST Endpoint', function(){
+    describe('GET Endpoint', function(){
         it('should return correct user data', function() {
 
             let username
@@ -87,7 +87,7 @@ describe('User Data API', function() {
             .then(function(user) {
                 username = user.username
                 return chai.request(app)
-                .post(`/users/homepage/${username}`)
+                .get(`/user-data/homepage/${username}`)
             })
 
             .then(function(res) {
