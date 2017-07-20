@@ -57,16 +57,20 @@ app.use('/user-data', isLoggedIn, userDataRouter)
 var path = require('path');
 
 app.get('/', (req, res) => {
-  console.log("called")
+  console.log("sfs")
   res.sendFile(__dirname + '/public/index.html')
 })
 
-app.get('/homepage', function(req, res) {
+app.get('/homepage', isLoggedIn, function(req, res) {
 
    res.sendFile(path.join(__dirname + '/public/welcome.html'));
 });
 
+app.get('/logout', function (req, res) {
 
+    req.session.destroy();
+    res.json({message: "You have been loged out!"})
+})
 
 let server;
 

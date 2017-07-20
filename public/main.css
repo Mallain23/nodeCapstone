@@ -15,8 +15,10 @@ body {
 }
 
 .current-classes-container, .favorite-resources-container, .uploaded-resources-container {
-  margin-top: 25px;
-  margin-bottom: 25px;
+  margin-top: 10px;
+  margin-bottom: 45px;
+  margin-left:auto;
+  margin-right: auto;
 
 }
 .course-styles {

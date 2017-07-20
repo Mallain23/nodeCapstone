@@ -295,12 +295,12 @@ const makeRequestToDeleteFavoriteResource = (resourceId, courseName, callback) =
     $.ajax(settings)
 };
 
-const makeRequestToLogOut = () => {
+const makeRequestToLogOut = callback => {
   let settings = {
-      url: '/users/logout',
+      url: '/logout',
       contentType: 'application/json',
       method: 'GET',
-      success: console.log("working")
+      success: callback
   };
 
   $.ajax(settings)
@@ -313,7 +313,7 @@ const formatHtmlForClassDisplay = () => {
     return state.currentClasses.map(course => {
         num === 6 ? num = 1 : num++
 
-        return `<div class="${course.courseName}-container course-styles course-${num}"><div class="info-container">
+        return `<div class="col-sm-3 ${course.courseName}-container course-styles course-${num}"><div class="info-container">
                 <span class="name-of-course">${course.courseName}</span><br>
                 <span class="number-of-resources">Number of Resources: ${course.resources.length}</span><br></div>
                 <button type="submit" value="${course.courseName}" class="view-course-resources-button btn-sm button-style">View Resources</button><br>
@@ -635,6 +635,11 @@ const addResourceToFavorites = resourceId => {
     makeRequestToFindResources('', '', '', '', resourceId, makeRequestToAddResourcetoUserFavorites)
 }
 
+
+const redirectForLogOut = () => {
+  alert("You have been logged out!")
+  window.location.replace('http://localhost:8080')
+}
 //this section is the functions that watch for click events
 
 //dashboard click is almost like home button - brigns users to there dashboard (classboard? ) which displays classes and allows them to add class
@@ -978,8 +983,7 @@ const watchForGoToPreviousPageOfResourcesClick = () => {
 
 const watchForLogOutClick = () => {
     $('.dropdown-menu').on('click', '.logout', event => {
-        console.log("Sdfs")
-        makeRequestToLogOut()
+        makeRequestToLogOut(redirectForLogOut)
     })
 }
 

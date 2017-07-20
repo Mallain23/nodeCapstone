@@ -194,7 +194,8 @@ router.post('/welcome', function(req, res, next) {
 
 router.get('/logout', function (req, res) {
     req.session.destroy();
-    return res.redirect('http://localhost:8080');
+    res.redirect('http://localhost:8080')
+    //res.json({message: "You have been loged out!"})
 })
 
 
