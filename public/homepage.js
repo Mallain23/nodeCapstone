@@ -490,7 +490,7 @@ const displayFavoriteResources = courseName => {
 //const this function updates the HTML fields when user is viewing a resource either through their favorites or when they
 //are doing a query.
 const formatHtmlTextForResultDisplay = (title, content, course, typeOfResource, publishedOn, resourceId) => {
-    return `<div class="info-container"><div class="row"><div class="col-lg-12 small-style-box"><span class='view-resource-title small-style-box'>Title: ${title}</span></div></div>
+    return `<div class="info-container result-view-info-container"><div class="row"><div class="col-lg-12 small-style-box"><span class='view-resource-title small-style-box'>Title: ${title}</span></div></div>
             <div class="row"><div class="col-lg-12 small-style-box"><span class='view-resource-course small-style-box'>Course: ${course}</span></div></div>
             <div class="row"><div class="col-lg-12 small-style-box"><span class='view-resource-type small-style-box'>Type of Resource: ${typeOfResource}</span></div></div>
             <div class="row"><div class="col-lg-12 small-style-box"><span class='view-resource-publish-date small-style-box'>Publish Date: ${publishedOn}</span></div></div></div>

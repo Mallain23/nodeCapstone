@@ -76,14 +76,16 @@ body {
 
 .small-style-box {
 
-  margin: 5px;
+  margin: 2px;
   margin-left: 15px;
 }
 
 .large-style-box {
-  width: 95%;
-  height: 375px;
+  width: 85%;
+  height: 325px;
   margin: 15px;
+  margin-top: 5px;
+  margin-left: 100px;
   padding: 10px;
   padding-bottom: 20px;
   overflow: scroll;
@@ -181,10 +183,10 @@ label {
 }
 
 .query-results-container, .my-resource-container, .my-favorite-resource-container {
-  background-color: white;
-  width: 600px;
+  background-image: url(http://4.bp.blogspot.com/-gaOUWVZ2kQA/U0V5uyHYPvI/AAAAAAAAAbE/Mw2MFpKjEOg/s1600/a-piece-of-paper-by-adnap-ralopib-d2xh2nw.png);
+  width: 650px;
   height: 600px;
-  /*overflow: scroll;*/
+  /*  overflow: scroll;*/
   margin-top: 30px;
   margin-bottom: 10px;
   margin-left: 50px;
@@ -264,4 +266,15 @@ label {
 .prev-next-container {
   text-align: center;
   margin-bottom: 15px;
+}
+
+.create-resource-form, .edit-resource-form {
+  margin-left: 25px;
+}
+
+.result-view-info-container {
+  margin-left: 80px;
+  margin-top: 105px;
+  font-size: 16px;
+
 }
