@@ -87,7 +87,7 @@ describe('User Data API', function() {
             .then(function(user) {
                 username = user.username
                 return chai.request(app)
-                .get(`/user-data/homepage/${username}`)
+                .get(`/user-data/user-profile`)
             })
 
             .then(function(res) {

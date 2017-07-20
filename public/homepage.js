@@ -308,12 +308,10 @@ const makeRequestToLogOut = callback => {
 
 // functions that help display classes to class back-to-dashboard
 const formatHtmlForClassDisplay = () => {
-    let num = 0
 
     return state.currentClasses.map(course => {
-        num === 6 ? num = 1 : num++
 
-        return `<div class="col-sm-3 ${course.courseName}-container course-styles course-${num}"><div class="info-container">
+        return `<div class="${course.courseName}-container course-styles"><div class="info-container">
                 <span class="name-of-course">${course.courseName}</span><br>
                 <span class="number-of-resources">Number of Resources: ${course.resources.length}</span><br></div>
                 <button type="submit" value="${course.courseName}" class="view-course-resources-button btn-sm button-style">View Resources</button><br>
@@ -388,19 +386,18 @@ const updateForResourceUpdate = data => {
 //both the updateForResourceAdd and updateForResourceUpdate function call this and they do not pass data into function
 //the function is a callback for when user deletes a resource, and it does pass data to function
 const formatMyResourceHtml = results => {
-    let num = 0
 
     return results.map(resource => {
-        num === 6 ? num = 1 : num++
 
-        return `<div class="${resource.title}-container resource-styles course-${num}"><div class="info-container">
+        return `<div class="${resource.title}-container resource-styles"><div class="info-container info-container-resources">
                 <span class="name-of-resource">${resource.title}</span><br><br>
                 <span class="resource-course-name">${resource.course}</span><br><br>
                 <span class="heading-for-resource-type">${resource.typeOfResource}</span><br><br>
                 <span class="resource-published-date">Published Date: ${resource.publishedOn}</span></div>
-                <button type='submit' value='${resource.resourceId}' class='view-resource-button btn-sm button-style'>View Resource</button><br>
-                <button type='submit' value='${resource.resourceId}' class='edit-resource-button btn-sm button-style' data-toggle='modal' data-target='#edit-resource'>Edit Resource</button><br>
-                <button type='submit' value="${resource.resourceId}" class='delete-resource-button btn-sm button-style'>Delete Resource</button></div>`
+                <div class="resource-button-container">
+                <button type='submit' value='${resource.resourceId}' class='view-resource-button btn-sm button-style-black'>View Resource</button><br>
+                <button type='submit' value='${resource.resourceId}' class='edit-resource-button btn-sm button-style-black' data-toggle='modal' data-target='#edit-resource'>Edit Resource</button><br>
+                <button type='submit' value="${resource.resourceId}" class='delete-resource-button btn-sm button-style-black'>Delete Resource</button></div></div>`
         })
 };
 
@@ -462,8 +459,8 @@ const formatFavoriteResourceHtml = courseObject => {
                 <span class="resource-course-name">${resource.course}</span><br><br>
                 <span class="heading-for-resource-type">${resource.typeOfResource}</span><br><br>
                 <span class="resource-published-date">Published Date: ${resource.publishedOn}</span></div>
-                <button type='submit' value='${resource.resourceId}' class='view-resource-button btn btn-sm button-style'>View Resource</button><br>
-                <button type='submit' value="${resource.resourceId}" class='delete-resource-button btn btn-sm button-style'>Remove Resource</button></div>`
+                <button type='submit' value='${resource.resourceId}' class='view-resource-button btn btn-sm button-style-black'>View Resource</button><br>
+                <button type='submit' value="${resource.resourceId}" class='delete-resource-button btn btn-sm button-style-black'>Remove Resource</button></div>`
         })
 }
 
@@ -501,12 +498,12 @@ const formatHtmlTextForResultDisplay = (title, content, course, typeOfResource, 
 };
 
 const formatHtmlButtonsForResultDisplay = resourceId => {
-    return `<button class='go-back-button btn button-style' type='submit'>Go Back</button>
-            <button class='add-to-my-favorites-button btn button-style' value="${resourceId}" type='submit'>Add to Favorites</button>`
+    return `<button class='go-back-button btn button-style-black' type='submit'>Go Back</button>
+            <button class='add-to-my-favorites-button btn button-style-black' value="${resourceId}" type='submit'>Add to Favorites</button>`
 }
 
 const formatHtmlButtonsForFavoriteDisplay = resourceId => {
-    return `<button class='go-back-to-my-favorite-resources-page btn button-style' type='submit'>Go Back!</button>`
+    return `<button class='go-back-to-my-favorite-resources-page btn button-style-black' type='submit'>Go Back!</button>`
 }
 
 const displaySelectedResourceToView = ({title, content, course, typeOfResource, publishedOn, resourceId}) => {
@@ -557,8 +554,8 @@ const formatSearchResultHtml = (data) => {
                 <span class="name-of-resource">${resource.title}</span><br><br>
                 <span class="resource-course-name"> ${resource.course}</span><br><br><span class="heading-for-resource-type">${resource.typeOfResource}</span><br><br>
                 <span class="resource-published-date">Published Date: ${resource.publishedOn}</span></div>
-                <button type='submit' value='${resource.id}' class='view-resource-button btn button-style query-result-button'>View Resource</button>
-                <button type='submit' value='${resource.id}' class='add-to-my-favorites-button btn button-style query-result-button'>Add to Favorites</button></div>`
+                <button type='submit' value='${resource.id}' class='view-resource-button btn button-style-black query-result-button'>View Resource</button>
+                <button type='submit' value='${resource.id}' class='add-to-my-favorites-button btn button-style-black query-result-button'>Add to Favorites</button></div>`
               })
 }
 //displays search results - if data array is zero in length, no data back - user needs to refine search

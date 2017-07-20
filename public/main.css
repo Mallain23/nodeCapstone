@@ -9,7 +9,8 @@ body {
 }
 
 .info-container {
-  border-bottom: 1px solid black;
+  /*border-bottom: 1px solid black;*/
+  margin-top: 10px;
   margin-bottom: 10px;
   padding-bottom: 10px;
 }
@@ -21,39 +22,26 @@ body {
   margin-right: auto;
 
 }
+
+.uploaded-resources-container, .results-container, .favorite-resources-container {
+  margin-left: 55px;
+}
 .course-styles {
   display: inline-block;
   height: 200px;
-  width: 200px;
-  border: 2px solid black;
+  width: 250px;
   background-color: white;
-  margin: 15px;
+  margin: 20px;
+  margin-top: 5px;
   padding: 10px;
-  color: black;
+  color: white;
+  background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGPTpE2PEaYBijNhk_eNif0Hcboz_wzAulofDHc8wb-X59dSx3MQ);
+  background-size: 249px 200px;
+  text-align: center;
+
+
 }
 
-.course-1 {
-  background-color: #4d94ff;
-}
-
-.course-2 {
-  background-color: #39ac39;
-}
-.course-3 {
-  background-color: #d580ff;
-}
-
-.course-4 {
-  background-color: #ff944d;
-}
-
-.course-5 {
-  background-color: #ffff66;
-}
-
-.course-6 {
-  background-color: #ff8080;
-}
 
 .login-page-welcome {
   text-align: center;
@@ -62,16 +50,23 @@ body {
 
 .resource-styles {
   display: inline-block;
-  height: 200px;
+  height: 250px;
   width: 200px;
   border: 2px solid black;
   margin: 20px;
+  margin-left: 30px;
+  margin-right: 30px;
   overflow: scroll;
   padding: 15px;
   font-size: 12px;
   font-weight: bold;
+  background-image: url(http://4.bp.blogspot.com/-gaOUWVZ2kQA/U0V5uyHYPvI/AAAAAAAAAbE/Mw2MFpKjEOg/s1600/a-piece-of-paper-by-adnap-ralopib-d2xh2nw.png);
+  background-size: cover;
 }
 
+.info-container-resources, .resource-button-container {
+  margin-left: 20px;
+}
 
 #edit-resource-content, #new-resource-content {
   height: 300px;
@@ -120,6 +115,9 @@ body {
   width: 75%;
 }
 
+.short {
+  width: 55%;
+}
 .modal-body .form-horizontal .col-sm-2,
 .modal-body .form-horizontal .col-sm-10 {
     width: 100%
@@ -133,13 +131,20 @@ body {
 }
 
 .button-style {
+  border: 1px solid white;
+  margin: 5px;
+  background-color: transparent;;
+  color: white;
+}
+
+.button-style-black {
   border: 1px solid black;
   margin: 5px;
-  background-color: white;
+  background-color: transparent;
   color: black;
 }
 
-.button-style:hover {
+.button-style:hover, .button-style-black:hover {
   background-color: black;
   color: white;
 }
@@ -195,6 +200,7 @@ label {
 
 .search-for-resource-form {
   margin-top: 25px;
+
 }
 
 .find-heading {

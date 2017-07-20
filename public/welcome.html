@@ -45,7 +45,7 @@
             </div>
             <div class="row">
                 <div class="col-xs-12 add-class-button">
-                    <button class='btn btn-md button-style' data-toggle="modal" data-target="#add-a-course-container">Add new course</button>
+                    <button class='btn btn-md button-style-black' data-toggle="modal" data-target="#add-a-course-container">Add new course</button>
                 </div>
             </div>
 
@@ -107,8 +107,8 @@
             <div class="row">
                 <div class="col">
                     <div class="message-box"></div>
+                    <div class="current-classes-container"></div>
                 </div>
-                <div class="current-classes-container"></div>
           </div>
         </div>
 
@@ -195,7 +195,7 @@
             </div>
             <div class="row">
                 <div class="col-xs-12 back-to-dashboard">
-                    <button class="home-button btn button-style">Go Back to Classboard</button>
+                    <button class="home-button btn button-style-black">Go Back to Classboard</button>
                 </div>
             </div>
             <div class="row">
@@ -216,18 +216,19 @@
             </div>
             <div class="row">
                 <div class="col-xs-12 add-resource-button">
-                    <button data-toggle="modal" class="create-new-resource-button btn button-style" data-target="#create-new-resource-container" class="btn button-style">Add a Resource to Database</button>
+                    <button data-toggle="modal" class="create-new-resource-button btn button-style-black" data-target="#create-new-resource-container">Add a Resource to Database</button>
                 </div>
             </div>
             <div class="row">
                 <div class="col">
                     <div class="resource-message-box"></div>
-              </div>
-              <div class="uploaded-resources-container row"></div>
+                    <div class="uploaded-resources-container"></div>
+                </div>
+            </div>
                   <div class="prev-next-container hide row">
-                      <button class="btn btn-sm button-style go-to-prev-page-resource" disabled>Previous Page</button>
+                      <button class="btn btn-sm button-style-black go-to-prev-page-resource" disabled>Previous Page</button>
                       <div class="page-num">Page: <span class="page"></span></div>
-                      <button class="btn btn-sm button-style go-to-next-page-resource">Next Page</button>
+                      <button class="btn btn-sm button-style-black go-to-next-page-resource">Next Page</button>
                   </div>
             </div>
         </div>
@@ -325,11 +326,11 @@
                   </div>
                   <div class="form-group">
                         <label for="search-resource-title" class="search-resource-label">Refine Search by Title</label>
-                        <input type="text" name="title" class="form-control" id="search-resource-title" placeholder="Search by title">
+                        <input type="text" name="title" class="form-control short" id="search-resource-title" placeholder="Search by title">
                   </div>
                   <div class="form-group">
                         <label class="search-type-of-resource-label" for="search-type-of-resource">Refine Search by Type of Resource</label>
-                        <select name="type" id="search-resource-type" class="form-control" required>
+                        <select name="type" id="search-resource-type" class="form-control short" required>
                             <option></option>
                             <option value="Outline">Outline</option>
                             <option value="Exam Questions/Answers">Exam practice questions and answers</option>
@@ -339,7 +340,7 @@
                   </div>
                   <div class="form-group">
                       <label for="search-resource-class">Refine Search by Course</label>
-                      <select name="type" id="search-resource-course" class="form-control" required>
+                      <select name="type" id="search-resource-course" class="form-control short" required>
                          <option></option>
                           <option value="Administrative Law">Administrative Law</option>
                           <option value="Antitrust Law">Antitrust Law</option>
@@ -377,24 +378,24 @@
                   </div>
                   <div class="form-group">
                       <label for="search-username">Refine Search by User</label>
-                      <input type="text" name="content" id="search-resource-username"  class="form-control" placeholder="Search by Username"></input>
+                      <input type="text" name="content" id="search-resource-username"  class="form-control short" placeholder="Search by Username"></input>
                   </div>
                   <div class="form-group">
                       <div class="search-buttons">
-                          <button type="submit" class="search-resource-submit btn button-style">Find Resources!</button>
-                          <button type="submit" class="search-resource-cancel clear-form btn button-style">Clear Form</button>
-                          <button type='submit' class="hide-form-button btn button-style">Hide Form</button>
+                          <button type="submit" class="search-resource-submit btn button-style-black">Find Resources!</button>
+                          <button type="submit" class="search-resource-cancel clear-form btn button-style-black">Clear Form</button>
+                          <button type='submit' class="hide-form-button btn button-style-black">Hide Form</button>
                       </div>
                  </div>
             </form>
             <div class="show-form-container">
-                  <button type='submit' class="show-form-button btn btn-md button-style hide">Show Form</button>
+                  <button type='submit' class="show-form-button btn btn-md button-style-black hide">Show Form</button>
             </div>
             <div class='results-container row'></div>
             <div class="prev-next-container hide row">
-              <button class="btn btn-sm button-style go-to-prev-page" disabled>Previous Page</button>
+              <button class="btn btn-sm button-style-black go-to-prev-page" disabled>Previous Page</button>
               <div class="page-num">Page: <span class="page"></span></div>
-              <button class="btn btn-sm button-style go-to-next-page">Next Page</button>
+              <button class="btn btn-sm button-style-black go-to-next-page">Next Page</button>
             </div>
         </div>
 
