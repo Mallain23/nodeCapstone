@@ -475,12 +475,13 @@ const formatFavoriteResourceHtml = courseObject => {
 
 
         return `<div class="${resource.title}-container resource-styles">
-                <div class=info-container><span class="name-of-resource">${resource.title}</span><br><br>
+                <div class="info-container info-container-resources"><span class="name-of-resource">${resource.title}</span><br><br>
                 <span class="resource-course-name">${resource.course}</span><br><br>
                 <span class="heading-for-resource-type">${resource.typeOfResource}</span><br><br>
                 <span class="resource-published-date">Published Date: ${resource.publishedOn}</span></div>
+                <div class="resource-button-container">
                 <button type='submit' value='${resource.resourceId}' class='view-resource-button btn btn-sm button-style-black'>View Resource</button><br>
-                <button type='submit' value="${resource.resourceId}" class='delete-resource-button btn btn-sm button-style-black'>Remove Resource</button></div>`
+                <button type='submit' value="${resource.resourceId}" class='delete-resource-button btn btn-sm button-style-black'>Remove Resource</button></div></div>`
         })
 }
 
@@ -571,12 +572,13 @@ const formatSearchResultHtml = (data) => {
 
     return data.map(resource =>  {
 
-        return `<div class="${resource.title}-container resource-styles"><div class="info-container">
+        return `<div class="${resource.title}-container resource-styles"><div class="info-container info-container-resources">
                 <span class="name-of-resource">${resource.title}</span><br><br>
                 <span class="resource-course-name"> ${resource.course}</span><br><br><span class="heading-for-resource-type">${resource.typeOfResource}</span><br><br>
                 <span class="resource-published-date">Published Date: ${resource.publishedOn}</span></div>
+                <div class="resource-button-container">
                 <button type='submit' value='${resource.id}' class='view-resource-button btn button-style-black query-result-button'>View Resource</button>
-                <button type='submit' value='${resource.id}' class='add-to-my-favorites-button btn button-style-black query-result-button'>Add to Favorites</button></div>`
+                <button type='submit' value='${resource.id}' class='add-to-my-favorites-button btn button-style-black query-result-button'>Add to Favorites</button></div></div>`
               })
 }
 //displays search results - if data array is zero in length, no data back - user needs to refine search

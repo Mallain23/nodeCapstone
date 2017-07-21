@@ -11,7 +11,7 @@ const {Users} = require('../models');
 router.get('/user-profile', (req, res) => {
 
     let username = req.user.username
-
+    console.log("Sdf")
     return Users
     .findOne({username})
     .exec()

@@ -53,7 +53,7 @@ app.use('/users', userRouter)
 
 app.use('/resources', resourceRouter)
 
-app.use('/user-data', isLoggedIn, userDataRouter)
+app.use('/user-data', userDataRouter)
 
 var path = require('path');
 
