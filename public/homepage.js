@@ -306,6 +306,23 @@ const makeRequestToLogOut = callback => {
   $.ajax(settings)
 };
 
+const makeRequestToChangePassword = (oldPassword, newPassword, callback) => {
+    let settings = {
+        url: '/users/change-password',
+        contentType: 'application/json',
+        method: 'POST',
+        data: JSON.stringify({
+          username: state.username,
+          oldPassword: oldPassword,
+          newPassword: newPassword,
+      }),
+      success: callback
+  };
+
+  $.ajax(settings)
+  };
+
+
 // functions that help display classes to class back-to-dashboard
 const formatHtmlForClassDisplay = () => {
 
@@ -449,12 +466,11 @@ const updateForFavoriteResourceRemoval = data => {
 };
 
 const formatFavoriteResourceHtml = courseObject => {
-    let num = 0
 
     return  courseObject.resources.map(resource => {
-        num === 6 ? num = 1 : num++
 
-        return `<div class="${resource.title}-container resource-styles course-${num}">
+
+        return `<div class="${resource.title}-container resource-styles">
                 <div class=info-container><span class="name-of-resource">${resource.title}</span><br><br>
                 <span class="resource-course-name">${resource.course}</span><br><br>
                 <span class="heading-for-resource-type">${resource.typeOfResource}</span><br><br>
@@ -489,8 +505,9 @@ const displayFavoriteResources = courseName => {
 
 //const this function updates the HTML fields when user is viewing a resource either through their favorites or when they
 //are doing a query.
-const formatHtmlTextForResultDisplay = (title, content, course, typeOfResource, publishedOn, resourceId) => {
+const formatHtmlTextForResultDisplay = (title, content, course, typeOfResource, publishedOn, resourceId, username) => {
     return `<div class="info-container result-view-info-container"><div class="row"><div class="col-lg-12 small-style-box"><span class='view-resource-title small-style-box'>Title: ${title}</span></div></div>
+            <div class="row"><div class="col-lg-12 small-style-box"><span class='view-resource-author small-style-box'>Author: ${username}</span></div></div>
             <div class="row"><div class="col-lg-12 small-style-box"><span class='view-resource-course small-style-box'>Course: ${course}</span></div></div>
             <div class="row"><div class="col-lg-12 small-style-box"><span class='view-resource-type small-style-box'>Type of Resource: ${typeOfResource}</span></div></div>
             <div class="row"><div class="col-lg-12 small-style-box"><span class='view-resource-publish-date small-style-box'>Publish Date: ${publishedOn}</span></div></div></div>
@@ -506,8 +523,9 @@ const formatHtmlButtonsForFavoriteDisplay = resourceId => {
     return `<button class='go-back-to-my-favorite-resources-page btn button-style-black' type='submit'>Go Back!</button>`
 }
 
-const displaySelectedResourceToView = ({title, content, course, typeOfResource, publishedOn, resourceId}) => {
-    let html =  formatHtmlTextForResultDisplay(title, content, course, typeOfResource, publishedOn, resourceId)
+const displaySelectedResourceToView = ({title, content, course, typeOfResource, publishedOn, resourceId, username}) => {
+
+    let html =  formatHtmlTextForResultDisplay(title, content, course, typeOfResource, publishedOn, resourceId, username)
     let buttonHtml = formatHtmlButtonsForResultDisplay(resourceId)
 
     $('.my-resource-container').html(html)
@@ -515,8 +533,8 @@ const displaySelectedResourceToView = ({title, content, course, typeOfResource, 
 };
 
 
-const displaySelectedFavoriteToView = ({title, content, course, typeOfResource, publishedOn, resourceId}) => {
-    let html =  formatHtmlTextForResultDisplay(title, content, course, typeOfResource, publishedOn, resourceId)
+const displaySelectedFavoriteToView = ({title, content, course, typeOfResource, publishedOn, resourceId, username}) => {
+    let html =  formatHtmlTextForResultDisplay(title, content, course, typeOfResource, publishedOn, resourceId, username)
     let buttonHtml = formatHtmlButtonsForFavoriteDisplay(resourceId)
 
     $('.my-favorite-resource-container').html(html)
@@ -524,9 +542,10 @@ const displaySelectedFavoriteToView = ({title, content, course, typeOfResource, 
 };
 
 const displayResourceFromQueryResults = data => {
-    let {title, course, typeOfResource, content, publishedOn, id} = data[0]
+    console.log(data)
+    let {title, course, typeOfResource, content, publishedOn, id, username} = data[0]
 
-    let html = formatHtmlTextForResultDisplay(title, content, course, typeOfResource, publishedOn, id)
+    let html = formatHtmlTextForResultDisplay(title, content, course, typeOfResource, publishedOn, id, username)
     let buttonHtml = formatHtmlButtonsForResultDisplay(resourceId)
 
     $('.query-results-container').html(html)
@@ -545,12 +564,10 @@ const displaySelectedResourceToEdit = ({title, content, course, typeOfResource})
 //checks to see if course selection is null or if class has already been added
 
 const formatSearchResultHtml = (data) => {
-    let num = 0;
 
     return data.map(resource =>  {
-        num === 6 ? num = 1 : num++
 
-        return `<div class="${resource.title}-container resource-styles course-${num}"><div class="info-container">
+        return `<div class="${resource.title}-container resource-styles"><div class="info-container">
                 <span class="name-of-resource">${resource.title}</span><br><br>
                 <span class="resource-course-name"> ${resource.course}</span><br><br><span class="heading-for-resource-type">${resource.typeOfResource}</span><br><br>
                 <span class="resource-published-date">Published Date: ${resource.publishedOn}</span></div>
@@ -984,8 +1001,19 @@ const watchForLogOutClick = () => {
     })
 }
 
-const init = () => {
+const display = data => {
+  console.log(data)
+}
 
+const watchForChangePasswordClick = () => {
+    $('.change-password-btn').on('click', event => {
+      makeRequestToChangePassword("1234", "Mike", display)
+    })
+
+}
+
+const init = () => {
+    watchForChangePasswordClick ()
     watchForAddNewClassClick();
     watchForDeleteClassClick();
     watchForCreateNewResourceClick();
