@@ -84,7 +84,7 @@ router.delete('/courses', (req, res) => {
 
 //this function adds a resource to user database
 router.put('/resources', (req, res) => {
-    console.log(req.body.myResources)
+    console.log("hre", req.body.myResources)
     const username = req.body.myResources.username;
     const objectToAddToDataBase = {}
 

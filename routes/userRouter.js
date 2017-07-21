@@ -199,7 +199,8 @@ router.post('/welcome', function(req, res, next) {
 
 router.post('/change-password', function(req, res) {
 
-    let {username, oldPassword, newPassword} = req.body
+    let {username, currentPassword, newPassword} = req.body
+
 
     return Users.findOne({username: username})
         .exec()
@@ -209,43 +210,53 @@ router.post('/change-password', function(req, res) {
 
             return res.json({message: "User does not exist"})
         }
-        if (user.validatePassword(oldPassword) === false) {
 
-            return res.json({message: "Incorrect Old Password"})
+        return user.validatePassword(currentPassword)
+    })
+
+    .then(function(isValid) {
+
+        if (isValid === false) {
+            return res.json({message: "Incorrect old password"})
         }
 
-          if (!newPassword) {
+        if (!newPassword) {
 
-              return res.json({message: 'Missing field: password. Make sure to fill out the password field.'})
-          }
+            return res.json({message: 'Missing field: password. Make sure to fill out the password field.'})
+        }
 
-          if (typeof newPassword !== 'string') {
+        if (typeof newPassword !== 'string') {
 
-              return res.json({message: 'Incorrect field type: password'})
-          }
+            return res.json({message: 'Incorrect field type: password'})
+        }
 
-          newPassword = newPassword.trim()
+        newPassword = newPassword.trim()
 
-          if (newPassword === '') {
+        if (newPassword === '') {
 
-              return res.json({message: 'Missing field: password. Make sure to fill out the password field'})
-          }
+            return res.json({message: 'Missing field: password. Make sure to fill out the password field'})
+        }
 
-          return Users.hashPassword(newPassword)
-          .then(function(hash) {
+        return Users.hashPassword(newPassword)
+    })
 
-              return Users.findOneAndUpdate({username: username}, {password: hash})
-              .exec()
-          })
+    .then(function(hash) {
 
-          .then(function(user) {
-              res.status(201).json(user)
-          })
-          .catch(err => {
-              console.error(err)
-              res.status(500).json({message: 'Internal Server Error'})
-          })
-      })
+        return Users.findOneAndUpdate({username: username}, {password: hash})
+        .exec()
+    })
+
+    .then(function(user) {
+
+        res.status(201).json(user)
+    })
+
+    .catch(err => {
+
+      console.error(err)
+      res.status(500).json({message: 'Internal Server Error'})
+    })
+
 })
 
 

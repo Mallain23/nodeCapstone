@@ -42,6 +42,7 @@ app.use(passport.session())
 
 
 const isLoggedIn = (req, res, next) => {
+
     if(req.isAuthenticated()) {
       return next()
     }

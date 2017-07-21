@@ -29,6 +29,7 @@ router.get('/', (req, res) => {
 
 
 router.post('/', (req, res) => {
+
     const todaysDate = new Date().toLocaleString();
     const requiredFields = ['content', 'course', 'title', 'typeOfResource']
 

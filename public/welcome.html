@@ -28,7 +28,7 @@
                       <li><a class="edit-existing-resource-button pointer">Manage My Resources</a></li>
                       <li><a class="my-account-button dropdown-toggle pointer" data-toggle="dropdown">My Account <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a class="change-password-btn pointer">Change Password</a></li>
+                            <li><a class="change-password pointer" data-toggle="modal" data-target="#change-password">Change Password</a></li>
                             <li><a class="logout pointer">Logout</a></li>
                         </ul>
                       </li>
@@ -36,6 +36,38 @@
             </div>
         </nav>
 
+        <div class="modal fade" id="change-password" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+                        </button>
+                        <h3 class="modal-title">Change Password</h3>
+                    </div>
+                <div class="modal-body change-password-modal">
+                    <form class="change-password-form center-form form-horizontal" role="form">
+                        <div class="form-group">
+                            <label class="col-sm-12 label-margin" for="current-password">Enter Current Password</label>
+                            <input placeholder='Current Password' class="form-control user-margin" type="password" name='current-password' id='current-password'/>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-12 label-margin" for="new-password1">Enter New Password</label>
+                            <input type="password" class="form-control user-margin" name='new-password' id='new-password1' placeholder='New Password'/>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-12 label-margin" for="new-password2">Re-enter New Password</label>
+                            <input type="password" class="form-control user-margin" name='new-password' id='new-password2' required placeholder='New Username'/>
+                        </div>
+                    </form>
+                    <div class="change-password-buttons">
+                      <button type="submit" class="change-password-button space-button btn btn-success">Submit</button>
+                      <button type="submit" class="cancel-button space-button btn " data-dismiss="modal">Cancel</button>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
         <div class="dashboard-page container">
             <div class="row">
@@ -178,7 +210,7 @@
                                       <label class="col-sm-8" for="resource-content">Content</label>
                                       <textarea type="text" name="content" class="form-control" id="new-resource-content" required placeholder="Enter the content of your new resource"></textarea>
                                   </div>
-                                  <button type="submit" id="submit-new-resource" class="add-resource-submit btn btn-success" data-dismiss="modal">Add Resource</button>
+                                  <button type="submit" id="submit-new-resource" class="add-resource-submit btn btn-success">Add Resource</button>
                                   <button type="submit" class="add-course-cancel cancel-button btn " data-dismiss="modal">Cancel</button>
                               </form>
                           </div>
@@ -301,7 +333,7 @@
                                 <label class="col-sm-8" for="resource-content">Content</label>
                                 <textarea type="text" name="content" class="form-control" id="edit-resource-content" required placeholder="Enter the content of your new resource"></textarea>
                             </div>
-                            <button type="submit" class="edit-submit btn btn-success" data-dismiss="modal">Edit Resource</button>
+                            <button type="submit" class="edit-submit btn btn-success">Edit Resource</button>
                             <button type="submit" class="cancel-button btn" data-dismiss="modal">Cancel</button>
                         </form>
                     </div>

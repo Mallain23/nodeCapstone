@@ -28,8 +28,13 @@
           </div>
       </nav>
 
+        <div class="container">
+          <div class="row">
+                <div class="col-xs-12">
+                    <div class="login-page-welcome">Welcome to the Law Student Study Portal!</div>
+                </div>
+          </div>
 
-        <div class="login-page-welcome">Welcome to the Law Student Study Portal!</div>
 
           <div class="modal fade" id="create-new-user" role="dialog">
               <div class="modal-dialog">
@@ -43,7 +48,7 @@
                   <div class="modal-body create-user-modal">
                       <form class="create-new-user-form center-form form-horizontal" role="form">
                           <div class="form-group">
-                              <label class="col-sm-12 label-margin" for="first-name">Enter your First Name</label>
+                              <label class="col-sm-12 label-margin" for="first-name">First Name</label>
                               <input placeholder='Enter First Name' class="form-control user-margin" type="text" name='first-name' id='first-name'/>
                           </div>
                           <div class="form-group">
@@ -80,7 +85,7 @@
               <div class="modal-body login-modal">
                   <form class="login-form form-horizontal" role="form" action="/users/welcome" method="post">
                       <div class="form-group">
-                          <label class="col-sm-12 label-margin" for="username">Enter your Username</label>
+                          <label class="col-sm-12 label-margin" for="username">Username</label>
                           <input placeholder='Enter Username' class="form-control user-margin" type="text" name='first-name' id='login-username'/>
                       </div>
                       <div class="form-group">
@@ -99,17 +104,28 @@
 
 
 
-    <div class="container">
-      <div class="row-sm-12">
-          <div class="about-us"><div class="about-us-heading"> ABOUT THE LAW STUDENT PORTAL</div><div class="about-us-body"> The Law Student Portal is a tool for Law Students. It is meant to help Law School Students share resources, advice, and strategies for getting through Law School and acing their final exams. Users can create their own accounts, customize their classboard to reflect the classes they are taking and browse resources for those classes. The Law School Portal has Outlines, Exam Questions and Answers, Class Notes, and other miscelleanous resources and tools available for you to seach. If you like a resource or find it helpful, add it to your favorites for easy access! Also, as a user, you are encouraged to share your resources and advice to others! </div></div>
-      </div>
-      <div class='login-button-container'>
-        <div class="about-us center">
-          <button class="btn button-style-black create-user" data-toggle="modal" data-target="#create-new-user">Create New User</button>
-          <button class="btn button-style-black login" data-toggle="modal" data-target="#login">Login</button>
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="about-us"><div class="about-us-heading"> ABOUT THE LAW STUDENT PORTAL</div>
+            </div>
         </div>
+        <div class="row">
+            <div class="col-xs-12 col-md-6">
+                <div class="about-us-body"> The Law Student Portal is a tool for Law Students. It is meant to help Law School Students share resources, advice, and strategies for getting through Law School and acing their final exams. Users can create their own accounts, customize their classboard to reflect the classes they are taking and browse resources for those classes. The Law School Portal has Outlines, Exam Questions and Answers, Class Notes, and other miscelleanous resources and tools available for you to seach. If you like a resource or find it helpful, add it to your favorites for easy access! Also, as a user, you are encouraged to share your resources and advice to others! </div>
+            </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12">
+              <div class='login-button-container'>
+                  <div class="about-us center">
+                      <button class="btn button-style-black create-user" data-toggle="modal" data-target="#create-new-user">Create New User</button>
+                      <button class="btn button-style-black login" data-toggle="modal" data-target="#login">Login</button>
+                  </div>
+              </div>
+          </div>
       </div>
-  </div>
+    </div>
 
 
 

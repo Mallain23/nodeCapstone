@@ -126,6 +126,7 @@ const makeRequestToRemoveClass = (course, callback) => {
 
 //This function makes a request to the RESOURCE database to add a new resource that user has created
 const makeRequestToAddNewResourceToResourceDatabase = (title, typeOfResource, course, content, callback) => {
+
     let settings = {
         url: Urls.RESOURCE_DATA_URL,
         contentType: 'application/json',
@@ -145,6 +146,7 @@ const makeRequestToAddNewResourceToResourceDatabase = (title, typeOfResource, co
 
 //after resource is added to the resource database we also add it to the user database
 const makeRequestToAddNewResourceToUserDatabase = ({title, typeOfResource, course, content, id, publishedOn, username}) => {
+
     let settings = {
         url: Urls.USER_RESOURCES_URL,
         contentType: 'application/json',
@@ -306,15 +308,16 @@ const makeRequestToLogOut = callback => {
   $.ajax(settings)
 };
 
-const makeRequestToChangePassword = (oldPassword, newPassword, callback) => {
+const makeRequestToChangePassword = (currentPassword, newPassword, callback) => {
+
     let settings = {
         url: '/users/change-password',
         contentType: 'application/json',
         method: 'POST',
         data: JSON.stringify({
           username: state.username,
-          oldPassword: oldPassword,
-          newPassword: newPassword,
+          currentPassword: currentPassword,
+          newPassword: newPassword
       }),
       success: callback
   };
@@ -380,6 +383,7 @@ const storeMyResourceData = data => {
 //once user adds a resource to databases, this function will save that resource to state, and then show the user
 //a page with all of the resources they have managed (and update that page with new resource)
 const updateForResourceAdd = data => {
+    console.log(data)
     Object.assign(state, data)
 
     resourcePageIndex = 0
@@ -654,6 +658,12 @@ const redirectForLogOut = () => {
   alert("You have been logged out!")
   window.location.replace('http://localhost:8080')
 }
+
+const passwordChangeHandler = data => {
+
+    data.message ? alert(data.message) : alert('Your password has been successfully changed!')
+
+}
 //this section is the functions that watch for click events
 
 //dashboard click is almost like home button - brigns users to there dashboard (classboard? ) which displays classes and allows them to add class
@@ -715,19 +725,21 @@ const watchForCreateNewResourceClick = () => {
 //the resource must be added to the resource data base and then to the userdata base (to associate resource with the user)
 const watchForCreateNewResourceSubmitClick = () => {
     $('.add-resource-submit').on("click", event => {
+          event.preventDefault()
 
           let courseName = $('#resource-course').val()
           let typeOfResource = $('#type-of-resource').val()
           let resourceContent = $('#new-resource-content').val()
           let resourceTitle = $('#new-resource-title').val()
 
-          if (courseName === null || typeOfResource === null || resourceContent === null || resourceTitle === null) {
+          if (courseName === null || typeOfResource === null || resourceContent === null || resourceContent === "" || resourceTitle === null || resourceTitle === "") {
             alert('All fields are required! Please fill out each field before submitting')
 
             return
           }
 
           makeRequestToAddNewResourceToResourceDatabase(resourceTitle, typeOfResource, courseName, resourceContent, makeRequestToAddNewResourceToUserDatabase)
+          $('#create-new-resource-container').modal('hide')
     })
 };
 
@@ -768,18 +780,20 @@ const watchForEditResourceSubmit = () => {
     $('.edit-submit').on('click', event => {
           event.preventDefault();
 
-          let courseName = $('#edit-resource-course').val()
-          let typeOfResource = $('#edit-type-of-resource').val()
-          let resourceContent = $('#edit-resource-content').val()
-          let resourceTitle = $('#edit-resource-title').val()
+          let courseName = $('#edit-resource-course').val().trim()
+          let typeOfResource = $('#edit-type-of-resource').val().trim()
+          let resourceContent = $('#edit-resource-content').val().trim()
+          let resourceTitle = $('#edit-resource-title').val().trim()
 
-          if (courseName === null || typeOfResource === null || resourceContent === null || resourceTitle === null) {
+          console.log(resourceContent)
+          if (courseName === null || typeOfResource === null || resourceContent === null || resourceContent === "" || resourceTitle === null || resourceTitle === "") {
               alert('All fields are required! Please enter content for all fields before submitting')
 
               return
           }
 
           makeRequestToUpdateResourceDatabase(idOfResourceToUpdate, state.username, resourceContent, resourceTitle, typeOfResource, courseName, makeRequestToUpdateUserResource)
+          $('#edit-resource').modal('hide')
     })
 };
 
@@ -1001,13 +1015,27 @@ const watchForLogOutClick = () => {
     })
 }
 
-const display = data => {
-  console.log(data)
-}
-
 const watchForChangePasswordClick = () => {
-    $('.change-password-btn').on('click', event => {
-      makeRequestToChangePassword("1234", "Mike", display)
+    $('.change-password').on('click', event => {
+
+        $('#current-password').val('')
+        $('#new-password1').val('')
+        $('#new-password2').val('')
+    })
+}
+const watchForChangePasswordSubmit = () => {
+    $('.change-password-button').on('click', event => {
+
+        let currentPassword = $('#current-password').val()
+        let newPassword1 = $('#new-password1').val()
+        let newPassword2 = $('#new-password2').val()
+
+        if (newPassword1 !== newPassword2) {
+            return alert("New passwords do no match, please try again!")
+      }
+
+        makeRequestToChangePassword(currentPassword, newPassword1, passwordChangeHandler)
+        $('#change-password').modal('hide')
     })
 
 }
@@ -1043,6 +1071,7 @@ const init = () => {
     watchForGoToPreviousPageOfResourcesClick();
     watchForGoToNextPageOfResourcesClick();
     watchForLogOutClick()
+    watchForChangePasswordSubmit()
 }
 
 $(init);
