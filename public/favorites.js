@@ -1,7 +1,7 @@
 const makeRequestToAddResourcetoUserFavorites = data => {
 
-    const {title, content, typeOfResource, publishedOn, id, username, course} = data[0]
-    const {username, currentClasses} = state
+    const {title, content, typeOfResource, publishedOn, id, author, course} = data[0]
+    const { currentClasses, username } = state
 
     if (currentClasses.every(({ courseName }) => courseName !== course)) {
         return alert(`Course "${course}" must be added to your classboard before you can add a favorite resource to the course!`)
@@ -13,6 +13,7 @@ const makeRequestToAddResourcetoUserFavorites = data => {
         method: 'PUT',
         data: JSON.stringify({
             username,
+            author,
             content,
             title,
             typeOfResource,
@@ -59,19 +60,19 @@ const updateForFavoriteResourceRemoval = data => {
 
 const formatFavoriteResourceHtml = courseObject => {
 
-    return  courseObject.resources.map(resource => {
+    return  courseObject.resources.map(({ title, course, typeOfResource, publishedOn, resourceId, author }) => {
 
-
-        return `<div class="${resource.title}-container resource-styles">
-                <div class="info-container info-container-resources"><span class="name-of-resource">${resource.title}</span><br><br>
-                <span class="resource-course-name">${resource.course}</span><br><br>
-                <span class="heading-for-resource-type">${resource.typeOfResource}</span><br><br>
-                <span class="resource-published-date">Published Date: ${resource.publishedOn}</span></div>
+        return `<div class="${title}-container resource-styles">
+                <div class="info-container info-container-resources"><span class="name-of-resource">Title: ${title}</span><br><br>
+                <span class="name-of-author">Author: ${author}</span><br><br>
+                <span class="resource-course-name">Course: ${course}</span><br><br>
+                <span class="heading-for-resource-type">${typeOfResource}</span><br><br>
+                <span class="resource-published-date">Published Date: ${publishedOn}</span></div>
                 <div class="resource-button-container">
-                <button type='submit' value='${resource.resourceId}' class='view-resource-button btn btn-sm button-style-black'>View Resource</button><br>
-                <button type='submit' value="${resource.resourceId}" class='delete-resource-button btn btn-sm button-style-black'>Remove Resource</button></div></div>`
+                <button type='submit' value='${resourceId}' class='view-resource-button btn btn-sm button-style-black'>View Resource</button><br>
+                <button type='submit' value="${resourceId}" class='delete-resource-button btn btn-sm button-style-black'>Remove Resource</button></div></div>`
         })
-}
+};
 
 const formatHtmlButtonsForFavoriteDisplay = resourceId => {
     return `<button class='go-back-to-my-favorite-resources-page btn button-style-black' type='submit'>Go Back!</button>`
@@ -79,11 +80,11 @@ const formatHtmlButtonsForFavoriteDisplay = resourceId => {
 
 //displays favorite resource for a course (using global variable to identify which course)
 const displayFavoriteResources = courseName => {
-    const { firstName, lastName, currentClasses }
+    const { firstName, lastName, currentClasses } = state
 
     $('.favorite-resources-header').text(`${firstName} ${lastName}'s Favorite Resources`)
 
-    let courseObject =  currentClasses.find(({ courseName: _courseName } => _courseName === courseName)
+    const courseObject =  currentClasses.find(({ courseName: _courseName }) => _courseName === courseName)
 
     if (courseObject.resources.length < 1) {
         let message = 'You do not have any favorite resources for this course!'
@@ -102,8 +103,9 @@ const displayFavoriteResources = courseName => {
 };
 
 
-const displaySelectedFavoriteToView = ({title, content, course, typeOfResource, publishedOn, resourceId, username}) => {
-    const html =  formatHtmlTextForResultDisplay(title, content, course, typeOfResource, publishedOn, resourceId, username)
+const displaySelectedFavoriteToView = ({ title, content, course, typeOfResource, publishedOn, resourceId, author }) => {
+    console.log(author)
+    const html =  formatHtmlTextForResultDisplay(title, content, course, typeOfResource, publishedOn, resourceId, author)
     const buttonHtml = formatHtmlButtonsForFavoriteDisplay(resourceId)
 
     $('.my-favorite-resource-container').html(html)
@@ -111,45 +113,45 @@ const displaySelectedFavoriteToView = ({title, content, course, typeOfResource, 
 };
 
 //checks to see if resource is already in favorites, if not makes request to user database to add to user favorites
-const addResourceToFavorites = resourceId => {
+const checkIfResourceShouldBeAddedToFavorites = resourceId => {
     const { currentClasses } = state
 
     if (currentClasses.some(({ resources }) => resources.some(({ resourceId: _resourceId }) => _resourceId  === resourceId))) {
 
         return alert('This resource is already in your favorite resources! You can see your favorite resources from your classboard page!')
-
     };
 
     makeRequestToFindResources('', '', '', '', resourceId, makeRequestToAddResourcetoUserFavorites)
 };
+
 
 const watchForAddResourceToFavoritesClick = () => {
     $('.results-container').on('click', '.add-to-my-favorites-button', event => {
         event.preventDefault();
 
         resourceId = $(event.target).val()
-        addResourceToFavorites(resourceId)
+        checkIfResourceShouldBeAddedToFavorites(resourceId)
     });
 
     $('.query-results-container').on('click', '.add-to-my-favorites-button', event => {
         event.preventDefault();
 
         resourceId = $(event.target).val()
-        addResourceToFavorites(resourceId)
+        checkIfResourceShouldBeAddedToFavorites(resourceId)
      });
 
      $('.resource-button-box').on('click', '.add-to-my-favorites-button', event => {
         event.preventDefault();
 
         resourceId = $(event.target).val()
-        addResourceToFavorites(resourceId)
+        checkIfResourceShouldBeAddedToFavorites(resourceId)
       });
 
       $('.query-resource-button-box').on('click', '.add-to-my-favorites-button', event => {
          event.preventDefault();
 
          resourceId = $(event.target).val()
-         addResourceToFavorites(resourceId)
+         checkIfResourceShouldBeAddedToFavorites(resourceId)
        });
 };
 
@@ -159,12 +161,11 @@ const watchForAddResourceToFavoritesClick = () => {
 const watchForViewFavoriteResourcesClick = () => {
     $('.current-classes-container').on('click', '.view-course-resources-button', event => {
         event.preventDefault()
-        const { currentSelectedCourse } = state
 
         addAndRemoveHideClass([classReferences.dashboard_page], [classReferences.my_favorite_resources_page])
 
-        currentSelectedCourse = $(event.target).val()
-        displayFavoriteResources(currentSelectedCourse)
+        state.currentSelectedCourse = $(event.target).val()
+        displayFavoriteResources(state.currentSelectedCourse)
     })
 };
 
@@ -174,14 +175,17 @@ const watchForViewFavoriteResourcesClick = () => {
 const watchForViewFavoriteResourceButtonClick = () => {
     $('.favorite-resources-container').on('click', '.view-resource-button', event => {
         event.preventDefault()
+
         addAndRemoveHideClass([classReferences.my_favorite_resources_page], [classReferences.view_my_favorite_resource_page])
 
-         let idOfCourseToView = $(event.target).val()
+        const { currentClasses, currentSelectedCourse } = state
+        const idOfCourseToView = $(event.target).val()
 
-         let targetCourse = state.currentClasses.find(course => course.courseName === currentSelectedCourse)
-         let targetResource = targetCourse.resources.find(resource => resource.resourceId === idOfCourseToView)
+        const targetCourse = currentClasses.find(({ courseName }) => courseName === currentSelectedCourse)
 
-         displaySelectedFavoriteToView(targetResource);
+        const targetResource = targetCourse.resources.find(({ resourceId }) => resourceId === idOfCourseToView)
+
+        displaySelectedFavoriteToView(targetResource);
     })
 };
 
@@ -191,15 +195,16 @@ const watchForRemoveCourseFromFavoritesClick = () => {
     $('.favorite-resources-container').on('click','.delete-resource-button', event => {
         event.preventDefault()
 
-        let resourceId = $(event.target).val()
-        makeRequestToDeleteFavoriteResource(resourceId, state.currentSelectedCourse, updateForFavoriteResourceRemoval)
+        const { currentSelectedCourse } = state
+        const resourceId = $(event.target).val()
+        makeRequestToDeleteFavoriteResource(resourceId, currentSelectedCourse, updateForFavoriteResourceRemoval)
     })
 };
 
 const watchForGoBackToMyFavoriteResourcesPageClick = () => {
     $('.resource-button-box').on('click', '.go-back-to-my-favorite-resources-page', event =>{
         event.preventDefault()
-        console.log("right spot")
+
         addAndRemoveHideClass([classReferences.view_my_favorite_resource_page],[classReferences.my_favorite_resources_page])
     })
 }

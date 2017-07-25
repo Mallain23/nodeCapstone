@@ -9,7 +9,7 @@ const {StudyResources} = require('../models');
 
 router.get('/', (req, res) => {
     const filters = {};
-    const queryableFields = ['course', 'typeOfResource', 'username', 'title', '_id'];
+    const queryableFields = ['course', 'typeOfResource', 'author', 'title', '_id'];
 
     queryableFields.forEach(field => {
         if (req.query[field]) {
@@ -49,7 +49,7 @@ router.post('/', (req, res) => {
           content:req.body.content,
           course: req.body.course,
           publishedOn: todaysDate,
-          username: req.body.username
+          author: req.body.username
         })
         .then(Resource =>  res.status(201).json(Resource.apiRpr()))
         .catch(err => {

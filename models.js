@@ -6,10 +6,9 @@ const studyResourceSchema = mongoose.Schema({
 
       title: {type: String, required: true},
       typeOfResource: {type: String, required: true},
-      username:  String,
+      author:  String,
       course: {type: String, required: true},
       content: {type: String, required: true},
-      popularity: Number,
       publishedOn: Date
 
 })
@@ -22,7 +21,7 @@ studyResourceSchema.methods.apiRpr = function () {
       content: this.content,
       course: this.course,
       publishedOn: this.publishedOn,
-      username: this.username
+      author: this.author
     }
 }
 
@@ -45,7 +44,7 @@ const UserSchema = mongoose.Schema({
                         content: String,
                         typeOfResource: String,
                         resourceId: String,
-                        username: String,
+                        author: String,
                         publishedOn: String
                     }],
   currentClasses: [{
@@ -56,7 +55,7 @@ const UserSchema = mongoose.Schema({
                   content: String,
                   typeOfResource: String,
                   resourceId: String,
-                  username: String,
+                  author: String,
                   publishedOn: String
                 }]
               }]

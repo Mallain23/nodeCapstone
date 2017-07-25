@@ -12,9 +12,16 @@ const urls = {
 };
 
 
+const makeInitialGetRequest = () => {
+  const settings = {
+    url: '/',
+    contentType: 'application/json',
+    method: 'GET'
+  }
+console.log("sent")
+$.ajax(settings)
+}
 //adds hide class to elements in array of 1st param, removes hide class for elements in array of second param
-
-
 
 
 const makeRequestToCreateNewUser = (username, password, firstName, lastName, success) => {
@@ -57,8 +64,7 @@ const makeRequestToLogin = (username, password, success) => {
 const loginSuccessHandler = ({ message, user }) => {
 
         if (user) {
-            window.location.replace('http://localhost:8080/homepage')
-            return
+            return window.location.replace('http://localhost:8080/homepage')
         };
 
         alert(message)
@@ -68,21 +74,12 @@ const loginSuccessHandler = ({ message, user }) => {
 const directUserToLogin = ({ username, message: error }) => {
 
     if (username) {
-        alert(`Success! New user ${username} has been created! Click 'Login' to log into your account!`)
-        return
+        return alert(`Success! New user ${username} has been created! Click 'Login' to log into your account!`)
     }
-    // if (message) {
-    //     alert(message)
-    //     return
-    // }
-    //
-    // alert("Something went wrong with your request, please try again")
-  //  const message = error ? error : "Something went wrong with your request, please try again" //make variable for something went wrong string
+
     const message = error || "Something went wrong with your request, please try again"
     alert(message)
-}
-
-
+};
 
 //this function watches for user to click create new user, it then takes values supplied and passes it
 //to a function that will make a post request to /users to create a new user
@@ -95,23 +92,21 @@ const watchForCreateNewUserClick = () => {
         $('#username').val('')
         $('#password').val('')
     })
-}
+};
 
 const watchForCreateNewUserSubmit = () => {
     $('.create-new-user-button').on('click', event => {
 
-    event.preventDefault()
+        event.preventDefault()
 
-    const firstName = $('#first-name').val()
-    const lastName = $('#last-name').val()
-    const username = $('#username').val()
-    const password = $('#password').val()
+        const firstName = $('#first-name').val()
+        const lastName = $('#last-name').val()
+        const username = $('#username').val()
+        const password = $('#password').val()
 
-    makeRequestToCreateNewUser(username, password, firstName, lastName, directUserToLogin)
-
+        makeRequestToCreateNewUser(username, password, firstName, lastName, directUserToLogin)
     })
-}
-
+};
 
 const watchForLoginClick = () => {
     $('.login').on('click', event => {
@@ -119,26 +114,26 @@ const watchForLoginClick = () => {
         $('#login-username').val('')
         $('#login-password').val('')
     })
-}
+};
 //this function watches for user to click login button, takes the value of supplied username and password and passes it to
 //function to validate the user
 const watchForLoginSubmitClick = () => {
     $('.login-button').on('click', event => {
       event.preventDefault()
 
-
       const username = $('#login-username').val()
       const password = $('#login-password').val()
 
       makeRequestToLogin(username, password, loginSuccessHandler)
     })
-}
+};
 
 const init = () => {
     watchForCreateNewUserClick();
     watchForLoginClick();
     watchForLoginSubmitClick();
     watchForCreateNewUserSubmit();
+    makeInitialGetRequest();
 
 }
 

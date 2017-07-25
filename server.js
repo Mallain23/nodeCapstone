@@ -36,9 +36,11 @@ app.use((req, res, next) => {
   next();
 });
 
+
 app.use(session({secret: '755North755North755North'}))
 app.use(passport.initialize());
 app.use(passport.session())
+
 
 
 const isLoggedIn = (req, res, next) => {
@@ -49,6 +51,7 @@ const isLoggedIn = (req, res, next) => {
     res.redirect('/')
 }
 
+
 app.use('/users', userRouter)
 
 app.use('/resources', resourceRouter)
@@ -58,7 +61,14 @@ app.use('/user-data', userDataRouter)
 var path = require('path');
 
 app.get('/', (req, res) => {
-  console.log("sfs")
+
+    console.log("here", req.user, req.isAuthenticated())
+    if (req.isAuthenticated()) {
+
+      res.redirect('/homepage')
+      return
+    }
+
   res.sendFile(__dirname + '/public/index.html')
 })
 

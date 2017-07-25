@@ -1,6 +1,6 @@
 const makeRequestToAddNewClass = (courseName, success) => {
-    const { username } = state
 
+    const { username } = state
     const settings = {
         url: Urls.USER_COURSES_URL,
         contentType: 'application/json',
@@ -17,8 +17,8 @@ const makeRequestToAddNewClass = (courseName, success) => {
 
 //this function makes request to remove course from users courseboard
 const makeRequestToRemoveClass = (courseName, success) => {
-      const { username } = state
 
+    const { username } = state
     const settings = {
         url: Urls.USER_COURSES_URL,
         contentType: 'application/json',
@@ -40,7 +40,7 @@ const checkToSeeIfWeShouldAddCourse = courseName => {
         return false
     }
 
-    if (state.currentClasses.some(course => course.courseName === courseName)) {
+    if (state.currentClasses.some(({ courseName: _courseName }) => _courseName === courseName)) {
 
         $('.message-box').text('Sorry, that class is already in your dashboard!')
         addAndRemoveHideClass([], [classReferences.message_box])
@@ -49,8 +49,7 @@ const checkToSeeIfWeShouldAddCourse = courseName => {
     }
 
     return true
-
-}
+};
 
 
 const watchForAddNewClassClick = () => {
@@ -65,7 +64,7 @@ const watchForAddNewClassClick = () => {
           $('#course-name').val('')
 
           if (shouldWeAdd) {
-              makeRequestToAddNewClass(courseName, displayClasses)
+              makeRequestToAddNewClass(courseName, saveDataToState)
           }
     })
 };
@@ -77,6 +76,6 @@ const watchForDeleteClassClick = () => {
           event.preventDefault()
 
           const courseName = $(event.target).val();
-          makeRequestToRemoveClass(courseName, displayClasses)
+          makeRequestToRemoveClass(courseName, saveDataToState)
     })
 };

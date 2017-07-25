@@ -11,7 +11,7 @@ const {Users} = require('../models');
 router.get('/user-profile', (req, res) => {
 
     let username = req.user.username
-    console.log("Sdf")
+
     return Users
     .findOne({username})
     .exec()
@@ -28,7 +28,7 @@ router.get('/user-profile', (req, res) => {
 
 //this function updates courses (adds a course) to user
 router.put('/courses', (req, res) => {
-    console.log(req.isAuthenticated)
+
     if (!'currentClasses' in req.body || !'username' in req.body) {
         console.error("Missing required field in request body ")
         return
@@ -84,11 +84,11 @@ router.delete('/courses', (req, res) => {
 
 //this function adds a resource to user database
 router.put('/resources', (req, res) => {
-    console.log("hre", req.body.myResources)
-    const username = req.body.myResources.username;
+    console.log(req.body.myResources)
+    const username = req.body.myResources.author;
     const objectToAddToDataBase = {}
 
-    const requiredFields = ['content', 'course', 'title', 'typeOfResource', 'resourceId', 'publishedOn', 'username']
+    const requiredFields = ['content', 'course', 'title', 'typeOfResource', 'resourceId', 'publishedOn', 'author']
     const missingFields = requiredFields.filter(field => !field in req.body)
 
     if (missingFields.length > 0) {
@@ -99,6 +99,7 @@ router.put('/resources', (req, res) => {
     }
 
     objectToAddToDataBase.myResources = req.body.myResources
+    console.log(objectToAddToDataBase.myResources)
 
     return Users
     .findOne({username: username})
@@ -111,6 +112,7 @@ router.put('/resources', (req, res) => {
      })
 
      .then(user => res.status(201).json(user.apiRpr()))
+
      .catch(err => {
         console.log(err)
         res.status(500).json({message: 'Internal Server Error'})
@@ -179,14 +181,14 @@ router.put('/favorite-resources', (req, res) => {
         return res.status(400).send(message)
     }
 
-    let {username, content, resourceId, title, publishedOn, typeOfResource, course } = req.body
-    let toUpdate = { title:  title,
-                    course: course,
-                    content: content,
-                    typeOfResource: typeOfResource,
-                    resourceId: resourceId,
-                    username: username,
-                    publishedOn: publishedOn
+    let {username, author, content, resourceId, title, publishedOn, typeOfResource, course } = req.body
+    let toUpdate = { title,
+                    course,
+                    content,
+                    typeOfResource,
+                    resourceId,
+                    author,
+                    publishedOn
                 }
 
       return Users
