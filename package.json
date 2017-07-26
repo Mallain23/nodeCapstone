@@ -4,7 +4,7 @@
   "description": "helps users find resources to help with law school exams",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha test/test-server.js test/test-users.js"
   },
   "author": "",
   "license": "ISC",

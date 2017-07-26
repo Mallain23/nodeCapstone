@@ -52,10 +52,10 @@ describe('Studyguide Resource API', function() {
         return seedData();
     });
 
-    beforeEach(function(done) {
-    this.timeout(0);
-    setTimeout(done, 0);
-  });
+  //   beforeEach(function(done) {
+  //   this.timeout(5000);
+  //   setTimeout(done, 5000);
+  // });
 
     afterEach(function() {
         return tearDownDb()
