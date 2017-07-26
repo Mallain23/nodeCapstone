@@ -69,6 +69,11 @@ describe('User Data API', function() {
         return seedData();
     })
 
+    beforeEach(function(done) {
+    this.timeout(0); // A very long environment setup.
+    setTimeout(done, 0);
+  });
+
     afterEach(function() {
         return tearDownDb()
     })

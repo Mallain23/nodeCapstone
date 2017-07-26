@@ -50,7 +50,12 @@ describe('Studyguide Resource API', function() {
 
     beforeEach(function() {
         return seedData();
-    })
+    });
+
+    beforeEach(function(done) {
+    this.timeout(0);
+    setTimeout(done, 0);
+  });
 
     afterEach(function() {
         return tearDownDb()
