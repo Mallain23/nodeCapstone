@@ -6,7 +6,6 @@ const LocalStrategy = require('passport-local').Strategy;
 
 const express = require('express');
 const session = require('express-session')
-const flash = require('connect-flash')
 
 const router = express.Router();
 
@@ -14,8 +13,6 @@ const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
 
 const {Users} = require('../models');
-
-router.use(flash())
 
 const localStrategy = new LocalStrategy({passReqToCallback: true}, (req, username, password, callback) => {
 

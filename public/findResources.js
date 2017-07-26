@@ -57,83 +57,40 @@ const displaySearchResults = ()=> {
 
 };
 
+
 const sortResults = () => {
-   const { sortNum, searchResults } = state
+   const { sortProperty } = state
 
-   if (sortNum === "a") {
+    switch(sortProperty) {
+      case SortOptionMap.title:
+          basicSort(state.searchResults, SortOptionPropertyMap.TITLE)
 
-        state.searchResults.sort((a, b) => {
-            let itemA =  a.title.toUpperCase()
-            let itemB = b.title.toUpperCase()
+          break;
 
-            if (itemA < itemB) {
-                return -1
-            }
+      case SortOptionMap.author:
+        basicSort(state.searchResults, SortOptionPropertyMap.AUTHOR)
 
-            if (itemA > itemB) {
-                return 1
-            }
+        break;
 
-            return 0
-        })
 
+      case SortOptionMap.course:
+
+          basicSort(state.searchResults, SortOptionPropertyMap.COURSE)
+
+          break;
+
+      case SortOptionMap.resourceType:
+          state.searchResults = basicSort(state.searchResults, SortOptionPropertyMap.RESOURCE_TYPE);
+
+          break;
+
+
+      case SortOptionMap.dateNewest
+         state.searchResults.reverse()
+
+         break;
     }
 
-    if (sortNum === "b") {
-        searchResults.sort((a, b) => {
-            let itemA =  a.author.toUpperCase()
-            let itemB = b.author.toUpperCase()
-
-            if (itemA < itemB) {
-                return -1
-            }
-
-            if (itemA > itemB) {
-                return 1
-            }
-
-            return 0
-        })
-    }
-
-    if (sortNum === "c") {
-
-        state.searchResults.sort((a, b) => {
-            let itemA =  a.course.toUpperCase()
-            let itemB = b.course.toUpperCase()
-
-            if (itemA < itemB) {
-                return -1
-            }
-
-            if (itemA > itemB) {
-                return 1
-            }
-
-            return 0
-        })
-    }
-
-    if (sortNum === "d") {
-        state.searchResults.sort((a, b) => {
-            let itemA =  a.typeOfResource.toUpperCase()
-            let itemB = b.typeOfResource.toUpperCase()
-
-            if (itemA < itemB) {
-                return -1
-            }
-
-            if (itemA > itemB) {
-                return 1
-            }
-
-            return 0
-        })
-    }
-
-    if (sortNum === "f") {
-       state.searchResults.reverse()
-    }
 
      displaySearchResults()
 }
@@ -189,7 +146,7 @@ const watchForSearchForResourcesSubmitClick = () => {
         const searchCourse = $('#search-resource-course').val()
         const searchUser = $('#search-resource-username').val()
         const searchType = $('#search-resource-type').val()
-        state.sortNum = $('#sort-resources').val()
+        state.sortProperty = $('#sort-resources').val()
 
         makeRequestToFindResources(searchTitle, searchCourse, searchType, searchUser, '', storeSearchResults)
     })

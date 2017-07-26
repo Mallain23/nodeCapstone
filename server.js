@@ -70,7 +70,7 @@ app.get('/', (req, res) => {
       return
     }
 
-  res.sendFile(__dirname + '/public/index.html')
+  res.sendFile(__dirname + '/public/index1.html')
 })
 
 app.get('/homepage', isLoggedIn, function(req, res) {
