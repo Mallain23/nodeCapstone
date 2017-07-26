@@ -9,10 +9,26 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.17.2",
     "chai": "^4.0.2",
     "chai-http": "^3.0.0",
+    "cookie-parser": "^1.4.3",
     "express": "^4.15.3",
+    "express-session": "^1.15.3",
+    "faker": "^4.1.0",
+    "jade": "^1.11.0",
+    "jshashes": "^1.0.6",
+    "jsonwebtoken": "^7.4.1",
     "mocha": "^3.4.2",
-    "morgan": "^1.8.2"
+    "mongoose": "^4.10.6",
+    "morgan": "^1.8.2",
+    "passport": "^0.3.2",
+    "passport-http": "^0.3.0",
+    "passport-local": "^1.0.0",
+    "passport-session": "^1.0.2",
+    "password-hash-and-salt": "^0.1.4",
+    "session": "^0.1.0",
+    "sessions": "0.0.2-7"
   }
 }

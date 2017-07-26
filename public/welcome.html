@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <link href="https://fonts.googleapis.com/css?family=Archivo+Black" rel="stylesheet">
+        <link rel="stylesheet" href="http://localhost:8080/main.css" media="screen" title="no title" charset="utf-8">
+
+        <title>Law Student Study Portal</title>
+
+    </head>
+
+    <body>
+
+        <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand">LAW STUDENT STUDY PORTAL</a>
+                </div>
+                <ul class="nav navbar-nav">
+                      <li><a class='home-button pointer'>My Classboard</a></li>
+                      <li><a class="search-for-resource-button pointer">Find Resources</a></li>
+                      <li><a class="create-new-resource-button pointer" data-toggle="modal" data-target="#create-new-resource-container">Add Resource to Database</a></li>
+                      <li><a class="edit-existing-resource-button pointer">Manage My Resources</a></li>
+                      <li><a class="my-account-button dropdown-toggle pointer" data-toggle="dropdown">My Account <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a class="change-password pointer" data-toggle="modal" data-target="#change-password">Change Password</a></li>
+                            <li><a class="logout pointer">Logout</a></li>
+                        </ul>
+                      </li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="modal fade" id="change-password" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+                        </button>
+                        <h3 class="modal-title">Change Password</h3>
+                    </div>
+                <div class="modal-body change-password-modal">
+                    <form class="change-password-form center-form form-horizontal" role="form">
+                        <div class="form-group">
+                            <label class="col-sm-12 label-margin" for="current-password">Enter Current Password</label>
+                            <input placeholder='Current Password' class="form-control user-margin" type="password" name='current-password' id='current-password'/>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-12 label-margin" for="new-password1">Enter New Password</label>
+                            <input type="password" class="form-control user-margin" name='new-password' id='new-password1' placeholder='New Password'/>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-12 label-margin" for="new-password2">Re-enter New Password</label>
+                            <input type="password" class="form-control user-margin" name='new-password' id='new-password2' required placeholder='New Username'/>
+                        </div>
+                    </form>
+                    <div class="change-password-buttons">
+                      <button type="submit" class="change-password-button space-button btn btn-success">Submit</button>
+                      <button type="submit" class="cancel-button space-button btn " data-dismiss="modal">Cancel</button>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <div class="dashboard-page container">
+            <div class="row">
+                <div class"col-xs-12">
+                    <div class="welcome-header"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 add-class-button">
+                    <button class='btn btn-md button-style-black' data-toggle="modal" data-target="#add-a-course-container">Add new course</button>
+                </div>
+            </div>
+
+            <div class="modal fade" id="add-a-course-container" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">
+                                <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+                            </button>
+                            <h3 class="modal-title">Add A Course To Your Classboard</h3>
+                        </div>
+                    <div class="modal-body">
+                          <form class="add-a-course-form form-horizontal" role="form">
+                              <div class="form-group">
+                                <label class="col-sm-8" for="course-name">Choose which course you would like to add</label>
+                                    <select name="type" class="form-control" id="course-name" required>
+                                        <option value="Administrative Law">Administrative Law</option>
+                                        <option value="Antitrust Law">Antitrust Law</option>
+                                        <option value="Bankruptcy Law">Bankruptcy Law</option>
+                                        <option value="Banking Law">Banking Law</option>
+                                        <option value="Business Law">Business Law</option>
+                                        <option value="Civil Procedure">Civil Procedure</option>
+                                        <option value="Constitutional Law">Constitutional Law</option>
+                                        <option value="Contracts">Contracts</option>
+                                        <option value="Complex Litigation">Complex Litigation</option>
+                                        <option value="Copyright Law">Copyright Law</option>
+                                        <option value="Criminal Procedure">Criminal Procedure</option>
+                                        <option value="Employment Law">Employment Law</option>
+                                        <option value="Energy Law">Energy Law</option>
+                                        <option value="Entertainment Law">Entertainment Law</option>
+                                        <option value="Environmental Law">Environmental Law</option>
+                                        <option value="Evidence">Evidence</option>
+                                        <option value="Family Law">Family Law</option>
+                                        <option value="Law and Finance">Law and Finance</option>
+                                        <option value="Health Law">Health Law</option>
+                                        <option value="Intellectual Property Law">Intellectual Property Law</option>
+                                        <option value="International Law">International Law</option>
+                                        <option value="Law and Econonmics">Law and Economics</option>
+                                        <option value="Legal Methods">Legal Methods</option>
+                                        <option value="Legal Writing">Legal Writing Class</option>
+                                        <option value="Property Law">Property Law</option>
+                                        <option value="Securities Law">Securities Law</option>
+                                        <option value="Tax Law">Tax Law</option>
+                                        <option value="Torts">Torts</option>
+                                        <option value="Transactional Law">Transactional Law</option>
+                                        <option value="Trusts and Estates Law">Trusts and Estates Law</option>
+                                        <option value="Wills Law"Wills Law</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                            </form>
+                            <button type="submit" class="add-course-submit btn btn-success" data-dismiss="modal">Add Course</button>
+                            <button type="submit" class="add-course-cancel cancel-button btn " data-dismiss="modal">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="message-box"></div>
+                    <div class="current-classes-container"></div>
+                </div>
+          </div>
+        </div>
+
+
+            <div class="modal fade" id="create-new-resource-container" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">
+                                <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+                            </button>
+                            <h3 class="modal-title">Create New Resource</h3>
+                        </div>
+                    <div class="modal-body">
+                          <form class="create-resource-form form-horizontal" role="form">
+                              <div class="form-group">
+                                  <label for="new-resource-title" class="new-resource-label col-sm-8">New Resource Title</label>
+                                  <input type="text" name="title" class="form-control" id="new-resource-title" required placeholder="Enter a title for your resource">
+                              </div>
+                              <div class="form-group">
+                                  <label class="type-of-resource-label col-sm-8" for="type-of-resource">Choose the type of resource you are creating</label>
+                                  <select name="type" class="form-control" id="type-of-resource" required>
+                                      <option value="Outline">Outline</option>
+                                      <option value="Exam Questions/Answers">Exam practice questions and answers</option>
+                                      <option value="Notes/Advice">Notes and helpful advice for class</option>
+                                      <option value="Other">Other</option>
+                                  </select>
+                              </div>
+                              <div class="form-group">
+                                  <label class="col-sm-8" for="course-name">Choose which course this resource is for</label>
+                                      <select name="type" class="form-control" id="resource-course" required>
+                                          <option value="Administrative Law">Administrative Law</option>
+                                          <option value="Antitrust Law">Antitrust Law</option>
+                                          <option value="Bankruptcy Law">Bankruptcy Law</option>
+                                          <option value="Banking Law">Banking Law</option>
+                                          <option value="Business Law">Business Law</option>
+                                          <option value="Civil Procedure">Civil Procedure</option>
+                                          <option value="Constitutional Law">Constitutional Law</option>
+                                          <option value="Contracts">Contracts</option>
+                                          <option value="Complex Litigation">Complex Litigation</option>
+                                          <option value="Copyright Law">Copyright Law</option>
+                                          <option value="Criminal Procedure">Criminal Procedure</option>
+                                          <option value="Employment Law">Employment Law</option>
+                                          <option value="Energy Law">Energy Law</option>
+                                          <option value="Entertainment Law">Entertainment Law</option>
+                                          <option value="Environmental Law">Environmental Law</option>
+                                          <option value="Evidence">Evidence</option>
+                                          <option value="Family Law">Family Law</option>
+                                          <option value="Law and Finance">Law and Finance</option>
+                                          <option value="Health Law">Health Law</option>
+                                          <option value="Intellectual Property Law">Intellectual Property Law</option>
+                                          <option value="International Law">International Law</option>
+                                          <option value="Law and Econonmics">Law and Economics</option>
+                                          <option value="Legal Methods">Legal Methods</option>
+                                          <option value="Legal Writing">Legal Writing Class</option>
+                                          <option value="Property Law">Property Law</option>
+                                          <option value="Securities Law">Securities Law</option>
+                                          <option value="Tax Law">Tax Law</option>
+                                          <option value="Torts">Torts</option>
+                                          <option value="Transactional Law">Transactional Law</option>
+                                          <option value="Trusts and Estates Law">Trusts and Estates Law</option>
+                                          <option value="Wills Law"Wills Law</option>
+                                          <option value="Other">Other</option>
+                                      </select>
+                                  </div>
+                                  <div class="form-group">
+                                      <label class="col-sm-8" for="resource-content">Content</label>
+                                      <textarea type="text" name="content" class="form-control" id="new-resource-content" required placeholder="Enter the content of your new resource"></textarea>
+                                  </div>
+                                  <button type="submit" id="submit-new-resource" class="add-resource-submit btn btn-success">Add Resource</button>
+                                  <button type="submit" class="add-course-cancel cancel-button btn " data-dismiss="modal">Cancel</button>
+                              </form>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+
+
+        <div class='my-favorite-resources-page container hide'>
+            <div class='row'>
+                <div class='col-xs-12'>
+                    <div class="favorite-resources-header"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 back-to-dashboard">
+                    <button class="home-button btn button-style-black">Go Back to Classboard</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="favorite-resources-message-box"></div>
+              </div>
+
+          <div class="favorite-resources-container row"></div>
+        </div>
+      </div>
+
+
+        <div class='my-uploaded-resources-page container hide'>
+            <div class='row'>
+                <div class='col-xs-12'>
+                    <div class="uploaded-resources-page-header">Manage Your Resources</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 add-resource-button">
+                    <button data-toggle="modal" class="create-new-resource-button btn button-style-black" data-target="#create-new-resource-container">Add a Resource to Database</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="resource-message-box"></div>
+                    <div class="uploaded-resources-container"></div>
+                </div>
+            </div>
+                  <div class="prev-next-container hide row">
+                      <button class="btn btn-sm button-style-black go-to-prev-page-resource" disabled>Previous Page</button>
+                      <div class="page-num">Page: <span class="page"></span></div>
+                      <button class="btn btn-sm button-style-black go-to-next-page-resource">Next Page</button>
+                  </div>
+            </div>
+        </div>
+
+
+
+
+        <div class="modal fade" id="edit-resource" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+                        </button>
+                        <h3 class="modal-title">Edit Resource</h3>
+                    </div>
+                <div class="modal-body">
+                    <form class="edit-resource-form form-horizontal" role="form">
+                        <div class="form-group">
+                            <label for="new-resource-title" class="edit-resource-label col-sm-8">Resource Title</label>
+                            <input type="text" name="title" class="form-control" id="edit-resource-title" required placeholder="Enter a title for your resource">
+                        </div>
+                        <div class="form-group">
+                            <label class="type-of-resource-label col-sm-8" for="type-of-resource">Choose the type of resource you are creating</label>
+                            <select name="type" class="form-control" id="edit-type-of-resource" required>
+                                <option value="Outline">Outline</option>
+                                <option value="Exam Questions/Answers">Exam practice questions and answers</option>
+                                <option value="Notes/Advice">Notes and helpful advice for class</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-8" for="course-name">Choose which course this resource is for</label>
+                                <select name="type" class="form-control" id="edit-resource-course" required>
+                                    <option value="Administrative Law">Administrative Law</option>
+                                    <option value="Antitrust Law">Antitrust Law</option>
+                                    <option value="Bankruptcy Law">Bankruptcy Law</option>
+                                    <option value="Banking Law">Banking Law</option>
+                                    <option value="Business Law">Business Law</option>
+                                    <option value="Civil Procedure">Civil Procedure</option>
+                                    <option value="Constitutional Law">Constitutional Law</option>
+                                    <option value="Contracts">Contracts</option>
+                                    <option value="Complex Litigation">Complex Litigation</option>
+                                    <option value="Copyright Law">Copyright Law</option>
+                                    <option value="Criminal Procedure">Criminal Procedure</option>
+                                    <option value="Employment Law">Employment Law</option>
+                                    <option value="Energy Law">Energy Law</option>
+                                    <option value="Entertainment Law">Entertainment Law</option>
+                                    <option value="Environmental Law">Environmental Law</option>
+                                    <option value="Evidence">Evidence</option>
+                                    <option value="Family Law">Family Law</option>
+                                    <option value="Law and Finance">Law and Finance</option>
+                                    <option value="Health Law">Health Law</option>
+                                    <option value="Intellectual Property Law">Intellectual Property Law</option>
+                                    <option value="International Law">International Law</option>
+                                    <option value="Law and Econonmics">Law and Economics</option>
+                                    <option value="Legal Methods">Legal Methods</option>
+                                    <option value="Legal Writing">Legal Writing Class</option>
+                                    <option value="Property Law">Property Law</option>
+                                    <option value="Securities Law">Securities Law</option>
+                                    <option value="Tax Law">Tax Law</option>
+                                    <option value="Torts">Torts</option>
+                                    <option value="Transactional Law">Transactional Law</option>
+                                    <option value="Trusts and Estates Law">Trusts and Estates Law</option>
+                                    <option value="Wills Law"Wills Law</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-8" for="resource-content">Content</label>
+                                <textarea type="text" name="content" class="form-control" id="edit-resource-content" required placeholder="Enter the content of your new resource"></textarea>
+                            </div>
+                            <button type="submit" class="edit-submit btn btn-success">Edit Resource</button>
+                            <button type="submit" class="cancel-button btn" data-dismiss="modal">Cancel</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+        <div class='find-resource-page hide container'>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="search-page-heading">Find Resources</div>
+                </div>
+            </div>
+            <form class='search-for-resource-form'>
+                  <div class="form-group">
+                      <div class="form-heading find-heading">Choose one or more of the filters below and then click 'Find Resources!'</div>
+                  </div>
+                  <div class="form-group">
+                        <label for="search-resource-title" class="search-resource-label">Refine Search by Title</label>
+                        <input type="text" name="title" class="form-control short" id="search-resource-title" placeholder="Search by title">
+                  </div>
+                  <div class="form-group">
+                        <label class="search-type-of-resource-label" for="search-type-of-resource">Refine Search by Type of Resource</label>
+                        <select name="type" id="search-resource-type" class="form-control short" required>
+                            <option></option>
+                            <option value="Outline">Outline</option>
+                            <option value="Exam Questions/Answers">Exam practice questions and answers</option>
+                            <option value="Notes/Advice">Notes and helpful advice for class</option>
+                            <option value="Other">Other</option>
+                        </select>
+                  </div>
+                  <div class="form-group">
+                      <label for="search-resource-class">Refine Search by Course</label>
+                      <select name="type" id="search-resource-course" class="form-control short" required>
+                         <option></option>
+                          <option value="Administrative Law">Administrative Law</option>
+                          <option value="Antitrust Law">Antitrust Law</option>
+                          <option value="Bankruptcy Law">Bankruptcy Law</option>
+                          <option value="Banking Law">Banking Law</option>
+                          <option value="Business Law">Business Law</option>
+                          <option value="Civil Procedure">Civil Procedure</option>
+                          <option value="Constitutional Law">Constitutional Law</option>
+                          <option value="Contracts">Contracts</option>
+                          <option value="Complex Litigation">Complex Litigation</option>
+                          <option value="Copyright Law">Copyright Law</option>
+                          <option value="Criminal Procedure">Criminal Procedure</option>
+                          <option value="Employment Law">Employment Law</option>
+                          <option value="Energy Law">Energy Law</option>
+                          <option value="Entertainment Law">Entertainment Law</option>
+                          <option value="Environmental Law">Environmental Law</option>
+                          <option value="Evidence">Evidence</option>
+                          <option value="Family Law">Family Law</option>
+                          <option value="Law and Finance">Law and Finance</option>
+                          <option value="Health Law">Health Law</option>
+                          <option value="Intellectual Property Law">Intellectual Property Law</option>
+                          <option value="International Law">International Law</option>
+                          <option value="Law and Econonmics">Law and Economics</option>
+                          <option value="Legal Methods">Legal Methods</option>
+                          <option value="Legal Writing">Legal Writing Class</option>
+                          <option value="Property Law">Property Law</option>
+                          <option value="Securities Law">Securities Law</option>
+                          <option value="Tax Law">Tax Law</option>
+                          <option value="Torts">Torts</option>
+                          <option value="Transactional Law">Transactional Law</option>
+                          <option value="Trusts and Estates Law">Trusts and Estates Law</option>
+                          <option value="Wills Law">Wills Law</option>
+                          <option value="Other">Other</option>
+                      </select>
+                  </div>
+                  <div class="form-group">
+                      <label for="search-username">Refine Search by Author</label>
+                      <input type="text" name="content" id="search-resource-username"  class="form-control short" placeholder="Search by Author"></input>
+                  </div>
+                  <div class="form-group">
+                     <label for="sort-resources">Sort Results</label>
+                     <select name="type" id="sort-resources" class="form-control short" required>
+                         <option></option>
+                          <option value="title">Alphabetically by Title</option>
+                          <option value="author">Alphabetically by Author</option>
+                          <option value="course">Alphabetically by Course</option>
+                          <option value="typeOfResource">Alphabetically by Type of Resource</option>
+                          <option selected="selected" value="date_oldest">Published Date: Oldest to Newest</option>
+                          <option value="date_newest">Published Date: Newest to Oldest</option>
+                      </select>
+                 </div>
+                  <div class="form-group">
+                      <div class="search-buttons">
+                          <button type="submit" class="search-resource-submit btn button-style-black">Find Resources!</button>
+                          <button type="submit" class="search-resource-cancel clear-form btn button-style-black">Clear Form</button>
+                          <button type='submit' class="hide-form-button btn button-style-black">Hide Form</button>
+                      </div>
+                 </div>
+            </form>
+            <div class="show-form-container">
+                  <button type='submit' class="show-form-button btn btn-md button-style-black hide">Show Form</button>
+            </div>
+            <div class='results-container row'></div>
+            <div class="prev-next-container hide row">
+              <button class="btn btn-sm button-style-black go-to-prev-page" disabled>Previous Page</button>
+              <div class="page-num">Page: <span class="page"></span></div>
+              <button class="btn btn-sm button-style-black go-to-next-page">Next Page</button>
+            </div>
+        </div>
+
+        <div class="view-my-resource-page hide">
+            <div class="my-resource-container"> </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="resource-button-box">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class='view-my-favorite-resource-page hide'>
+            <div class="my-favorite-resource-container"></div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="resource-button-box">
+                      <button class='go-back-to-my-favorite-resources-page btn button-style-black' type='submit'>Go Back!</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class='view-result-from-search-page hide'>
+              <div class="query-results-container"></div>
+                  <div class="row">
+                      <div class="col-lg-12">
+                          <div class="query-resource-button-box"></div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+    <script src="state.js" charset="utf-8"></script>
+    <script src="globals.js" charset="utf-8"></script>
+    <script src="loadPage.js" charset="utf-8"></script>
+    <script src="classes.js" charset="utf-8"></script>
+    <script src="resources.js" charset="utf-8"></script>
+    <script src="/utils/enumeration.js" charset="utf-8"></script>
+    <script src="/utils/basicSort.js" charset="utf-8"></script>
+    <script src="findResources.js" charset="utf-8"></script>
+    <script src="favorites.js" charset="utf-8"></script>
+    <script src="homepage.js"></script>
+
+
+  </body>
+</html>
