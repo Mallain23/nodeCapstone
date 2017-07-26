@@ -60,8 +60,9 @@ app.use('/user-data', userDataRouter)
 
 var path = require('path');
 
-app.get('/', (req, res) => {
 
+app.get('/', (req, res) => {
+    console.log("path")
     console.log("here", req.user, req.isAuthenticated())
     if (req.isAuthenticated()) {
 

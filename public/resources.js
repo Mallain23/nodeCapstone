@@ -343,7 +343,7 @@ const watchForViewResourceClick = () => {
 
           state.idOfResourceToUpdate = $(event.target).val()
           const { idOfResourceToUpdate, myResources } = state
-          console.log("state", state)
+          
           addAndRemoveHideClass([classReferences.my_uploaded_resources_page], [classReferences.view_my_resource_page])
 
           const myResource = myResources.find(({ resourceId }) => resourceId === idOfResourceToUpdate)

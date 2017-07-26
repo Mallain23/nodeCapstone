@@ -149,7 +149,7 @@ router.post('/', (req, res) => {
         .then(count => {
             if(count > 0) {
                 console.log("error")
-                return res.json({message: 'username already taken'})
+                return res.json({message: 'Username already in use by another user, please choose a different username. '})
             }
             return Users.hashPassword(password)
         })

@@ -354,7 +354,7 @@
             </div>
             <form class='search-for-resource-form'>
                   <div class="form-group">
-                      <div class="form-heading find-heading">Choose one or more of the filters below, and click 'Find Resources!'</div>
+                      <div class="form-heading find-heading">Choose one or more of the filters below and then click 'Find Resources!'</div>
                   </div>
                   <div class="form-group">
                         <label for="search-resource-title" class="search-resource-label">Refine Search by Title</label>
@@ -412,6 +412,18 @@
                       <label for="search-username">Refine Search by Author</label>
                       <input type="text" name="content" id="search-resource-username"  class="form-control short" placeholder="Search by Author"></input>
                   </div>
+                  <div class="form-group">
+                     <label for="sort-resources">Sort Results</label>
+                     <select name="type" id="sort-resources" class="form-control short" required>
+                         <option></option>
+                          <option value="a">Alphabetically by Title</option>
+                          <option value="b">Alphabetically by Author</option>
+                          <option value="c">Alphabetically by Course</option>
+                          <option value="d">Alphabetically by Resource Type</option>
+                          <option value="e">Oldest to Newest</option>
+                          <option value="f">Newest to Oldest</option>
+                      </select>
+                 </div>
                   <div class="form-group">
                       <div class="search-buttons">
                           <button type="submit" class="search-resource-submit btn button-style-black">Find Resources!</button>

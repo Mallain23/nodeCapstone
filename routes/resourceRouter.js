@@ -17,6 +17,14 @@ router.get('/', (req, res) => {
         }
     })
 
+    if (filters.title) {
+      filters.title = {$regex: filters.title, $options: 'i'}
+    }
+
+    if (filters.author) {
+      filters.author = {$regex: filters.author, $options: 'i'}
+    }
+
     StudyResources
         .find(filters)
         .exec()

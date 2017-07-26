@@ -12,15 +12,6 @@ const urls = {
 };
 
 
-const makeInitialGetRequest = () => {
-  const settings = {
-    url: '/',
-    contentType: 'application/json',
-    method: 'GET'
-  }
-console.log("sent")
-$.ajax(settings)
-}
 //adds hide class to elements in array of 1st param, removes hide class for elements in array of second param
 
 
@@ -133,7 +124,7 @@ const init = () => {
     watchForLoginClick();
     watchForLoginSubmitClick();
     watchForCreateNewUserSubmit();
-    makeInitialGetRequest();
+
 
 }
 
