@@ -7,5 +7,6 @@ const state = {
     idOfResourceToUpdate: null,
     currentSelectedCourse: null,
     searchPageIndex: 0,
-    resourcePageIndex: 0
+    resourcePageIndex: 0,
+    sortProperty: null
 };

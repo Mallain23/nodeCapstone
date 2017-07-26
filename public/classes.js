@@ -1,3 +1,4 @@
+// this function makes request to add new class to classboard
 const makeRequestToAddNewClass = (courseName, success) => {
 
     const { username } = state
@@ -33,6 +34,8 @@ const makeRequestToRemoveClass = (courseName, success) => {
     $.ajax(settings)
 };
 
+//this function checks to see if user has selected a course to add, if course has been added, will then
+//check to make sure course has not already been added, once it returns true, request to server is made
 const checkToSeeIfWeShouldAddCourse = courseName => {
     if (courseName === null) {
         alert("You must choose a course before clicking 'add course'!")
@@ -51,7 +54,19 @@ const checkToSeeIfWeShouldAddCourse = courseName => {
     return true
 };
 
+//dashboard click is almost like home button - brigns users to there dashboard (classboard? ) which displays classes and allows them to add class
+const watchForMyDashboardClick = () => {
+    $('.home-button').on('click', event=> {
+        event.preventDefault()
 
+        displayClasses()
+        addAndRemoveHideClass([classReferences.find_resource_page, classReferences.view_my_resource_page, classReferences.my_uploaded_resources_page, classReferences.edit_resource_page, classReferences.create_new_resource_window, classReferences.my_favorite_resources_page, classReferences.view__result_from_search_page], [classReferences.dashboard_page])
+    })
+};
+
+// once user clicks to add course, will check to see if we should add the course
+//if course has not already been added, will make request to add
+//saveDataToState and displayClasses is in LoadPage file
 const watchForAddNewClassClick = () => {
     $('.add-course-submit').on('click', event => {
           event.preventDefault();
@@ -70,7 +85,6 @@ const watchForAddNewClassClick = () => {
 };
 
 //watches for user to click to delete a course, and then it makes request to remove course
-
 const watchForDeleteClassClick = () => {
     $('.current-classes-container').on('click', ".remove-course-button", event => {
           event.preventDefault()

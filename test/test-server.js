@@ -28,7 +28,7 @@ const generateStudyResourceData = () => {
 
         title: faker.lorem.sentence(),
         typeOfResource: faker.lorem.sentence(),
-        username: faker.name.findName(),
+        author: faker.name.findName(),
         course: faker.lorem.sentence(),
         professor: faker.lorem.sentence(),
         content: faker.lorem.sentence(),
@@ -75,7 +75,7 @@ describe('Studyguide Resource API', function() {
 
                 res.body.forEach(resource => {
                     resource.should.be.a('object')
-                    resource.should.include.keys('title', 'content', 'course', 'username', 'id', 'typeOfResource')
+                    resource.should.include.keys('title', 'content', 'course', 'author', 'id', 'typeOfResource')
                 })
                 resResource = res.body[0]
 
@@ -85,7 +85,7 @@ describe('Studyguide Resource API', function() {
                 resResource.title.should.equal(resource.title)
                 resResource.course.should.equal(resource.course)
                 resResource.content.should.equal(resource.content)
-                resResource.username.should.equal(resource.username)
+                resResource.author.should.equal(resource.author)
                 resResource.typeOfResource.should.equal(resource.typeOfResource)
             })
        })

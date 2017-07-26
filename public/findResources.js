@@ -10,6 +10,9 @@ const makeRequestToFindResources = (title, course, typeOfResource, author, resou
     $.ajax(settings)
 };
 
+//this function displays single resource from query results. Calls on function from
+//resource file to format buttons and text html bc it is the same function used to format
+//html used to view users own resources
 const displayResourceFromQueryResults = data => {
 
     const {title, course, typeOfResource, content, publishedOn, id, author} = data[0]
@@ -23,6 +26,8 @@ const displayResourceFromQueryResults = data => {
 };
 
 
+
+// this function formats html that displays the results when user searches for resources
 const formatSearchResultHtml = data => {
 
     return data.map(({ title, course, publishedOn, typeOfResource, id, author }) =>  {
@@ -38,7 +43,7 @@ const formatSearchResultHtml = data => {
     })
 };
 
-
+//this function is called once search data is recieved back from server, and then sorted
 const displaySearchResults = ()=> {
     const { searchResults, searchPageIndex } = state
     const resultArray = searchResults.slice(searchPageIndex * 12, (searchPageIndex * 12) + 12)
@@ -54,99 +59,8 @@ const displaySearchResults = ()=> {
 
     $('.results-container').html(html)
     $('.page').text(pageNum)
-
 };
 
-const sortResults = () => {
-   const { sortNum, searchResults } = state
-
-   if (sortNum === "a") {
-
-        state.searchResults.sort((a, b) => {
-            let itemA =  a.title.toUpperCase()
-            let itemB = b.title.toUpperCase()
-
-            if (itemA < itemB) {
-                return -1
-            }
-
-            if (itemA > itemB) {
-                return 1
-            }
-
-            return 0
-        })
-
-    }
-
-    if (sortNum === "b") {
-        searchResults.sort((a, b) => {
-            let itemA =  a.author.toUpperCase()
-            let itemB = b.author.toUpperCase()
-
-            if (itemA < itemB) {
-                return -1
-            }
-
-            if (itemA > itemB) {
-                return 1
-            }
-
-            return 0
-        })
-    }
-
-    if (sortNum === "c") {
-
-        state.searchResults.sort((a, b) => {
-            let itemA =  a.course.toUpperCase()
-            let itemB = b.course.toUpperCase()
-
-            if (itemA < itemB) {
-                return -1
-            }
-
-            if (itemA > itemB) {
-                return 1
-            }
-
-            return 0
-        })
-    }
-
-    if (sortNum === "d") {
-        state.searchResults.sort((a, b) => {
-            let itemA =  a.typeOfResource.toUpperCase()
-            let itemB = b.typeOfResource.toUpperCase()
-
-            if (itemA < itemB) {
-                return -1
-            }
-
-            if (itemA > itemB) {
-                return 1
-            }
-
-            return 0
-        })
-    }
-
-    if (sortNum === "f") {
-       state.searchResults.reverse()
-    }
-
-     displaySearchResults()
-}
-
-const storeSearchResults = data => {
-    if (data.length < 1) {
-
-        return $('.results-container').text('Sorry, your search terms were too narrow and have not returned any results. Try refining your search terms!')
-    }
-
-    state.searchResults = data;
-    sortResults()
-};
 
 const displayPriorPageOfSearchResults = () => {
 
@@ -162,8 +76,61 @@ const displayPriorPageOfSearchResults = () => {
 
     $('.results-container').html(html)
     $('.page').text(pageNum)
-
 };
+
+
+//this is a constant that used an enumeration function to create an object, the object contains the sort options
+//which is used in the sort results function
+const SortOptionMap = enumeration(['date_newest', 'date_oldest', 'title', 'author', 'course', 'typeOfResource'])
+
+//this function sorts the search results before displaying them to user, user chooses how results should be sortd and
+//based on users choice - this function will sort appropriately
+const sortResults = () => {
+   const { sortProperty } = state
+
+    switch(sortProperty) {
+      case SortOptionMap.title:
+          state.searchResults = basicSort(state.searchResults, SortOptionMap.title)
+
+          break;
+
+      case SortOptionMap.author:
+          state.searchResults = basicSort(state.searchResults, SortOptionMap.author)
+
+        break;
+
+      case SortOptionMap.course:
+
+          state.searchResults = basicSort(state.searchResults, SortOptionMap.course)
+
+          break;
+
+      case SortOptionMap.typeOfResource:
+          state.searchResults = basicSort(state.searchResults, SortOptionMap.typeOfResource);
+
+          break;
+
+      case SortOptionMap.date_newest:
+         state.searchResults.reverse()
+
+         break;
+    }
+
+     displaySearchResults()
+}
+
+// this function recieves data from server, if no searchr results will let user know, if there are results, will save
+//and then call sort function to sort appropriately
+const storeSearchResults = data => {
+    if (data.length < 1) {
+
+        return $('.results-container').text('Sorry, your search terms were too narrow and have not returned any results. Try refining your search terms!')
+    }
+
+    state.searchResults = data;
+    sortResults()
+};
+
 
 
 const watchForSearchForResourcesClick = () => {
@@ -189,7 +156,7 @@ const watchForSearchForResourcesSubmitClick = () => {
         const searchCourse = $('#search-resource-course').val()
         const searchUser = $('#search-resource-username').val()
         const searchType = $('#search-resource-type').val()
-        state.sortNum = $('#sort-resources').val()
+        state.sortProperty = $('#sort-resources').val()
 
         makeRequestToFindResources(searchTitle, searchCourse, searchType, searchUser, '', storeSearchResults)
     })
@@ -237,6 +204,7 @@ const watchForShowFormClick = () => {
         addAndRemoveHideClass([classReferences.show_form_button], [classReferences.search_for_resource_form])
     })
 };
+
 const watchForGoToNextPageOfResultsClick = () => {
     $('.go-to-next-page').on('click', event => {
         state.searchPageIndex++
@@ -253,6 +221,5 @@ const watchForGoToPreviousPageOfResultsClick = () => {
 
           $(".results-container").scrollTop(0);
           $(".go-to-next-page").removeAttr("disabled")
-
     })
 };

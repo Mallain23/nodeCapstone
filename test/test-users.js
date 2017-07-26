@@ -35,7 +35,7 @@ const generateUserData = () => {
                             content: faker.lorem.sentence(),
                             typeOfResource: faker.lorem.sentence(),
                             resourceId: faker.lorem.sentence(),
-                            username: faker.lorem.sentence(),
+                            author: faker.lorem.sentence(),
                             publishedOn: faker.lorem.sentence()
                         }],
       currentClasses: [{
@@ -46,7 +46,7 @@ const generateUserData = () => {
                       content: faker.lorem.sentence(),
                       typeOfResource: faker.lorem.sentence(),
                       resourceId: faker.lorem.sentence(),
-                      username: faker.lorem.sentence(),
+                      author: faker.lorem.sentence(),
                       publishedOn: new Date()
                     }]
                   }]
@@ -77,34 +77,6 @@ describe('User Data API', function() {
         return closeServer();
     });
 
-    describe('GET Endpoint', function(){
-        it('should return correct user data', function() {
-
-            let username
-
-            return Users.findOne()
-            .exec()
-            .then(function(user) {
-                username = user.username
-                return chai.request(app)
-                .get(`/user-data/user-profile`)
-            })
-
-            .then(function(res) {
-                res.should.have.status(200)
-                res.body.should.be.a("object")
-                res.body.should.have.keys("username", "lastName", "firstName", "currentClasses", "myResources")
-                res.body.currentClasses.should.be.a("array")
-                res.body.myResources.should.be.a("array")
-
-                return Users.findOne({username: res.body.username})
-                .exec()
-            })
-            .then(function(user) {
-                user.username.should.equal(username)
-            })
-        })
-    })
 
     describe('PUT Endpoint', function() {
 
@@ -164,7 +136,7 @@ describe('User Data API', function() {
                 .findOne()
                 .exec()
                 .then(function(user) {
-                    newDataObject.myResources.username = user.username
+                    newDataObject.myResources.author = user.username
 
                     return chai.request(app)
                     .put(`/user-data/resources`)
@@ -178,10 +150,10 @@ describe('User Data API', function() {
                   res.body.myResources.should.be.a("array")
                   res.body.myResources.should.have.length.of.at.least(1)
                   res.body.myResources.every(resource => {
-                    return resource.should.include.keys("username", "content", "title", "typeOfResource", "resourceId", "publishedOn", "course")
+                    return resource.should.include.keys("author", "content", "title", "typeOfResource", "resourceId", "publishedOn", "course")
                   })
 
-                  return Users.findOne({username: newDataObject.myResources.username})
+                  return Users.findOne({username: newDataObject.myResources.author})
                   .exec()
               })
               .then(function(user) {
@@ -192,7 +164,7 @@ describe('User Data API', function() {
                 addedResource.should.not.equal(null)
                 addedResource.content.should.equal(newDataObject.myResources.content)
                 addedResource.publishedOn.should.equal(newDataObject.myResources.publishedOn)
-                addedResource.username.should.equal(newDataObject.myResources.username)
+                addedResource.author.should.equal(newDataObject.myResources.author)
                 addedResource.typeOfResource.should.equal(newDataObject.myResources.typeOfResource)
                 addedResource.resourceId.should.equal(newDataObject.myResources.resourceId)
                 addedResource.course.should.equal(newDataObject.myResources.course)

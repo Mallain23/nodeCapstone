@@ -1,3 +1,6 @@
+//gets resource data back from server, then checks to see if the course associated with the course
+// has been added to classboard, if it has it will make request to add resource to that course
+
 const makeRequestToAddResourcetoUserFavorites = data => {
 
     const {title, content, typeOfResource, publishedOn, id, author, course} = data[0]
@@ -45,6 +48,7 @@ const makeRequestToDeleteFavoriteResource = (resourceId, courseName, success) =>
     $.ajax(settings)
 };
 
+//function that is called if resource is added to favorites
 const updateForFavoriteResourceAdd = data => {
     Object.assign(state, data)
 
@@ -58,6 +62,7 @@ const updateForFavoriteResourceRemoval = data => {
     displayFavoriteResources(state.currentSelectedCourse)
 };
 
+//this function formats HTML to show favorite resources for a given course
 const formatFavoriteResourceHtml = courseObject => {
 
     return  courseObject.resources.map(({ title, course, typeOfResource, publishedOn, resourceId, author }) => {
@@ -72,10 +77,6 @@ const formatFavoriteResourceHtml = courseObject => {
                 <button type='submit' value='${resourceId}' class='view-resource-button btn btn-sm button-style-black'>View Resource</button><br>
                 <button type='submit' value="${resourceId}" class='delete-resource-button btn btn-sm button-style-black'>Remove Resource</button></div></div>`
         })
-};
-
-const formatHtmlButtonsForFavoriteDisplay = resourceId => {
-    return `<button class='go-back-to-my-favorite-resources-page btn button-style-black' type='submit'>Go Back!</button>`
 };
 
 //displays favorite resource for a course (using global variable to identify which course)
@@ -98,18 +99,15 @@ const displayFavoriteResources = courseName => {
     let html = formatFavoriteResourceHtml(courseObject)
 
     $('.favorite-resources-container').html(html)
-    $('.favorite-resource-message-box').text('')
-
+    $('.favorite-resources-message-box').text('')
 };
 
 
-const displaySelectedFavoriteToView = ({ title, content, course, typeOfResource, publishedOn, resourceId, author }) => {
-    console.log(author)
-    const html =  formatHtmlTextForResultDisplay(title, content, course, typeOfResource, publishedOn, resourceId, author)
-    const buttonHtml = formatHtmlButtonsForFavoriteDisplay(resourceId)
 
+const displaySelectedFavoriteToView = ({ title, content, course, typeOfResource, publishedOn, resourceId, author }) => {
+
+    const html =  formatHtmlTextForResultDisplay(title, content, course, typeOfResource, publishedOn, resourceId, author)
     $('.my-favorite-resource-container').html(html)
-    $('.resource-button-box').html(buttonHtml)
 };
 
 //checks to see if resource is already in favorites, if not makes request to user database to add to user favorites
@@ -126,33 +124,12 @@ const checkIfResourceShouldBeAddedToFavorites = resourceId => {
 
 
 const watchForAddResourceToFavoritesClick = () => {
-    $('.results-container').on('click', '.add-to-my-favorites-button', event => {
+    $('.results-container, .query-results-container, .resource-button-box, .query-resource-button-box' ).on('click', '.add-to-my-favorites-button', event => {
         event.preventDefault();
 
         resourceId = $(event.target).val()
         checkIfResourceShouldBeAddedToFavorites(resourceId)
     });
-
-    $('.query-results-container').on('click', '.add-to-my-favorites-button', event => {
-        event.preventDefault();
-
-        resourceId = $(event.target).val()
-        checkIfResourceShouldBeAddedToFavorites(resourceId)
-     });
-
-     $('.resource-button-box').on('click', '.add-to-my-favorites-button', event => {
-        event.preventDefault();
-
-        resourceId = $(event.target).val()
-        checkIfResourceShouldBeAddedToFavorites(resourceId)
-      });
-
-      $('.query-resource-button-box').on('click', '.add-to-my-favorites-button', event => {
-         event.preventDefault();
-
-         resourceId = $(event.target).val()
-         checkIfResourceShouldBeAddedToFavorites(resourceId)
-       });
 };
 
 // this function watches for user to click to view favorite resources for a given course
@@ -207,4 +184,4 @@ const watchForGoBackToMyFavoriteResourcesPageClick = () => {
 
         addAndRemoveHideClass([classReferences.view_my_favorite_resource_page],[classReferences.my_favorite_resources_page])
     })
-}
+};

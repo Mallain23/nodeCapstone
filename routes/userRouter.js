@@ -1,4 +1,3 @@
-const {BasicStrategy} = require('passport-http');
 
 const passport = require('passport');
 
@@ -6,7 +5,6 @@ const LocalStrategy = require('passport-local').Strategy;
 
 const express = require('express');
 const session = require('express-session')
-const flash = require('connect-flash')
 
 const router = express.Router();
 
@@ -14,8 +12,6 @@ const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
 
 const {Users} = require('../models');
-
-router.use(flash())
 
 const localStrategy = new LocalStrategy({passReqToCallback: true}, (req, username, password, callback) => {
 
@@ -27,7 +23,7 @@ const localStrategy = new LocalStrategy({passReqToCallback: true}, (req, usernam
 
         user = _user
         if(!user) {
-            console.log("req.flash", req.flash)
+
             return callback(null, false)
         }
 
@@ -37,7 +33,7 @@ const localStrategy = new LocalStrategy({passReqToCallback: true}, (req, usernam
 
         if (!isValid) {
 
-            return callback(null, false, {message: req.flash('Incorrect Password')})
+            return callback(null, false, {message: ('Incorrect Password')})
         }
         return callback(null, user);
     })
@@ -45,43 +41,6 @@ const localStrategy = new LocalStrategy({passReqToCallback: true}, (req, usernam
 })
 
 
-
-
-
-
-
-// const basicStrategy = new BasicStrategy((username, password, callback) => {
-//
-//     let user
-//     return Users
-//     .findOne({username: username})
-//     .exec()
-//     .then(_user => {
-//
-//         user = _user
-//         if(!user) {
-//
-//             return callback(null, false, {message: 'Invalid Username'})
-//         }
-//
-//         return user.validatePassword(password)
-//     })
-//     .then(isValid => {
-//
-//         if (!isValid) {
-//
-//             return callback(null, false)
-//         }
-//         return callback(null, user);
-//     })
-//     .catch(err => callback(err))
-// })
-
-
-
-
-
-//passport.use(basicStrategy)
 passport.use(localStrategy)
 router.use(session({secret: '755North755North755North'}))
 router.use(passport.initialize());
@@ -100,7 +59,7 @@ passport.deserializeUser(function(obj, done) {
 
 
 router.post('/', (req, res) => {
-  console.log(req.body)
+
     if (!req.body) {
 
         return res.json({message: 'No request body'})

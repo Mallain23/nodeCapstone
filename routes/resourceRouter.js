@@ -61,8 +61,8 @@ router.post('/', (req, res) => {
         })
         .then(Resource =>  res.status(201).json(Resource.apiRpr()))
         .catch(err => {
-          console.error(err);
-          res.status(500).json({message: 'Internal Server Error'})
+            console.error(err);
+            res.status(500).json({message: 'Internal Server Error'})
         })
     })
 
@@ -89,6 +89,7 @@ router.put('/:id', (req, res) => {
     .findByIdAndUpdate(req.params.id, {$set: toUpdate}, {new: true})
     .exec()
     .then(resource => res.status(201).json(resource.apiRpr()))
+
     .catch(err => res.status(500).json({message: 'Internal Server Error'}))
 })
 

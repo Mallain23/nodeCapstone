@@ -45,17 +45,6 @@ const passwordChangeHandler = data => {
 }
 //this section is the functions that watch for click events
 
-//dashboard click is almost like home button - brigns users to there dashboard (classboard? ) which displays classes and allows them to add class
-const watchForMyDashboardClick = () => {
-    $('.home-button').on('click', event=> {
-        event.preventDefault()
-
-        displayClasses()
-        addAndRemoveHideClass([classReferences.find_resource_page, classReferences.view_my_resource_page, classReferences.my_uploaded_resources_page, classReferences.edit_resource_page, classReferences.create_new_resource_window, classReferences.my_favorite_resources_page, classReferences.view__result_from_search_page], [classReferences.dashboard_page])
-    })
-};
-
-
 
 const watchForLogOutClick = () => {
     $('.dropdown-menu').on('click', '.logout', event => {

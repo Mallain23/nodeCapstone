@@ -62,15 +62,14 @@ var path = require('path');
 
 
 app.get('/', (req, res) => {
-    console.log("path")
-    console.log("here", req.user, req.isAuthenticated())
+
     if (req.isAuthenticated()) {
 
       res.redirect('/homepage')
       return
     }
 
-  res.sendFile(__dirname + '/public/index.html')
+    res.sendFile(__dirname + '/public/login.html')
 })
 
 app.get('/homepage', isLoggedIn, function(req, res) {

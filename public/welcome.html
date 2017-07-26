@@ -8,8 +8,7 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <link href="https://fonts.googleapis.com/css?family=Archivo+Black" rel="stylesheet">
         <link rel="stylesheet" href="http://localhost:8080/main.css" media="screen" title="no title" charset="utf-8">
-        <script src="bower_components/sweetalert2/dist/sweetalert2.min.js"></script>
-        <link rel="stylesheet" href="bower_components/sweetalert2/dist/sweetalert2.min.css">
+
         <title>Law Student Study Portal</title>
 
     </head>
@@ -416,12 +415,12 @@
                      <label for="sort-resources">Sort Results</label>
                      <select name="type" id="sort-resources" class="form-control short" required>
                          <option></option>
-                          <option value="a">Alphabetically by Title</option>
-                          <option value="b">Alphabetically by Author</option>
-                          <option value="c">Alphabetically by Course</option>
-                          <option value="d">Alphabetically by Resource Type</option>
-                          <option value="e">Oldest to Newest</option>
-                          <option value="f">Newest to Oldest</option>
+                          <option value="title">Alphabetically by Title</option>
+                          <option value="author">Alphabetically by Author</option>
+                          <option value="course">Alphabetically by Course</option>
+                          <option value="typeOfResource">Alphabetically by Type of Resource</option>
+                          <option selected="selected" value="date_oldest">Published Date: Oldest to Newest</option>
+                          <option value="date_newest">Published Date: Newest to Oldest</option>
                       </select>
                  </div>
                   <div class="form-group">
@@ -459,6 +458,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="resource-button-box">
+                      <button class='go-back-to-my-favorite-resources-page btn button-style-black' type='submit'>Go Back!</button>
                     </div>
                 </div>
             </div>
@@ -479,6 +479,8 @@
     <script src="loadPage.js" charset="utf-8"></script>
     <script src="classes.js" charset="utf-8"></script>
     <script src="resources.js" charset="utf-8"></script>
+    <script src="/utils/enumeration.js" charset="utf-8"></script>
+    <script src="/utils/basicSort.js" charset="utf-8"></script>
     <script src="findResources.js" charset="utf-8"></script>
     <script src="favorites.js" charset="utf-8"></script>
     <script src="homepage.js"></script>

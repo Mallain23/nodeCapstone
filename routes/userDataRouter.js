@@ -16,7 +16,7 @@ router.get('/user-profile', (req, res) => {
     .findOne({username})
     .exec()
     .then(user => {
-        console.log(user)
+
         res.status(200).json(user.apiRpr())
     })
 
@@ -84,7 +84,7 @@ router.delete('/courses', (req, res) => {
 
 //this function adds a resource to user database
 router.put('/resources', (req, res) => {
-    console.log(req.body.myResources)
+
     const username = req.body.myResources.author;
     const objectToAddToDataBase = {}
 
@@ -99,7 +99,6 @@ router.put('/resources', (req, res) => {
     }
 
     objectToAddToDataBase.myResources = req.body.myResources
-    console.log(objectToAddToDataBase.myResources)
 
     return Users
     .findOne({username: username})
@@ -125,7 +124,9 @@ router.put('/resources/:id', (req, res) => {
     let {username, content, resourceId, title, publishedOn, typeOfResource, course } = req.body.myResources
 
     if (!(req.params.id && resourceId && req.params.id === resourceId)) {
+
         const message = (`Request path id '(${req.params.id})' and request body id '(${resourceId})' must match`);
+
         console.error(message);
         res.status(400).json({message: message});
     }
@@ -145,6 +146,7 @@ router.put('/resources/:id', (req, res) => {
 //this function deletes a resource from user database
 router.delete('/resources/:id', (req, res) => {
     if (!req.params.id) {
+
         const message = `Request path is missing request ID.`
         console.error(message)
 
@@ -182,14 +184,7 @@ router.put('/favorite-resources', (req, res) => {
     }
 
     let {username, author, content, resourceId, title, publishedOn, typeOfResource, course } = req.body
-    let toUpdate = { title,
-                    course,
-                    content,
-                    typeOfResource,
-                    resourceId,
-                    author,
-                    publishedOn
-                }
+    let toUpdate = { title, course, content, typeOfResource, resourceId, author, publishedOn };
 
       return Users
       .update({username: username, "currentClasses.courseName": course}, {$addToSet: {"currentClasses.$.resources": toUpdate}}, {new: true})

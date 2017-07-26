@@ -37,7 +37,7 @@ const makeRequestToAddNewResourceToUserDatabase = ({title, typeOfResource, cours
                 resourceId: id
             }
         }),
-        success: updateForResourceAdd
+        success: updateStateAndDisplayForResourceAdd
     };
 
     $.ajax(settings)
@@ -113,7 +113,7 @@ const makeRequestToUpdateUserResource = ({content, title, typeOfResource, course
                 resourceId
             }
         }),
-        success: updateForResourceUpdate
+        success: updateStateAndDisplpayForResourceUpdate
     };
 
     $.ajax(settings)
@@ -134,12 +134,13 @@ const storeMyResourceData = data => {
 
     displayResources()
 };
+
 //once user adds a resource to databases, this function will save that resource to state, and then show the user
 //a page with all of the resources they have managed (and update that page with new resource)
-const updateForResourceAdd = data => {
-
+const updateStateAndDisplayForResourceAdd = data => {
     Object.assign(state, data)
     state.resourcePageIndex = 0
+
     const { myResources } = state
 
     displayResources();
@@ -148,10 +149,10 @@ const updateForResourceAdd = data => {
     alert(`Sucess! Your resource '${myResources[myResources.length - 1].title}' has been added to the database!`)
 };
 
-const updateForResourceUpdate = data => {
+const updateStateAndDisplpayForResourceUpdate = data => {
     Object.assign(state, data)
-
     state.resourcePageIndex = 0
+
     displayResources();
 
     alert(`Sucess! Your resource has been updated!`)
@@ -343,7 +344,7 @@ const watchForViewResourceClick = () => {
 
           state.idOfResourceToUpdate = $(event.target).val()
           const { idOfResourceToUpdate, myResources } = state
-          
+
           addAndRemoveHideClass([classReferences.my_uploaded_resources_page], [classReferences.view_my_resource_page])
 
           const myResource = myResources.find(({ resourceId }) => resourceId === idOfResourceToUpdate)
