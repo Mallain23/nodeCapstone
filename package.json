@@ -2,7 +2,7 @@
   "name": "nodecapstone",
   "version": "1.0.0",
   "description": "helps users find resources to help with law school exams",
-  "main": "index.js",
+  "main": "login.js",
   "scripts": {
     "test": "mocha test/test-server.js test/test-users.js"
   },
