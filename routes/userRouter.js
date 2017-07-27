@@ -150,7 +150,7 @@ router.post('/welcome', function(req, res, next) {
           if (err) {
             return next(err);
           }
-
+        
           return res.json({user: user.apiRpr(), token: new Date()});
       });
   })(req, res, next);

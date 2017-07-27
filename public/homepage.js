@@ -34,7 +34,7 @@ const makeRequestToChangePassword = (currentPassword, newPassword, success) => {
 
 const redirectForLogOut = () => {
   alert("You have been logged out!")
-  window.location.replace('http://localhost:8080')
+  window.location.replace('/')
 }
 
 

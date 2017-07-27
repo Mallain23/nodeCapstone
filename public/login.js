@@ -1,9 +1,3 @@
-//change name of file to login.js
-//base url const - localhost:8080
-//still need currentUsername ?
-//const id tag
-//if logged out, goes to homepage, if logged in go to user homepage
-//user declarative code and destrucutring whenever possible
 
 const urls = {
 
@@ -53,9 +47,9 @@ const makeRequestToLogin = (username, password, success) => {
 
 
 const loginSuccessHandler = ({ message, user }) => {
-
+        console.log(user)
         if (user) {
-            return window.location.replace('http://localhost:8080/homepage')
+            return window.location.replace('/homepage')
         };
 
         alert(message)

@@ -17,7 +17,6 @@ const {router: userRouter} = require('./routes/userRouter')
 const {router: userDataRouter} = require('./routes/userDataRouter')
 var path = require('path');
 
-
 const app = express();
 
 mongoose.Promise = global.Promise;
@@ -58,7 +57,12 @@ app.use('/resources', resourceRouter)
 
 app.use('/user-data', userDataRouter)
 
-var path = require('path');
+
+
+app.get('/homepage', isLoggedIn, function(req, res) {
+
+   res.sendFile(path.join(__dirname, '/public/welcome.html'));
+});
 
 
 app.get('/', (req, res) => {
@@ -72,10 +76,7 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + '/public/login.html')
 })
 
-app.get('/homepage', isLoggedIn, function(req, res) {
 
-   res.sendFile(path.join(__dirname + '/public/welcome.html'));
-});
 
 app.get('/logout', function (req, res) {
 
