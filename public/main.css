@@ -81,11 +81,11 @@ body {
 }
 
 .large-style-box {
-  width: 85%;
-  height: 300px;
+  width: 75%;
+  height: 375px;
   margin: 15px;
   margin-top: 5px;
-  margin-left: 100px;
+  margin-left: 85px;
   padding: 10px;
   padding-bottom: 20px;
   overflow: scroll;
@@ -184,12 +184,12 @@ label {
 
 .query-results-container, .my-resource-container, .my-favorite-resource-container {
   background-image: url(http://4.bp.blogspot.com/-gaOUWVZ2kQA/U0V5uyHYPvI/AAAAAAAAAbE/Mw2MFpKjEOg/s1600/a-piece-of-paper-by-adnap-ralopib-d2xh2nw.png);
-  width: 650px;
-  height: 600px;
+  background-size: cover;
+  width: 100%;
+  height: 75%;
   /*  overflow: scroll;*/
   margin-top: 30px;
   margin-bottom: 10px;
-  margin-left: 50px;
   border: 1px solid black;
   border-radius: 5%;
   padding: 25px;
@@ -216,8 +216,7 @@ label {
 }
 
 .resource-button-box, .query-resource-button-box {
-  width: 550px;
-  margin-left: 99px;
+  width: 100%;
   text-align: center;
   margin-bottom: 30px;
 }
@@ -277,8 +276,8 @@ label {
 }
 
 .result-view-info-container {
-  margin-left: 80px;
-  margin-top: 105px;
+  margin-left: 70px;
+  margin-top: 80px;
   font-size: 16px;
 
 }
