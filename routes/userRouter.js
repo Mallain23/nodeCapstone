@@ -24,7 +24,7 @@ const localStrategy = new LocalStrategy({passReqToCallback: true}, (req, usernam
         user = _user
         if(!user) {
 
-            return callback(null, false)
+            return callback(null, false, {message: ('Incorrect Username')})
         }
 
         return user.validatePassword(password)
@@ -136,13 +136,14 @@ router.post('/', (req, res) => {
 
 router.post('/welcome', function(req, res, next) {
   passport.authenticate('local', function(err, user, info) {
-      if (err) {
-          return next(err);
-      }
-
+      
       if (!user) {
 
-          return res.json({message: 'Incorrect username or password'})
+          return res.json(info)
+      }
+
+      if (err) {
+          return next(err);
       }
 
       req.logIn(user, function(err) {
@@ -150,7 +151,7 @@ router.post('/welcome', function(req, res, next) {
           if (err) {
             return next(err);
           }
-        
+
           return res.json({user: user.apiRpr(), token: new Date()});
       });
   })(req, res, next);
