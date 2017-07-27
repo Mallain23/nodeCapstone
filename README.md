@@ -6,15 +6,15 @@
 
 ## Using the app
 
-#### Step one: If it is your first time visiting the site, click "Create an Account" to create your account.
+#### Step one: If it is your first time visiting the site click "Create an Account" to create your account.
 ![Screenshots](https://s12.postimg.org/m3ez5nq25/Screen_Shot_2017-07-27_at_10.50.14_AM.png)
 
 
-#### Step two: Fill out each field on the Create an Account Form and then click "Submit". Note: Usernames must be unique, so if you have chosen a username that is already in use, you will receive an error notification. In this case, choose a different username.
+#### Step two: Fill out each field on the Create an Account Form and then click "Submit." Note: Usernames must be unique. If you have chosen a username that is already in use you will receive an error notification. In this case, choose a different username.
 
 ![Screenshots](https://s3.postimg.org/cd5fogrk3/Screen_Shot_2017-07-27_at_10.54.12_AM.png)
 
-#### Step three: Now login to your account by clicking login and entering your username and password. If you entered your information correctly, you should be directed to your classboard page. If it is your first time, your classboard will be empty because you have not added any classes yet!
+#### Step three: Login to your account by clicking "Login" and entering your username and password. If you entered your information correctly, you should be directed to your classboard page. If it is your first time visiting the site, your classboard will be empty because you have not added any classes yet!
 
 ![Screenshots](https://s1.postimg.org/qaqr2ebsv/Screen_Shot_2017-07-27_at_11.30.13_AM.png)
 ![Screenshots](https://s4.postimg.org/co7se6e7x/Screen_Shot_2017-07-27_at_11.30.49_AM.png)
@@ -24,21 +24,21 @@
 
 ![Screenshots](https://s1.postimg.org/575we5czz/Screen_Shot_2017-07-27_at_11.37.10_AM.png)
 
-#### Step five: Once you have added all your courses, you are now ready to search for resources to associate with those courses. Click "Find Resources" to browse our database of resources. You can filter your search using one or more of the filters provided (by title, by course, by author and by the type of resource). You can also sort your results. The default sort option is by publish date: oldest to newest.
+#### Step five: Once you have added all of your courses, you are now ready to search for resources to associate with those courses. Click "Find Resources" to browse our database of resources. You can filter your search using one or more of the filters provided (title, course, author and type of resource). You can also sort your results. If you do not choose a sort option, the default sort option will be "Published Date: Oldest to Newest."
 
 ![Screenshots](https://s3.postimg.org/yzeg4t7ub/Screen_Shot_2017-07-27_at_11.42.18_AM.png)
 
-#### Step six: If your search returns results, browse through the resources to find the ones you like. Click "View Resource" to open the resource to view its content. If you find the resource useful, and would like to save it to your classboard, click "Add to Favorites." Note: The resource is associated to the course that the resource is for, so if that course is not added to your classboard, you cannot add that resource to your favorites.
+#### Step six: If your search returns results, browse through the resources to find the ones you like. Click "View Resource" to open the resource to view its content. If you find the resource useful and would like to save it to your classboard, click "Add to Favorites." Note: The resource must be associated to a course that has been added to your classboard. If you have not added that course to your classboard, you will not be able to add that resouce to your favorites.
 
 ![Screenshots](https://s2.postimg.org/jf2p968rt/Screen_Shot_2017-07-27_at_11.45.46_AM.png)
 ![Screenshots](https://s2.postimg.org/qs7osniyh/Screen_Shot_2017-07-27_at_11.45.52_AM.png)
 
-#### Step seven: Once you have added resources to your favorites, they can be found by visiting your classboard. You will notice that if you add a resource to a course, the icon for that course will indicate the number of resources that you have added to that course. You can find these resources anytime by clicking the "View Resources" button on that course icon.
+#### Step seven: Once you have added resources to your favorites, they can be found by visiting your classboard. Click the "My Classboard" button in the navigation bar to navigate back to your classboard. You will notice that your course icons will reflect any resources that have been added to your favorites. For example, if you added two Administrative Law resources to your favorites, the Administrative Law icon will now read "Number of Resources: 2."  You can access these resources anytime by clicking the "View Resources" button on that course icon.
 
  ![Screenshots](https://s11.postimg.org/ktyugenib/Screen_Shot_2017-07-27_at_11.48.49_AM.png)
  ![Screenshots](https://s1.postimg.org/cgt05xmsf/Screen_Shot_2017-07-27_at_11.48.54_AM.png)
 
-#### Step eight: One you have customized your classboard, you are also encouraged to share any resources that you may have (past and present). You do not need to be currently enrolled in a course to share a resource for that course. Click "Add Resource to Database" to add a resource to the database. Fill out each field in the "Create New Resource" form and then click "Add Resource." Note: All fields are required!
+#### Step eight: One you have customized your classboard, you are also encouraged to share your resources with others.   You do not need to be currently enrolled in a course to share a resource for that course. Click "Add Resource to Database" to add a resource to the database. Fill out each field in the "Create New Resource" form and then click "Add Resource." Note: All fields are required!
 
 ![Screenshots](https://s4.postimg.org/n2o0jjr3x/Screen_Shot_2017-07-27_at_11.53.45_AM.png)
 
@@ -84,4 +84,4 @@ Resources are stored in one collection, while user data is stored in a separate 
 
 ### Live demo
 
-[Check it out](http://allain-capstone.surge.sh)
+[Check it out](https://pure-temple-61488.herokuapp.com/)
