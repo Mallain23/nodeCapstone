@@ -1,4 +1,5 @@
 const enumeration = arrOfProps => arrOfProps.reduce((aggregator, el) =>  {
-  aggregator[el] ? '' : aggregator[el] = el
-  return aggregator
+     aggregator[el] ? null : aggregator[el] = el;
+
+     return aggregator;
 }, {})
