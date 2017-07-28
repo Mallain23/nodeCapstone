@@ -30,7 +30,7 @@ const makeRequestToCreateNewUser = (username, password, firstName, lastName, suc
 //this checks to see if user is valid, if user is valid it has callback function
 //which gives us user data for us to display
 const makeRequestToLogin = (username, password, success) => {
-
+  console.log(username, password, success)
   const settings = {
     url: urls.WELCOME_SCREEN_URL,
     contentType: 'application/json',
@@ -46,8 +46,8 @@ const makeRequestToLogin = (username, password, success) => {
 };
 
 
-const loginSuccessHandler = ({ message, user }) => {
-        console.log(user)
+const loginSuccessHandler = ({ message, user, error }) => {
+
         if (user) {
             return window.location.replace('/homepage')
         };
@@ -113,12 +113,22 @@ const watchForLoginSubmitClick = () => {
     })
 };
 
+const watchForDemoAppClick = () => {
+    $('.demo').on('click', event => {
+
+        const username = "Test"
+        const password = "1234"
+
+        makeRequestToLogin(username, password, loginSuccessHandler)
+    })
+}
+
 const init = () => {
     watchForCreateNewUserClick();
     watchForLoginClick();
     watchForLoginSubmitClick();
     watchForCreateNewUserSubmit();
-
+    watchForDemoAppClick();
 
 }
 
