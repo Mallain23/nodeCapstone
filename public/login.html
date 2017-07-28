@@ -46,6 +46,7 @@
                       </div>
                   <div class="modal-body create-user-modal">
                       <form class="create-new-user-form center-form form-horizontal" role="form">
+                          <div class="error-message"></div>
                           <div class="form-group">
                               <label class="col-sm-12 label-margin" for="first-name">First Name</label>
                               <input placeholder='Enter First Name' class="form-control user-margin" type="text" name='first-name' id='first-name'/>
@@ -64,7 +65,7 @@
                           </div>
                       </form>
                       <div class="login-buttons">
-                        <button type="submit" class="create-new-user-button space-button btn btn-success" data-dismiss="modal">Create an Account</button>
+                        <button type="submit" class="create-new-user-button space-button btn btn-success">Create an Account</button>
                         <button type="submit" class="cancel-button space-button btn " data-dismiss="modal">Cancel</button>
                     </div>
                   </div>
@@ -83,6 +84,7 @@
                   </div>
               <div class="modal-body login-modal">
                   <form class="login-form form-horizontal" role="form" action="/users/welcome" method="post">
+                      <div class="login-error"></div>
                       <div class="form-group">
                           <label class="col-sm-12 label-margin" for="username">Username</label>
                           <input placeholder='Enter Username' class="form-control user-margin" type="text" name='first-name' id='login-username'/>
@@ -93,7 +95,7 @@
                       </div>
                   </form>
                   <div class="login-buttons">
-                      <button type="submit" class="login-button btn btn-success space-button" data-dismiss="modal">Login</button>
+                      <button type="submit" class="login-button btn btn-success space-button">Login</button>
                       <button type="submit" class="cancel-button btn space-button" data-dismiss="modal">Cancel</button>
                   </div>
               </div>

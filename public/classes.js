@@ -34,6 +34,16 @@ const makeRequestToRemoveClass = (courseName, success) => {
     $.ajax(settings)
 };
 
+const classAddSuccessHandler = data => {
+  Object.assign(state, data)
+  state.currentClasses = state.currentClasses.reverse()
+
+  const message = `Success! You have added ${state.currentClasses[0].courseName} to your classboard!`
+  alert(message)
+
+  displayClasses()
+}
+
 //this function checks to see if user has selected a course to add, if course has been added, will then
 //check to make sure course has not already been added, once it returns true, request to server is made
 const checkToSeeIfWeShouldAddCourse = courseName => {
@@ -79,7 +89,7 @@ const watchForAddNewClassClick = () => {
           $('#course-name').val('')
 
           if (shouldWeAdd) {
-              makeRequestToAddNewClass(courseName, saveDataToState)
+              makeRequestToAddNewClass(courseName, classAddSuccessHandler)
           }
     })
 };

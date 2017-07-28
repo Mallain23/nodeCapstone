@@ -16,7 +16,8 @@ const makeRequesToGetUserData = callback => {
 
 const saveDataToState = data => {
     Object.assign(state, data)
-
+    state.currentClasses = state.currentClasses.reverse()
+    
     displayClasses()
 };
 
@@ -36,9 +37,12 @@ const formatHtmlForClassDisplay = () => {
   };
 
 const displayClasses = data => {
-    const { firstName, lastName, currentClasses} = state
-    
-    $('.welcome-header').text(`${firstName} ${lastName}'s Classboard`)
+    let { firstName, lastName, currentClasses} = state
+
+    firstName = !firstName && !lastName ? state.username : firstName
+
+    lastName ? $('.welcome-header').text(`${firstName} ${lastName}'s Classboard`) : $('.welcome-header').text(`${firstName}'s Classboard`)
+
 
     if (currentClasses.length < 1) {
         message = "You currently do not have any classes added to your Classboard. Click 'add new course' to add a course!"

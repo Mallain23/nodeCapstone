@@ -281,3 +281,8 @@ label {
   font-size: 16px;
 
 }
+
+.error-message, .login-error {
+  color: red;
+  font-weight: bold;
+}

@@ -137,22 +137,25 @@ router.post('/', (req, res) => {
 router.post('/welcome', function(req, res, next) {
   passport.authenticate('local', function(err, user, info) {
       console.log( "info", err)
+
+      if (err) {
+
+          return (err);
+      }
+
       if (!user) {
 
           return res.json(info)
       }
 
-      if (err) {
-          console.log(err)
-          return res.send(err);
-      }
+
 
       req.logIn(user, function(err) {
 
           if (err) {
             return next(err);
           }
-          console.log(user)
+
           return res.json({user: user.apiRpr(), token: new Date()});
       });
   })(req, res, next);

@@ -30,7 +30,7 @@ const makeRequestToCreateNewUser = (username, password, firstName, lastName, suc
 //this checks to see if user is valid, if user is valid it has callback function
 //which gives us user data for us to display
 const makeRequestToLogin = (username, password, success) => {
-  console.log(username, password, success)
+
   const settings = {
     url: urls.WELCOME_SCREEN_URL,
     contentType: 'application/json',
@@ -52,18 +52,21 @@ const loginSuccessHandler = ({ message, user, error }) => {
             return window.location.replace('/homepage')
         };
 
-        alert(message)
+        $('.login-error').text(message)
 }
 
 
 const directUserToLogin = ({ username, message: error }) => {
 
     if (username) {
+        $('#create-new-user').modal('hide')
         return alert(`Success! New user ${username} has been created! Click 'Login' to log into your account!`)
+
     }
 
     const message = error || "Something went wrong with your request, please try again"
-    alert(message)
+    $('.error-message').text(message)
+
 };
 
 //this function watches for user to click create new user, it then takes values supplied and passes it
@@ -76,6 +79,7 @@ const watchForCreateNewUserClick = () => {
         $('#last-name').val('')
         $('#username').val('')
         $('#password').val('')
+        $('.error-message').text('')
     })
 };
 
@@ -98,6 +102,7 @@ const watchForLoginClick = () => {
 
         $('#login-username').val('')
         $('#login-password').val('')
+        $('.login-error').text('')
     })
 };
 //this function watches for user to click login button, takes the value of supplied username and password and passes it to

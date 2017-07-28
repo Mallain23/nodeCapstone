@@ -46,15 +46,18 @@ const formatSearchResultHtml = data => {
 //this function is called once search data is recieved back from server, and then sorted
 const displaySearchResults = ()=> {
     const { searchResults, searchPageIndex } = state
-    const resultArray = searchResults.slice(searchPageIndex * 12, (searchPageIndex * 12) + 12)
+    const arrayOfResultsToDisplayOnPage = searchResults.slice(searchPageIndex * NUMBER_OF_RESOURCES_PER_PAGE, (searchPageIndex * NUMBER_OF_RESOURCES_PER_PAGE) + NUMBER_OF_RESOURCES_PER_PAGE)
 
 
-    resultArray.length < 12 ?  $(".go-to-next-page").attr("disabled", "disabled") : $(".go-to-next-page").removeAttr("disabled")
+    const isOnLastFullPage = (searchPageIndex + 1 === Math.floor(searchResults.length / NUMBER_OF_RESOURCES_PER_PAGE) && !(searchResults.length % NUMBER_OF_RESOURCES_PER_PAGE));
+    const isOnNonFullPage = arrayOfResultsToDisplayOnPage.length < NUMBER_OF_RESOURCES_PER_PAGE;
+
+    isOnLastFullPage || isOnNonFullPage  ?  $(".go-to-next-page").attr("disabled", "disabled") : $(".go-to-next-page").removeAttr("disabled")
     searchPageIndex < 1 ?  $(".go-to-prev-page").attr("disabled", "disabled") : $(".go-to-prev-page").removeAttr("disabled")
 
     addAndRemoveHideClass([''], [classReferences.prev_next_container])
 
-    const html = formatSearchResultHtml(resultArray)
+    const html = formatSearchResultHtml(arrayOfResultsToDisplayOnPage)
     const pageNum = searchPageIndex + 1;
 
     $('.results-container').html(html)
@@ -70,8 +73,8 @@ const displayPriorPageOfSearchResults = () => {
     searchPageIndex < 1 ?  $(".go-to-prev-page").attr("disabled", "disabled") : $(".go-to-prev-page").removeAttr("disabled")
     $(".go-to-next-page").removeAttr("disabled")
 
-    const resultArray = searchResults.slice(searchPageIndex * 12, (searchPageIndex * 12) + 12)
-    const html = formatSearchResultHtml(resultArray)
+    const arrayOfResultsToDisplayOnPage = searchResults.slice(searchPageIndex * NUMBER_OF_RESOURCES_PER_PAGE, (searchPageIndex * NUMBER_OF_RESOURCES_PER_PAGE) + NUMBER_OF_RESOURCES_PER_PAGE)
+    const html = formatSearchResultHtml(arrayOfResultsToDisplayOnPage)
     const pageNum = searchPageIndex + 1;
 
     $('.results-container').html(html)
@@ -157,6 +160,10 @@ const watchForSearchForResourcesSubmitClick = () => {
         const searchUser = $('#search-resource-username').val()
         const searchType = $('#search-resource-type').val()
         state.sortProperty = $('#sort-resources').val()
+
+        if (searchTitle === '' && searchCourse === '' && searchUser === '' && searchType === '') {
+            return alert('You must choose at least one filter before searching!')
+        }
 
         makeRequestToFindResources(searchTitle, searchCourse, searchType, searchUser, '', storeSearchResults)
     })

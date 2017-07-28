@@ -180,14 +180,17 @@ const displayResources = () => {
 
     const { myResources, resourcePageIndex } = state
 
-    const resultArray = myResources.slice(resourcePageIndex * 12, (resourcePageIndex * 12) + 12)
+    const arrayOfResultsToDisplayOnPage = myResources.slice(resourcePageIndex * NUMBER_OF_RESOURCES_PER_PAGE, (resourcePageIndex * NUMBER_OF_RESOURCES_PER_PAGE) + NUMBER_OF_RESOURCES_PER_PAGE)
 
-    resultArray.length < 12 ?  $(".go-to-next-page-resource").attr("disabled", "disabled") : $(".go-to-next-page-resource").removeAttr("disabled")
+    const isOnLastFullPage = (resourcePageIndex + 1 === Math.floor(myResources.length / NUMBER_OF_RESOURCES_PER_PAGE) && !(myResources.length % NUMBER_OF_RESOURCES_PER_PAGE));
+    const isOnNonFullPage = arrayOfResultsToDisplayOnPage.length < NUMBER_OF_RESOURCES_PER_PAGE;
+
+  isOnLastFullPage || isOnNonFullPage ?  $(".go-to-next-page-resource").attr("disabled", "disabled") : $(".go-to-next-page-resource").removeAttr("disabled")
     resourcePageIndex < 1 ?  $(".go-to-prev-page-resource").attr("disabled", "disabled") : $(".go-to-prev-page-resource").removeAttr("disabled")
 
     addAndRemoveHideClass([''], [classReferences.prev_next_container])
 
-    const html = formatMyResourceHtml(resultArray)
+    const html = formatMyResourceHtml(arrayOfResultsToDisplayOnPage)
     const pageNum = resourcePageIndex + 1;
 
     $('.uploaded-resources-container').html(html)
@@ -203,8 +206,8 @@ const displayPriorPageOfResources = () => {
       resourcePageIndex < 1 ?  $(".go-to-prev-page-resource").attr("disabled", "disabled") : $(".go-to-prev-page-resource").removeAttr("disabled")
       $(".go-to-next-page-resource").removeAttr("disabled")
 
-      const resultArray = myResources.slice(resourcePageIndex * 12, (resourcePageIndex * 12) + 12)
-      const html = formatMyResourceHtml(resultArray)
+      const arrayOfResultsToDisplayOnPage= myResources.slice(resourcePageIndex * NUMBER_OF_RESOURCES_PER_PAGE, (resourcePageIndex * NUMBER_OF_RESOURCES_PER_PAGE) + NUMBER_OF_RESOURCES_PER_PAGE)
+      const html = formatMyResourceHtml(arrayOfResultsToDisplayOnPage)
       const pageNum = resourcePageIndex + 1;
 
 

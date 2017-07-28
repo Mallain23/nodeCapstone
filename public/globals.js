@@ -33,6 +33,8 @@ const classReferences = {
   prev_next_container: '.prev-next-container'
 }
 
+const NUMBER_OF_RESOURCES_PER_PAGE = 12
+
 //adds hide class to elements in array of 1st param, removes hide class for elements in array of second param
 const addAndRemoveHideClass = (addArray, removeArray) => {
 
@@ -53,7 +55,7 @@ const clearSearchForm = () => {
 };
 
 const clearNewResourceForm = () => {
-  
+
   $('#resource-course').val('')
   $('#type-of-resource').val('')
   $('#new-resource-content').val('')
