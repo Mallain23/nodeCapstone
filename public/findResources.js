@@ -44,7 +44,7 @@ const formatSearchResultHtml = data => {
 };
 
 //this function is called once search data is recieved back from server, and then sorted
-const displaySearchResults = ()=> {
+const displaySearchResults = () => {
     const { searchResults, searchPageIndex } = state
     const arrayOfResultsToDisplayOnPage = searchResults.slice(searchPageIndex * NUMBER_OF_RESOURCES_PER_PAGE, (searchPageIndex * NUMBER_OF_RESOURCES_PER_PAGE) + NUMBER_OF_RESOURCES_PER_PAGE)
 
@@ -192,7 +192,7 @@ const watchForViewResourceFromQueryResultsClick = () => {
 //if user clicks on a resources and wants to go back to results - this funciton watches for click and then brings them back
 const watchForGoBackToFindResourcePageClick = () => {
     $('.query-resource-button-box').on('click', '.go-back-button', event => {
-        addAndRemoveHideClass([classReferences.view__result_from_search_page], [classReferences.find_resource_page])
+        addAndRemoveHideClass([classReferences.view__result_from_search_page, classReferences.show_form_button], [classReferences.find_resource_page, classReferences.search_for_resource_form])
     })
 };
 
