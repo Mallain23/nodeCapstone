@@ -286,3 +286,7 @@ label {
   color: red;
   font-weight: bold;
 }
+
+.login-button-container {
+  text-align: center;
+}

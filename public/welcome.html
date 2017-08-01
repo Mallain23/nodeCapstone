@@ -20,18 +20,25 @@
                 <div class="navbar-header">
                     <a class="navbar-brand">LAW STUDENT STUDY PORTAL</a>
                 </div>
-                <ul class="nav navbar-nav">
-                      <li><a class='home-button pointer'>My Classboard</a></li>
-                      <li><a class="search-for-resource-button pointer">Find Resources</a></li>
-                      <li><a class="create-new-resource-button pointer" data-toggle="modal" data-target="#create-new-resource-container">Add Resource to Database</a></li>
-                      <li><a class="edit-existing-resource-button pointer">Manage My Resources</a></li>
-                      <li><a class="my-account-button dropdown-toggle pointer" data-toggle="dropdown">My Account <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a class="change-password pointer" data-toggle="modal" data-target="#change-password">Change Password</a></li>
-                            <li><a class="logout pointer">Logout</a></li>
-                        </ul>
-                      </li>
-                </ul>
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                          <li><a class='home-button pointer'>My Classboard</a></li>
+                          <li><a class="search-for-resource-button pointer">Find Resources</a></li>
+                          <li><a class="create-new-resource-button pointer" data-toggle="modal" data-target="#create-new-resource-container">Add Resource to Database</a></li>
+                          <li><a class="edit-existing-resource-button pointer">Manage My Resources</a></li>
+                          <li><a class="my-account-button dropdown-toggle pointer" data-toggle="dropdown">My Account <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a class="change-password pointer" data-toggle="modal" data-target="#change-password">Change Password</a></li>
+                                <li><a class="logout pointer">Logout</a></li>
+                            </ul>
+                          </li>
+                    </ul>
+                </div>
             </div>
         </nav>
 
