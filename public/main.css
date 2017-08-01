@@ -290,3 +290,7 @@ label {
 .login-button-container {
   text-align: center;
 }
+
+.bottom {
+  margin-bottom: 30px;
+}
