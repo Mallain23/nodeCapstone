@@ -25,11 +25,12 @@ body {
   margin-left:auto;
   margin-right: auto;
 
+
 }
 
 
 .uploaded-resources-container, .results-container, .favorite-resources-container {
-  margin-left: 55px;
+  text-align: center;
 }
 .course-styles {
   display: inline-block;
