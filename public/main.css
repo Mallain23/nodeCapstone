@@ -339,6 +339,12 @@ label {
 
 @media only screen and (min-width: 600px) {
   .uploaded-resources-container, .results-container, .favorite-resources-container {
+    margin-left: 85px;
+  }
+}
+
+@media only screen and (min-width: 1000px) {
+  .uploaded-resources-container, .results-container, .favorite-resources-container {
     margin-left: 75px;
   }
 }
