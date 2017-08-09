@@ -337,9 +337,15 @@ label {
 }
 
 
-@media only screen and (min-width: 600px) {
+@media only screen and (min-width: 601px) and (max-width: 699px) {
   .uploaded-resources-container, .results-container, .favorite-resources-container {
-    margin-left: 85px;
+    margin-left: 75px;
+  }
+}
+
+@media only screen and (min-width: 700px) {
+  .uploaded-resources-container, .results-container, .favorite-resources-container {
+    margin-left: 95px;
   }
 }
 
