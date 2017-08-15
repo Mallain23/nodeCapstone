@@ -95,7 +95,7 @@ const makeRequestToUpdateResourceDatabase = (resourceId, userame, content, title
 };
 
 //this function sends request to update the resource in the userdata base (since it is also saved there to associate it with user)
-const makeRequestToUpdateUserResource = ({content, title, typeOfResource, course, publishedOn, resourceId}) => {
+const makeRequestToUpdateUserResource = ({content, title, typeOfResource, course, publishedOn, id}) => {
 
     const { username } = state
     const settings = {
@@ -110,7 +110,7 @@ const makeRequestToUpdateUserResource = ({content, title, typeOfResource, course
                 typeOfResource,
                 course,
                 publishedOn,
-                resourceId
+                resourceId: id
             }
         }),
         success: updateStateAndDisplpayForResourceUpdate

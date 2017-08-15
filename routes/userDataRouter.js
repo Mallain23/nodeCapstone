@@ -121,6 +121,7 @@ router.put('/resources', (req, res) => {
 
 //this function updates a resource in the database
 router.put('/resources/:id', (req, res) => {
+    
     let {username, content, resourceId, title, publishedOn, typeOfResource, course } = req.body.myResources
 
     if (!(req.params.id && resourceId && req.params.id === resourceId)) {
