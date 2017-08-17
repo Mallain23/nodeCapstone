@@ -230,3 +230,26 @@ const watchForGoToPreviousPageOfResultsClick = () => {
           $(".go-to-next-page").removeAttr("disabled")
     })
 };
+
+const watchForFilterChange = () =>{
+    $('#sort-resources').on('change', event => {
+          console.log("s")
+          event.preventDefault();
+
+          state.searchPageIndex = 0;
+          $(".go-to-prev-page").attr("disabled", "disabled")
+
+          const searchTitle = $('#search-resource-title').val()
+          const searchCourse = $('#search-resource-course').val()
+          const searchUser = $('#search-resource-username').val()
+          const searchType = $('#search-resource-type').val()
+          state.sortProperty = $('#sort-resources').val()
+          console.log(state.sortProperty)
+          if (searchTitle === '' && searchCourse === '' && searchUser === '' && searchType === '') {
+              return alert('You must choose at least one filter before searching!')
+
+          }
+
+          makeRequestToFindResources(searchTitle, searchCourse, searchType, searchUser, '', storeSearchResults)
+    })
+}
