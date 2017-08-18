@@ -109,6 +109,7 @@ const init = () => {
     watchForGoToNextPageOfResourcesClick();
     watchForLogOutClick()
     watchForChangePasswordSubmit()
+    watchForFilterChange()
 }
 
 $(init);

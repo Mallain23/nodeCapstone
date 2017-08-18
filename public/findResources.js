@@ -147,6 +147,7 @@ const watchForSearchForResourcesClick = () => {
     })
 };
 
+
 //this function watches for submit of search for resources and calls function to sent request to server
 const watchForSearchForResourcesSubmitClick = () => {
     $('.search-resource-submit').on('click', event => {
@@ -164,7 +165,8 @@ const watchForSearchForResourcesSubmitClick = () => {
         if (searchTitle === '' && searchCourse === '' && searchUser === '' && searchType === '') {
             return alert('You must choose at least one filter before searching!')
         }
-
+        
+        $.scrollTo('.results-container')
         makeRequestToFindResources(searchTitle, searchCourse, searchType, searchUser, '', storeSearchResults)
     })
 };
@@ -233,7 +235,7 @@ const watchForGoToPreviousPageOfResultsClick = () => {
 
 const watchForFilterChange = () =>{
     $('#sort-resources').on('change', event => {
-          console.log("s")
+
           event.preventDefault();
 
           state.searchPageIndex = 0;
@@ -244,12 +246,12 @@ const watchForFilterChange = () =>{
           const searchUser = $('#search-resource-username').val()
           const searchType = $('#search-resource-type').val()
           state.sortProperty = $('#sort-resources').val()
-          console.log(state.sortProperty)
+
           if (searchTitle === '' && searchCourse === '' && searchUser === '' && searchType === '') {
               return alert('You must choose at least one filter before searching!')
 
           }
-
+          $.scrollTo('.results-container')
           makeRequestToFindResources(searchTitle, searchCourse, searchType, searchUser, '', storeSearchResults)
     })
 }
