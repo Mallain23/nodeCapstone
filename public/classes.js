@@ -39,7 +39,8 @@ const classAddSuccessHandler = data => {
   state.currentClasses = state.currentClasses.reverse()
 
   const message = `Success! You have added ${state.currentClasses[0].courseName} to your classboard!`
-  alert(message)
+  $('.alert-message').text(message)
+  $('.alert-message').show().delay(3000).fadeOut('slow');
 
   displayClasses()
 }
@@ -55,7 +56,9 @@ const checkToSeeIfWeShouldAddCourse = courseName => {
 
     if (state.currentClasses.some(({ courseName: _courseName }) => _courseName === courseName)) {
 
-        alert('Sorry, that class is already in your dashboard!')
+        $('.alert-message').text('Sorry, that class is already in your dashboard!');
+        $('.alert-message').show().delay(3000).fadeOut('slow');
+
         addAndRemoveHideClass([], [classReferences.message_box])
 
         return false
