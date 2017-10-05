@@ -66,7 +66,7 @@ const checkToSeeIfWeShouldAddCourse = courseName => {
 
 //dashboard click is almost like home button - brigns users to there dashboard (classboard? ) which displays classes and allows them to add class
 const watchForMyDashboardClick = () => {
-    $('.home-button').on('click', event=> {
+    $('.home-button, .navbar-head').on('click', event=> {
         event.preventDefault()
 
         displayClasses()

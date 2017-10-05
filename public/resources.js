@@ -146,7 +146,9 @@ const updateStateAndDisplayForResourceAdd = data => {
     displayResources();
 
     addAndRemoveHideClass([''], [classReferences.my_uploaded_resources_page])
-    alert(`Sucess! Your resource '${myResources[myResources.length - 1].title}' has been added to the database!`)
+
+    $('.alert-message').text(`Sucess! Your resource '${myResources[myResources.length - 1].title}' has been added to the database!`);
+    return $('.alert-message').show().delay(3000).fadeOut('slow');
 };
 
 const updateStateAndDisplpayForResourceUpdate = data => {
@@ -154,8 +156,8 @@ const updateStateAndDisplpayForResourceUpdate = data => {
     state.resourcePageIndex = 0
 
     displayResources();
-
-    alert(`Sucess! Your resource has been updated!`)
+    $('.alert-message').text(`Sucess! Your resource has been updated!`);
+    return $('.alert-message').show().delay(3000).fadeOut('slow');
 };
 
 

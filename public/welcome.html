@@ -7,23 +7,22 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-scrollTo/2.1.0/jquery.scrollTo.min.js"></script>
+        <script src="https://use.fontawesome.com/e56a090e6b.js"></script>
         <link href="https://fonts.googleapis.com/css?family=Playfair+Display" rel="stylesheet">
         <link rel="stylesheet" href="main.css" media="screen" title="no title" charset="utf-8">
 
         <title>Law Student Study Portal</title>
-
     </head>
 
     <body>
+      <div class='container-fluid'>
 
-        <nav class="navbar navbar-inverse">
-            <div class="container-fluid">
+        <nav class="navbar">
+            <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand nav-font">LAW STUDENT PORTAL</a>
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
+                    <a class="navbar-brand navbar-head nav-font">LAW STUDENT PORTAL</a>
+                    <button type="button" class="navbar-toggle nav-btn" data-toggle="collapse" data-target=".navbar-collapse">
+                        <i class="fa fa-bars"></i>
                     </button>
                 </div>
 
@@ -53,29 +52,29 @@
                         </button>
                         <h3 class="modal-title">Change Password</h3>
                     </div>
-                <div class="modal-body change-password-modal">
-                    <form class="change-password-form center-form form-horizontal" role="form">
-                        <div class="form-group">
-                            <label class="col-sm-12 label-margin" for="current-password">Enter Current Password</label>
-                            <input placeholder='Current Password' class="form-control user-margin" type="password" name='current-password' id='current-password'/>
+                    <div class="modal-body change-password-modal">
+                        <form class="change-password-form center-form form-horizontal" role="form">
+                            <div class="form-group">
+                                <label class="col-sm-12 label-margin" for="current-password">Enter Current Password</label>
+                                <input placeholder='Current Password' class="form-control user-margin" type="password" name='current-password' id='current-password'/>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-12 label-margin" for="new-password1">Enter New Password</label>
+                                <input type="password" class="form-control user-margin" name='new-password' id='new-password1' placeholder='New Password'/>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-12 label-margin" for="new-password2">Re-enter New Password</label>
+                                <input type="password" class="form-control user-margin" name='new-password' id='new-password2' required placeholder='New Username'/>
+                            </div>
+                        </form>
+                        <div class="change-password-buttons">
+                            <button type="submit" class="change-password-button space-button btn btn-success">Submit</button>
+                            <button type="submit" class="cancel-button space-button btn " data-dismiss="modal">Cancel</button>
                         </div>
-                        <div class="form-group">
-                            <label class="col-sm-12 label-margin" for="new-password1">Enter New Password</label>
-                            <input type="password" class="form-control user-margin" name='new-password' id='new-password1' placeholder='New Password'/>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-12 label-margin" for="new-password2">Re-enter New Password</label>
-                            <input type="password" class="form-control user-margin" name='new-password' id='new-password2' required placeholder='New Username'/>
-                        </div>
-                    </form>
-                    <div class="change-password-buttons">
-                      <button type="submit" class="change-password-button space-button btn btn-success">Submit</button>
-                      <button type="submit" class="cancel-button space-button btn " data-dismiss="modal">Cancel</button>
-                  </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
         <div class="dashboard-page container">
             <div class="row">
@@ -98,10 +97,10 @@
                             </button>
                             <h3 class="modal-title">Add A Course To Your Classboard</h3>
                         </div>
-                    <div class="modal-body">
-                          <form class="add-a-course-form form-horizontal" role="form">
-                              <div class="form-group">
-                                <label class="col-sm-8" for="course-name">Choose which course you would like to add</label>
+                        <div class="modal-body">
+                            <form class="add-a-course-form form-horizontal" role="form">
+                                <div class="form-group">
+                                    <label class="col-sm-8" for="course-name">Choose which course you would like to add</label>
                                     <select name="type" class="form-control" id="course-name" required>
                                         <option value="Administrative Law">Administrative Law</option>
                                         <option value="Antitrust Law">Antitrust Law</option>
@@ -138,7 +137,7 @@
                                     </select>
                                 </div>
                             </form>
-                            <button type="submit" class="add-course-submit btn btn-success" data-dismiss="modal">Add Course</button>
+                            <button type="submit" class="add-course-submit btn btn-green" data-dismiss="modal">Add Course</button>
                             <button type="submit" class="add-course-cancel cancel-button btn " data-dismiss="modal">Cancel</button>
                         </div>
                     </div>
@@ -149,82 +148,82 @@
                     <div class="message-box"></div>
                     <div class="current-classes-container row"></div>
                 </div>
-          </div>
+            </div>
         </div>
 
 
-            <div class="modal fade" id="create-new-resource-container" role="dialog">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">
-                                <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
-                            </button>
-                            <h3 class="modal-title">Create New Resource</h3>
-                        </div>
+        <div class="modal fade" id="create-new-resource-container" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+                        </button>
+                        <h3 class="modal-title">Create New Resource</h3>
+                    </div>
                     <div class="modal-body">
-                          <form class="create-resource-form form-horizontal" role="form">
-                              <div class="form-group">
-                                  <label for="new-resource-title" class="new-resource-label col-sm-8">New Resource Title</label>
-                                  <input type="text" name="title" class="form-control" id="new-resource-title" required placeholder="Enter a title for your resource">
-                              </div>
-                              <div class="form-group">
-                                  <label class="type-of-resource-label col-sm-8" for="type-of-resource">Choose the type of resource you are creating</label>
-                                  <select name="type" class="form-control" id="type-of-resource" required>
-                                      <option value="Outline">Outline</option>
-                                      <option value="Exam Questions/Answers">Exam practice questions and answers</option>
-                                      <option value="Notes/Advice">Notes and helpful advice for class</option>
-                                      <option value="Other">Other</option>
-                                  </select>
-                              </div>
-                              <div class="form-group">
-                                  <label class="col-sm-8" for="course-name">Choose which course this resource is for</label>
-                                      <select name="type" class="form-control" id="resource-course" required>
-                                          <option value="Administrative Law">Administrative Law</option>
-                                          <option value="Antitrust Law">Antitrust Law</option>
-                                          <option value="Bankruptcy Law">Bankruptcy Law</option>
-                                          <option value="Banking Law">Banking Law</option>
-                                          <option value="Business Law">Business Law</option>
-                                          <option value="Civil Procedure">Civil Procedure</option>
-                                          <option value="Constitutional Law">Constitutional Law</option>
-                                          <option value="Contracts">Contracts</option>
-                                          <option value="Complex Litigation">Complex Litigation</option>
-                                          <option value="Copyright Law">Copyright Law</option>
-                                          <option value="Criminal Procedure">Criminal Procedure</option>
-                                          <option value="Employment Law">Employment Law</option>
-                                          <option value="Energy Law">Energy Law</option>
-                                          <option value="Entertainment Law">Entertainment Law</option>
-                                          <option value="Environmental Law">Environmental Law</option>
-                                          <option value="Evidence">Evidence</option>
-                                          <option value="Family Law">Family Law</option>
-                                          <option value="Law and Finance">Law and Finance</option>
-                                          <option value="Health Law">Health Law</option>
-                                          <option value="Intellectual Property Law">Intellectual Property Law</option>
-                                          <option value="International Law">International Law</option>
-                                          <option value="Law and Econonmics">Law and Economics</option>
-                                          <option value="Legal Methods">Legal Methods</option>
-                                          <option value="Legal Writing">Legal Writing Class</option>
-                                          <option value="Property Law">Property Law</option>
-                                          <option value="Securities Law">Securities Law</option>
-                                          <option value="Tax Law">Tax Law</option>
-                                          <option value="Torts">Torts</option>
-                                          <option value="Transactional Law">Transactional Law</option>
-                                          <option value="Trusts and Estates Law">Trusts and Estates Law</option>
-                                          <option value="Wills Law"Wills Law</option>
-                                          <option value="Other">Other</option>
-                                      </select>
-                                  </div>
-                                  <div class="form-group">
-                                      <label class="col-sm-8" for="resource-content">Content</label>
-                                      <textarea type="text" name="content" class="form-control" id="new-resource-content" required placeholder="Enter the content of your new resource"></textarea>
-                                  </div>
-                                  <button type="submit" id="submit-new-resource" class="add-resource-submit btn btn-success">Add Resource</button>
-                                  <button type="submit" class="add-course-cancel cancel-button btn " data-dismiss="modal">Cancel</button>
-                              </form>
-                          </div>
-                      </div>
-                  </div>
-              </div>
+                        <form class="create-resource-form form-horizontal" role="form">
+                            <div class="form-group">
+                                <label for="new-resource-title" class="new-resource-label col-sm-8">New Resource Title</label>
+                                <input type="text" name="title" class="form-control" id="new-resource-title" required placeholder="Enter a title for your resource">
+                            </div>
+                            <div class="form-group">
+                                <label class="type-of-resource-label col-sm-8" for="type-of-resource">Choose the type of resource you are creating</label>
+                                <select name="type" class="form-control" id="type-of-resource" required>
+                                    <option value="Outline">Outline</option>
+                                    <option value="Exam Questions/Answers">Exam practice questions and answers</option>
+                                    <option value="Notes/Advice">Notes and helpful advice for class</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-8" for="course-name">Choose which course this resource is for</label>
+                                <select name="type" class="form-control" id="resource-course" required>
+                                    <option value="Administrative Law">Administrative Law</option>
+                                    <option value="Antitrust Law">Antitrust Law</option>
+                                    <option value="Bankruptcy Law">Bankruptcy Law</option>
+                                    <option value="Banking Law">Banking Law</option>
+                                    <option value="Business Law">Business Law</option>
+                                    <option value="Civil Procedure">Civil Procedure</option>
+                                    <option value="Constitutional Law">Constitutional Law</option>
+                                    <option value="Contracts">Contracts</option>
+                                    <option value="Complex Litigation">Complex Litigation</option>
+                                    <option value="Copyright Law">Copyright Law</option>
+                                    <option value="Criminal Procedure">Criminal Procedure</option>
+                                    <option value="Employment Law">Employment Law</option>
+                                    <option value="Energy Law">Energy Law</option>
+                                    <option value="Entertainment Law">Entertainment Law</option>
+                                    <option value="Environmental Law">Environmental Law</option>
+                                    <option value="Evidence">Evidence</option>
+                                    <option value="Family Law">Family Law</option>
+                                    <option value="Law and Finance">Law and Finance</option>
+                                    <option value="Health Law">Health Law</option>
+                                    <option value="Intellectual Property Law">Intellectual Property Law</option>
+                                    <option value="International Law">International Law</option>
+                                    <option value="Law and Econonmics">Law and Economics</option>
+                                    <option value="Legal Methods">Legal Methods</option>
+                                    <option value="Legal Writing">Legal Writing Class</option>
+                                    <option value="Property Law">Property Law</option>
+                                    <option value="Securities Law">Securities Law</option>
+                                    <option value="Tax Law">Tax Law</option>
+                                    <option value="Torts">Torts</option>
+                                    <option value="Transactional Law">Transactional Law</option>
+                                    <option value="Trusts and Estates Law">Trusts and Estates Law</option>
+                                    <option value="Wills Law"Wills Law</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-8" for="resource-content">Content</label>
+                                <textarea type="text" name="content" class="form-control" id="new-resource-content" required placeholder="Enter the content of your new resource"></textarea>
+                            </div>
+                            <button type="submit" id="submit-new-resource" class="add-resource-submit btn btn-green">Add Resource</button>
+                            <button type="submit" class="add-course-cancel cancel-button btn " data-dismiss="modal">Cancel</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
         <div class='my-favorite-resources-page container hide'>
@@ -256,11 +255,13 @@
             </div>
             <div class="row">
                 <div class="col-xs-12 add-resource-button">
-                    <button data-toggle="modal" class="create-new-resource-button btn button-style-black" data-target="#create-new-resource-container">Add a Resource to Database</button>
+                    <button data-toggle="modal" class="create-new-resource-button btn button-style-black short-text" data-target="#create-new-resource-container">Add</button>
+                    <button data-toggle="modal" class="create-new-resource-button btn button-style-black long-text" data-target="#create-new-resource-container">Add a Resource to Database</button>
                 </div>
             </div>
             <div class="row">
                 <div class="col">
+                    <div class='alert-message'></div>
                     <div class="resource-message-box"></div>
                     <div class="uploaded-resources-container"></div>
                 </div>
@@ -341,7 +342,7 @@
                                 <label class="col-sm-8" for="resource-content">Content</label>
                                 <textarea type="text" name="content" class="form-control" id="edit-resource-content" required placeholder="Enter the content of your new resource"></textarea>
                             </div>
-                            <button type="submit" class="edit-submit btn btn-success">Edit Resource</button>
+                            <button type="submit" class="edit-submit btn btn-green">Edit Resource</button>
                             <button type="submit" class="cancel-button btn" data-dismiss="modal">Cancel</button>
                         </form>
                     </div>
@@ -434,6 +435,7 @@
                  </div>
                   <div class="form-group">
                       <div class="search-buttons">
+                          <div class='alert-message left'></div>
                           <button type="submit" class="search-resource-submit btn button-style-black">Find Resources!</button>
                           <button type="submit" class="search-resource-cancel clear-form btn button-style-black">Clear Form</button>
                           <button type='submit' class="hide-form-button btn button-style-black">Hide Form</button>
@@ -445,9 +447,11 @@
             </div>
             <div class='results-container row'></div>
             <div class="prev-next-container hide row">
-              <button class="btn btn-sm button-style-black go-to-prev-page" disabled>Previous Page</button>
-              <div class="page-num">Page: <span class="page"></span></div>
-              <button class="btn btn-sm button-style-black go-to-next-page">Next Page</button>
+                <div class='col-xs-12 center-prev-next'>
+                    <button class="btn btn-sm button-style-black go-to-prev-page" disabled>Previous Page</button>
+                    <div class="page-num">Page: <span class="page"></span></div>
+                    <button class="btn btn-sm button-style-black go-to-next-page">Next Page</button>
+                </div>
             </div>
         </div>
 
@@ -459,6 +463,7 @@
             </div>
             <div class="row">
                 <div class="col-xs-12 col-sm-7">
+                    <div class='alert-message'></div>
                     <div class="resource-button-box"></div>
                 </div>
             </div>
@@ -488,11 +493,12 @@
             </div>
             <div class="row">
                 <div class="col-xs-12 col-sm-7">
+                    <div class="alert-message"></div>
                     <div class="query-resource-button-box"></div>
                 </div>
             </div>
         </div>
-
+    </div>
 
     <script src="state.js" charset="utf-8"></script>
     <script src="globals.js" charset="utf-8"></script>

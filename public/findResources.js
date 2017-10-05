@@ -163,9 +163,10 @@ const watchForSearchForResourcesSubmitClick = () => {
         state.sortProperty = $('#sort-resources').val()
 
         if (searchTitle === '' && searchCourse === '' && searchUser === '' && searchType === '') {
-            return alert('You must choose at least one filter before searching!')
+            $('.alert-message').text('You must choose at least one filter before searching!');
+            return $('.alert-message').show().delay(3000).fadeOut('slow');
         }
-        
+
         $.scrollTo('.results-container')
         makeRequestToFindResources(searchTitle, searchCourse, searchType, searchUser, '', storeSearchResults)
     })
@@ -248,7 +249,8 @@ const watchForFilterChange = () =>{
           state.sortProperty = $('#sort-resources').val()
 
           if (searchTitle === '' && searchCourse === '' && searchUser === '' && searchType === '') {
-              return alert('You must choose at least one filter before searching!')
+            $('.alert-message').text('You must choose at least one filter before searching!');
+            return $('.alert-message').show().delay(3000).fadeOut('slow');
 
           }
           $.scrollTo('.results-container')

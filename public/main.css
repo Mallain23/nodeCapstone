@@ -7,6 +7,10 @@ body {
 
 }
 
+.container-fluid {
+  padding:0px;
+
+}
 
 .hide {
   display: none;
@@ -37,7 +41,7 @@ body {
   margin-top: 5px;
   padding: 10px;
   color: white;
-  background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGPTpE2PEaYBijNhk_eNif0Hcboz_wzAulofDHc8wb-X59dSx3MQ);
+  background-image: url(./utils/blackboard2.jpeg);
   background-size: 249px 200px;
   text-align: center;
 
@@ -163,13 +167,36 @@ body {
   font-size: 24px;
 }
 
+.alert-message {
+  margin-top: 25px;
+  margin-bottom: 25px;
+  font-size: 20px;
+  text-align: center;
+}
+
+.left {
+  text-align: left;
+}
 
 .nav-font {
   font-family: Playfair Display;
+  color: white;
 }
 
+nav {
+  background-color: black;
+  width: 100%;
+}
 
+.nav>li>a:hover, .navbar-head:hover {
+  background-color: transparent;
+  color: #D0D0D0;
+  cursor: pointer;
+}
 
+.page-num {
+  display: inline-block;
+}
 
 .form-group {
   margin: 15px;
@@ -200,7 +227,7 @@ label {
   margin-top: 30px;
   margin-bottom: 10px;
   border: 1px solid black;
-  border-radius: 5%;
+  border-radius: 1%;
   padding: 25px;
 }
 
@@ -277,7 +304,7 @@ label {
 }
 .prev-next-container {
   text-align: center;
-  margin-bottom: 15px;
+  margin-bottom: 30px;
 }
 
 .create-resource-form, .edit-resource-form {
@@ -308,8 +335,39 @@ label {
   line-height: 30px;
 }
 
+.nav-btn {
+  border: 2px solid black;
+  background-color: white;
+  padding: 3px 5px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
 /*.current-classes-container {
   margin-left: 30px;*/
+
+.short-text {
+    display: none;
+  }
+
+.long-text {
+    display: inline-block;;
+}
+
+.btn-green {
+  background-color: #006400;
+  color: white;
+  border: 1px solid white;
+}
+
+.btn-green:hover {
+  background-color: black;
+  color: white;
+}
+
+.cancel-button:hover {
+  background-color: black;
+  color: white;
+}
 
   @media only screen and (max-width: 699px) {
       .current-classes-container {
@@ -351,5 +409,47 @@ label {
 @media only screen and (min-width: 1000px) {
   .uploaded-resources-container, .results-container, .favorite-resources-container {
     margin-left: 75px;
+  }
+}
+
+@media only screen and (max-width: 285px) {
+  .page-num {
+    display: block;
+  }
+
+  .center-prev-next {
+    text-align: center;
+  }
+
+  .course-styles, .resource-styles {
+    width: 150px;
+    height: 200px;
+    overflow: scroll;
+
+  }
+
+  .resource-button-container, .info-container-resources {
+    margin-left: 0px;
+  }
+
+  .short-text {
+    display: inline-block;
+  }
+
+  .long-text {
+    display: none;
+  }
+
+  .welcome-header, .uploaded-resources-page-header, .favorite-resources-header, .search-page-heading, .login-page-welcome {
+    font-size: 22px;
+  }
+
+}
+
+@media only screen and (max-width: 185px) {
+  .course-styles, .resource-styles {
+    width: 120px;
+    height: 200px;
+
   }
 }

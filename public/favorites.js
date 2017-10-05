@@ -51,15 +51,17 @@ const makeRequestToDeleteFavoriteResource = (resourceId, courseName, success) =>
 //function that is called if resource is added to favorites
 const updateForFavoriteResourceAdd = data => {
     Object.assign(state, data)
-
-    alert("Success! This resource has been added to your favorite resources!")
+    state.currentClasses = state.currentClasses.reverse();
+    $('.alert-message').text("Success! This resource has been added to your favorite resources!")
+    $('.alert-message').show().delay(3000).fadeOut('slow')
 }
 
 //if user deletes resouce it will update state, and update view to show resource deleted
 const updateForFavoriteResourceRemoval = data => {
     Object.assign(state, data)
+    state.currentClasses = state.currentClasses.reverse();
 
-    displayFavoriteResources(state.currentSelectedCourse)
+    displayFavoriteResources(state.currentSelectedCourse);
 };
 
 //this function formats HTML to show favorite resources for a given course
@@ -115,9 +117,9 @@ const checkIfResourceShouldBeAddedToFavorites = resourceId => {
     const { currentClasses } = state
 
     if (currentClasses.some(({ resources }) => resources.some(({ resourceId: _resourceId }) => _resourceId  === resourceId))) {
-
-        return alert('This resource is already in your favorite resources! You can see your favorite resources from your classboard page!')
-    };
+        $('.alert-message').text('This resource is already in your favorite resources! You can see your favorite resources from your classboard page!')
+        return $('.alert-message').show().delay(3000).fadeOut('slow');
+    }
 
     makeRequestToFindResources('', '', '', '', resourceId, makeRequestToAddResourcetoUserFavorites)
 };
