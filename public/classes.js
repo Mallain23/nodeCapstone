@@ -49,7 +49,8 @@ const classAddSuccessHandler = data => {
 //check to make sure course has not already been added, once it returns true, request to server is made
 const checkToSeeIfWeShouldAddCourse = courseName => {
     if (courseName === null) {
-        alert("You must choose a course before clicking 'add course'!")
+      $('.alert-message').text('You must chose a course before clicking "add course"!');
+      $('.alert-message').show().delay(3000).fadeOut('slow');
 
         return false
     }

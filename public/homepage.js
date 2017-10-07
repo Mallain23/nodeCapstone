@@ -110,6 +110,7 @@ const init = () => {
     watchForLogOutClick()
     watchForChangePasswordSubmit()
     watchForFilterChange()
+    handleScroll()
 }
 
 $(init);
