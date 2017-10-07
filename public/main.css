@@ -191,7 +191,7 @@ nav {
   width: 100%;
 }
 
-.nav>li>a:hover, .navbar-head:hover, .nav>.open>a:hover {
+.nav>li>a:hover, .navbar-head:hover, .nav>.open>a:hover, .nav>.open>a:focus, .nav>.open>a {
   background-color: transparent;
   color: #D0D0D0;
   cursor: pointer;
