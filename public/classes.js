@@ -57,7 +57,7 @@ const checkToSeeIfWeShouldAddCourse = courseName => {
 
     if (state.currentClasses.some(({ courseName: _courseName }) => _courseName === courseName)) {
 
-        $('.alert-message').text('Sorry, that class is already in your dashboard!');
+        $('.alert-message').text('Sorry, that class is already in your classboard!');
         $('.alert-message').show().delay(3000).fadeOut('slow');
 
         addAndRemoveHideClass([], [classReferences.message_box])

@@ -14,119 +14,119 @@
     </head>
 
     <body>
-      <nav class="navbar">
-          <div class="container-fluid">
-              <div class="navbar-header">
-                    <a class="navbar-brand nav-font navbar-head">LAW STUDENT PORTAL</a>
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
+      <div class='container-fluid'>
+          <nav class="navbar">
+              <div class="container">
+                  <div class="navbar-header">
+                        <a class="navbar-brand nav-font navbar-head">LAW STUDENT PORTAL</a>
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                    </div>
+                  <div class="collapse navbar-collapse">
+                      <ul class="nav navbar-nav">
+                            <li><a class='create-user pointer nav-font' data-toggle="modal" data-target="#create-new-user">Create an Account</a></li>
+                            <li><a class="login pointer nav-font" data-toggle="modal" data-target="#login">Login</a></li>
+                            <li><a class="demo pointer nav-font">Demo App</a></li>
+                      </ul>
                 </div>
-              <div class="collapse navbar-collapse">
-                  <ul class="nav navbar-nav">
-                        <li><a class='create-user pointer nav-font' data-toggle="modal" data-target="#create-new-user">Create an Account</a></li>
-                        <li><a class="login pointer nav-font" data-toggle="modal" data-target="#login">Login</a></li>
-                        <li><a class="demo pointer nav-font">Demo App</a></li>
-                  </ul>
-            </div>
+              </div>
+          </nav>
+
+           <div class="container">
+              <div class="row">
+                    <div class="col-xs-12">
+                        <div class="login-page-welcome">Welcome to the Law Student Portal!</div>
+                    </div>
+              </div>
+
+
+
+         <div class="modal fade" id="create-new-user" role="dialog">
+                  <div class="modal-dialog">
+                      <div class="modal-content">
+                          <div class="modal-header">
+                              <button type="button" class="close" data-dismiss="modal">
+                                  <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+                              </button>
+                              <h3 class="modal-title">Create an Account</h3>
+                          </div>
+                      <div class="modal-body create-user-modal">
+                          <form class="create-new-user-form center-form form-horizontal" role="form">
+                              <div class="error-message"></div>
+                              <div class="form-group">
+                                  <label class="col-sm-12 label-margin" for="first-name">First Name</label>
+                                  <input placeholder='Enter First Name' class="form-control user-margin" type="text" name='first-name' id='first-name'/>
+                              </div>
+                              <div class="form-group">
+                                  <label class="col-sm-12 label-margin" for="last-name">Last Name</label>
+                                  <input type="text" class="form-control user-margin" name='last-name' id='last-name' placeholder='Enter Last Name'/>
+                              </div>
+                              <div class="form-group">
+                                  <label class="col-sm-12 label-margin" for="username">Username</label>
+                                  <input type="text" class="form-control user-margin" name='username' id='username' required placeholder='Enter New Username'/>
+                              </div>
+                              <div class="form-group">
+                                  <label class="col-sm-12 label-margin" for="password">Password</label>
+                                  <input class="form-control user-margin" type="password" name='password' id='password' required placeholder='Enter New Password'/>
+                              </div>
+                          </form>
+                          <div class="login-buttons">
+                            <button type="submit" class="create-new-user-button space-button btn btn-green">Create an Account</button>
+                            <button type="submit" class="cancel-button space-button btn " data-dismiss="modal">Cancel</button>
+                        </div>
+                      </div>
+                  </div>
+              </div>
           </div>
-      </nav>
 
-       <div class="container">
-          <div class="row">
-                <div class="col-xs-12">
-                    <div class="login-page-welcome">Welcome to the Law Student Portal!</div>
-                </div>
-          </div>
-
-
-
-     <div class="modal fade" id="create-new-user" role="dialog">
+         <div class="modal fade" id="login" role="dialog">
               <div class="modal-dialog">
                   <div class="modal-content">
                       <div class="modal-header">
                           <button type="button" class="close" data-dismiss="modal">
                               <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
                           </button>
-                          <h3 class="modal-title">Create an Account</h3>
+                          <h3 class="modal-title">Login to your Account</h3>
                       </div>
-                  <div class="modal-body create-user-modal">
-                      <form class="create-new-user-form center-form form-horizontal" role="form">
-                          <div class="error-message"></div>
-                          <div class="form-group">
-                              <label class="col-sm-12 label-margin" for="first-name">First Name</label>
-                              <input placeholder='Enter First Name' class="form-control user-margin" type="text" name='first-name' id='first-name'/>
-                          </div>
-                          <div class="form-group">
-                              <label class="col-sm-12 label-margin" for="last-name">Last Name</label>
-                              <input type="text" class="form-control user-margin" name='last-name' id='last-name' placeholder='Enter Last Name'/>
-                          </div>
+                  <div class="modal-body login-modal">
+                      <form class="login-form form-horizontal" role="form" action="/users/welcome" method="post">
+                          <div class="login-error"></div>
                           <div class="form-group">
                               <label class="col-sm-12 label-margin" for="username">Username</label>
-                              <input type="text" class="form-control user-margin" name='username' id='username' required placeholder='Enter New Username'/>
+                              <input placeholder='Enter Username' class="form-control user-margin" type="text" name='first-name' id='login-username'/>
                           </div>
                           <div class="form-group">
-                              <label class="col-sm-12 label-margin" for="password">Password</label>
-                              <input class="form-control user-margin" type="password" name='password' id='password' required placeholder='Enter New Password'/>
+                              <label class="col-sm-12 label-margin" for="login-password">Password</label>
+                              <input type="password" class="form-control user-margin" name="password" id='login-password' placeholder='Enter Password'/>
                           </div>
                       </form>
                       <div class="login-buttons">
-                        <button type="submit" class="create-new-user-button space-button btn btn-green">Create an Account</button>
-                        <button type="submit" class="cancel-button space-button btn " data-dismiss="modal">Cancel</button>
-                    </div>
+                          <button type="submit" class="login-button btn btn-green space-button">Login</button>
+                          <button type="submit" class="cancel-button btn space-button" data-dismiss="modal">Cancel</button>
+                      </div>
                   </div>
-              </div>
-          </div>
-      </div>
+                </div>
+            </div>
+        </div>
 
-     <div class="modal fade" id="login" role="dialog">
-          <div class="modal-dialog">
-              <div class="modal-content">
-                  <div class="modal-header">
-                      <button type="button" class="close" data-dismiss="modal">
-                          <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
-                      </button>
-                      <h3 class="modal-title">Login to your Account</h3>
-                  </div>
-              <div class="modal-body login-modal">
-                  <form class="login-form form-horizontal" role="form" action="/users/welcome" method="post">
-                      <div class="login-error"></div>
-                      <div class="form-group">
-                          <label class="col-sm-12 label-margin" for="username">Username</label>
-                          <input placeholder='Enter Username' class="form-control user-margin" type="text" name='first-name' id='login-username'/>
-                      </div>
-                      <div class="form-group">
-                          <label class="col-sm-12 label-margin" for="login-password">Password</label>
-                          <input type="password" class="form-control user-margin" name="password" id='login-password' placeholder='Enter Password'/>
-                      </div>
-                  </form>
-                  <div class="login-buttons">
-                      <button type="submit" class="login-button btn btn-green space-button">Login</button>
-                      <button type="submit" class="cancel-button btn space-button" data-dismiss="modal">Cancel</button>
-                  </div>
-              </div>
+             <div class="row">
+                <div class="col-xs-9 col-sm-6">
+                    <div class="about-us"><div class="about-us-heading"> ABOUT THE LAW STUDENT PORTAL</div></div>
+                </div>
+            </div>
+             <div class="row bottom">
+                <div class="col-xs-9 col-sm-6">
+                    <div class="about-us-body"> The Law Student Portal is a tool for Law Students. It is meant to help Law School Students share exam study resources, advice, strategies, and to help students prepare for Law School exams. Users can create their own accounts, customize their classboard to reflect the classes they are taking and browse resources for those classes. The Law Student Portal has Outlines, Exam Questions and Answers, Class Notes, and other miscellaneous resources and tools available for you to search. If you like a resource or find it helpful, add it to your favorites for easy access! Also, as a user, you are encouraged to share your resources and advice to others! </div>
+                </div>
             </div>
         </div>
     </div>
-
-         <div class="row">
-            <div class="col-xs-9 col-sm-6">
-                <div class="about-us"><div class="about-us-heading"> ABOUT THE LAW STUDENT PORTAL</div></div>
-            </div>
-        </div>
-         <div class="row bottom">
-            <div class="col-xs-9 col-sm-6">
-                <div class="about-us-body"> The Law Student Portal is a tool for Law Students. It is meant to help Law School Students share exam study resources, advice, strategies, and to help students prepare for Law School exams. Users can create their own accounts, customize their classboard to reflect the classes they are taking and browse resources for those classes. The Law Student Portal has Outlines, Exam Questions and Answers, Class Notes, and other miscellaneous resources and tools available for you to search. If you like a resource or find it helpful, add it to your favorites for easy access! Also, as a user, you are encouraged to share your resources and advice to others! </div>
-            </div>
-        </div>
-    </div>
-
 
 
         <script src="login.js"></script>
-
 
 
     </body>
